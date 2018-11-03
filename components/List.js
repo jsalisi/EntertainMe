@@ -146,9 +146,9 @@ const styles = StyleSheet.create({
     },
     img: {
         width: screenWidth * 0.35,
-        height: screenHeight * 0.35,
-        margin: screenWidth * 0.02,
-        marginBottom: 0,
+        height: screenHeight * 0.25,
+        margin: screenWidth * 0.01,
+        marginTop: 0,
         backgroundColor: 'gray'
     }
 });
