@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image, Button, Text, View, StyleSheet } from 'react-native';
+import { SearchBar } from 'react-native-elements'
 
 export default class Search extends React.Component {
 
@@ -23,7 +24,8 @@ export default class Search extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Text>Search</Text>
+                <Text style={styles.text}>Entertain</Text>
+                <Text style={styles.text}>Me!</Text>
                 <Button
                     title="Search"
                     onPress={() => {
@@ -44,4 +46,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    text: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        color: 'white'
+    }
 });

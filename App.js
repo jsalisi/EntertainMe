@@ -14,8 +14,12 @@ const RootStack = createStackNavigator (
         initialRouteName: 'Search',
         navigationOptions: {
             headerStyle: {
-                backgroundColor: '#000000'
+                backgroundColor: '#000000',
             },
+            headerTitleStyle: {
+                color: 'white',
+                alignItems: 'center'
+            }
         }
     },
 );
