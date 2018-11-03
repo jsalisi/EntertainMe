@@ -3,9 +3,7 @@ import PropTypes from 'prop-types';
 import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { LinearGradient } from 'expo';
-
-const MOVIE_API_KEY = process.env.THE_MOVIE_DB_API_KEY;
-const TASTE_API_KEY = process.env.TASTE_DIVE_API_KEY;
+import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY } from 'react-native-dotenv'
 
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movie&q=`;
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=show&q=`;
@@ -59,14 +57,33 @@ export default class List extends Component {
     }
 
     fetchContent(searchTerm) {
-        let search = movieReq + searchTerm;
-        fetch(search)
+        let movieSearch = movieReq + searchTerm;
+        fetch(movieSearch)
             .then((response) => response.json())
             .then((response) => {
-                console.log(TASTE_API_KEY);
-                console.log(JSON.stringify(response));
+                console.log(JSON.stringify(response.Similar.Results));
                 this.setState({
                     movieList: response.Similar.Results
+                })
+            })
+
+        let showSearch = showReq + searchTerm;
+        fetch(showSearch)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(JSON.stringify(response.Similar.Results));
+                this.setState({
+                    showList: response.Similar.Results
+                })
+            })
+
+        let bookSearch = bookReq + searchTerm;
+        fetch(bookSearch)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(JSON.stringify(response.Similar.Results));
+                this.setState({
+                    bookList: response.Similar.Results
                 })
             })
     }
