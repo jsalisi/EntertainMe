@@ -5,9 +5,9 @@ import { ListItem } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY } from 'react-native-dotenv'
 
-const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movie&q=`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=show&q=`;
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=book&q=`;
+const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
@@ -64,27 +64,26 @@ export default class List extends Component {
         fetch(movieSearch)
             .then((response) => response.json())
             .then((response) => {
-                console.log(JSON.stringify(response.Similar.Results));
                 this.setState({
                     movieList: response.Similar.Results
                 })
             })
 
         let showSearch = showReq + searchTerm;
+        console.log(showSearch);
         fetch(showSearch)
             .then((response) => response.json())
             .then((response) => {
-                console.log(JSON.stringify(response.Similar.Results));
                 this.setState({
                     showList: response.Similar.Results
                 })
             })
 
         let bookSearch = bookReq + searchTerm;
+        console.log(bookSearch);
         fetch(bookSearch)
             .then((response) => response.json())
             .then((response) => {
-                console.log(JSON.stringify(response.Similar.Results));
                 this.setState({
                     bookList: response.Similar.Results
                 })
