@@ -4,6 +4,8 @@ import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image
 import { ListItem } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 
+const API_KEY = process.env.THE_MOVIE_DB_API_KEY;
+
 const dummyData = [
     { url: 'url', key: 'item1' },
     { url: 'url', key: 'item2' },
