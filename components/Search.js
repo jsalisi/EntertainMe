@@ -1,11 +1,12 @@
 import React from 'react';
-import { Image, Button, Text, View, StyleSheet } from 'react-native';
+import { Dimensions, Image, Button, Text, View, StyleSheet } from 'react-native';
 import { SearchBar } from 'react-native-elements'
+import { LinearGradient } from 'expo';
 
 export default class Search extends React.Component {
 
     static navigationOptions = {
-        title: '',
+        header: null,
     }
 
     constructor() {
@@ -31,6 +32,17 @@ export default class Search extends React.Component {
 
         return (
             <View style={styles.container}>
+                <LinearGradient
+                    colors={['#191919', '#323232']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: (Dimensions.get('window').height),
+                        width: (Dimensions.get('window').width),
+                    }}
+                />
                 <Text style={styles.text}>Entertain Me!</Text>
                 <SearchBar
                     containerStyle={styles.search}
@@ -72,11 +84,11 @@ const styles = StyleSheet.create({
         color: 'white'
     },
     search: {
-        backgroundColor: '#323232',
+        backgroundColor: 'transparent',
         width: '80%',
         borderColor: '#323232',
-        borderBottomColor: '#323232',
-        borderTopColor: '#323232'
+        borderBottomColor: 'transparent',
+        borderTopColor: 'transparent'
     },
     button: {
         height: 100,
