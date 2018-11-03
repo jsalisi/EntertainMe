@@ -7,6 +7,10 @@ import { LinearGradient } from 'expo';
 const MOVIE_API_KEY = process.env.THE_MOVIE_DB_API_KEY;
 const TASTE_API_KEY = process.env.TASTE_DIVE_API_KEY;
 
+const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movie&q=`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=show&q=`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=book&q=`
+
 const dummyData = [
     { url: 'url', key: 'item1' },
     { url: 'url', key: 'item2' },
@@ -40,7 +44,9 @@ export default class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-
+            movieList: [],
+            showList: [],
+            bookList: [],
         }
     }
 
@@ -50,6 +56,23 @@ export default class List extends Component {
                 <Image style={styles.img} source={{ uri: item.url }} />
             </TouchableHighlight>
         );
+    }
+
+    fetchContent(searchTerm) {
+        let search = movieReq + searchTerm;
+        fetch(search)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(TASTE_API_KEY);
+                console.log(JSON.stringify(response));
+                this.setState({
+                    movieList: response.Similar.Results
+                })
+            })
+    }
+
+    componentDidMount() {
+        this.fetchContent(this.props.navigation.getParam('term').text);
     }
 
     render() {
