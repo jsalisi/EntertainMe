@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Text, View, FlatList, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image } from 'react-native';
 import { ListItem } from 'react-native-elements'
+import { LinearGradient } from 'expo';
 
 const dummyData = [
-    { url: 'url', key: 'item1' }, 
+    { url: 'url', key: 'item1' },
     { url: 'url', key: 'item2' },
     { url: 'url', key: 'item3' },
     { url: 'url', key: 'item4' },
@@ -20,13 +21,23 @@ const dummyData = [
 
 export default class List extends Component {
 
-    static navigationOptions = {
-        title: 'Search Results',
+    static navigationOptions = ({ navigation }) => {
+        return {
+            title: navigation.getParam('searchTerm', 'Search Results'),
+            headerStyle: {
+                backgroundColor: 'black',
+            },
+            headerTextStyle: {
+                color: 'white',
+            },
+            headerTintColor: 'white'
+        }
     }
 
     constructor(props) {
         super(props);
         this.state = {
+
         }
     }
 
@@ -41,7 +52,18 @@ export default class List extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={{color: 'white'}}>Books</Text>
+                <LinearGradient
+                    colors={['#191919', '#323232']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: (Dimensions.get('window').height),
+                        width: (Dimensions.get('window').width),
+                    }}
+                />
+                <Text style={{ marginTop: 15, color: 'white'}}>Books</Text>
                 <FlatList
                     horizontal={true}
                     data={dummyData}

@@ -12,7 +12,7 @@ export default class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            searchTerm: '',
+            searchTerm: 'Search Results',
         }
 
         this.searchText = this.searchText.bind(this);
@@ -58,7 +58,7 @@ export default class Search extends React.Component {
                         title="Search"
                         color="red"
                         onPress={() => {
-                            navigate('Results', {
+                            navigate('SearchResults', {
                                 term: this.state.searchTerm,
                             });
                         }}
