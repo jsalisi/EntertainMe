@@ -5,7 +5,7 @@ import { SearchBar } from 'react-native-elements'
 export default class Search extends React.Component {
 
     static navigationOptions = {
-        title: 'Search',
+        title: '',
     }
 
     constructor() {
@@ -31,8 +31,7 @@ export default class Search extends React.Component {
 
         return (
             <View style={styles.container}>
-                <Text style={styles.text}>Entertain</Text>
-                <Text style={styles.text}>Me!</Text>
+                <Text style={styles.text}>Entertain Me!</Text>
                 <SearchBar
                     containerStyle={styles.search}
                     round
@@ -40,17 +39,19 @@ export default class Search extends React.Component {
                     clearIcon={{ color: 'grey' }}
                     searchIcon={true}
                     onChangeText={(text) => this.searchText({text})}
-                    onClear={(text) => console.log({text})}
-                    placeholder='Search'
+                    placeholder='What are you interested in?'
                 />
-                <Button
-                    title="Search"
-                    onPress={() => {
-                        navigate('Results', {
-                            term: this.state.searchTerm,
-                        });
-                    }}
-                />
+                <View style={styles.button}>
+                    <Button
+                        title="Search"
+                        color="red"
+                        onPress={() => {
+                            navigate('Results', {
+                                term: this.state.searchTerm,
+                            });
+                        }}
+                    />
+                </View>
             </View>
         );
     }
@@ -60,10 +61,12 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#323232',
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
     },
     text: {
+        height: 100,
         fontSize: 50,
         fontWeight: 'bold',
         color: 'white'
@@ -75,4 +78,9 @@ const styles = StyleSheet.create({
         borderBottomColor: '#323232',
         borderTopColor: '#323232'
     },
+    button: {
+        height: 100,
+        justifyContent: 'center',
+        alignItems: 'center'
+    }
 });
