@@ -3,12 +3,16 @@ import { StyleSheet, Text, View } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
 
 import Search from "./components/Search"
+import List from "./components/List"
 
 const RootStack = createStackNavigator (
     {
         Search: {
             screen: Search
-        }
+        },
+        SearchResults: {
+            screen: List
+        },
     },
     {
         initialRouteName: 'Search',
