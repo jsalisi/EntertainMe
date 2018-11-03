@@ -33,7 +33,7 @@ export default class Search extends React.Component {
         return (
             <View style={styles.container}>
                 <LinearGradient
-                    colors={['#191919', '#323232']}
+                    colors={['#000000', '#323232']}
                     style={{
                         position: 'absolute',
                         left: 0,
