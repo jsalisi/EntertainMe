@@ -11,14 +11,15 @@ export default class Search extends React.Component {
     constructor() {
         super();
         this.state = {
-            img: ''
+            searchTerm: '',
         }
 
-        this.search = this.search.bind(this);
+        this.searchText = this.searchText.bind(this);
     }
 
-    search() {
-        console.log('searching');
+    searchText(text) {
+        this.setState({searchTerm: text});
+        console.log(this.state.searchTerm);
     }
 
     componentDidMount() {
@@ -38,15 +39,15 @@ export default class Search extends React.Component {
                     lightTheme
                     clearIcon={{ color: 'grey' }}
                     searchIcon={true}
-                    onChangeText={this.search()}
-                    onClear={this.search()}
+                    onChangeText={(text) => this.searchText({text})}
+                    onClear={(text) => console.log({text})}
                     placeholder='Search'
                 />
                 <Button
                     title="Search"
                     onPress={() => {
                         navigate('Results', {
-                            page: 'Home',
+                            term: this.state.searchTerm,
                         });
                     }}
                 />
