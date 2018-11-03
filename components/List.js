@@ -23,7 +23,7 @@ export default class List extends Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: navigation.getParam('searchTerm', 'Search Results'),
+            title: JSON.stringify(navigation.getParam('term').text),
             headerStyle: {
                 backgroundColor: 'black',
             },

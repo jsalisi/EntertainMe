@@ -58,7 +58,7 @@ export default class Search extends React.Component {
                         title="Search"
                         color="red"
                         onPress={() => {
-                            navigate('SearchResults', {
+                            this.props.navigation.navigate('SearchResults', {
                                 term: this.state.searchTerm,
                             });
                         }}
