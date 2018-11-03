@@ -20,7 +20,6 @@ export default class Search extends React.Component {
 
     searchText(text) {
         this.setState({searchTerm: text});
-        console.log(this.state.searchTerm);
     }
 
     componentDidMount() {
