@@ -13,6 +13,12 @@ export default class Search extends React.Component {
         this.state = {
             img: ''
         }
+
+        this.search = this.search.bind(this);
+    }
+
+    search() {
+        console.log('searching');
     }
 
     componentDidMount() {
@@ -26,6 +32,16 @@ export default class Search extends React.Component {
             <View style={styles.container}>
                 <Text style={styles.text}>Entertain</Text>
                 <Text style={styles.text}>Me!</Text>
+                <SearchBar
+                    containerStyle={styles.search}
+                    round
+                    lightTheme
+                    clearIcon={{ color: 'grey' }}
+                    searchIcon={true}
+                    onChangeText={this.search()}
+                    onClear={this.search()}
+                    placeholder='Search'
+                />
                 <Button
                     title="Search"
                     onPress={() => {
@@ -50,5 +66,12 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 'bold',
         color: 'white'
-    }
+    },
+    search: {
+        backgroundColor: '#323232',
+        width: '80%',
+        borderColor: '#323232',
+        borderBottomColor: '#323232',
+        borderTopColor: '#323232'
+    },
 });
