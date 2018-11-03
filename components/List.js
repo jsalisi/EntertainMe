@@ -9,7 +9,10 @@ const TASTE_API_KEY = process.env.TASTE_DIVE_API_KEY;
 
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movie&q=`;
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=show&q=`;
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=book&q=`
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=book&q=`;
+
+const screenWidth = (Dimensions.get('window').width);
+const screenHeight = (Dimensions.get('window').height);
 
 const dummyData = [
     { url: 'url', key: 'item1' },
@@ -85,8 +88,8 @@ export default class List extends Component {
                         left: 0,
                         right: 0,
                         top: 0,
-                        height: (Dimensions.get('window').height),
-                        width: (Dimensions.get('window').width),
+                        height: screenHeight,
+                        width: screenWidth,
                     }}
                 />
                 <Text style={{ marginTop: 15, color: 'white'}}>Books</Text>
@@ -125,9 +128,9 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     img: {
-        width: 150,
-        height: 150,
-        margin: 4,
+        width: screenWidth * 0.35,
+        height: screenHeight * 0.35,
+        margin: screenWidth * 0.02,
         marginBottom: 0,
         backgroundColor: 'gray'
     }
