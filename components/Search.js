@@ -52,6 +52,11 @@ export default class Search extends React.Component {
                     searchIcon={true}
                     onChangeText={(text) => this.searchText({text})}
                     placeholder='What are you interested in?'
+                    onSubmitEditing={() => {
+                        this.props.navigation.navigate('SearchResults', {
+                            term: this.state.searchTerm,
+                        });
+                    }}
                 />
                 <View style={styles.button}>
                     <Button

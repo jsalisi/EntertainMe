@@ -162,8 +162,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     box: {
-        width: screenWidth * 0.35,
-        height: screenHeight * 0.25,
+        width: screenWidth * 0.27,
+        height: (screenWidth * 0.27)*(36 / 24),
         margin: screenWidth * 0.01,
         marginTop: 0,
         backgroundColor: 'gray',
