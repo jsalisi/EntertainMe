@@ -47,6 +47,7 @@ export default class Search extends React.Component {
                     containerStyle={styles.search}
                     round
                     lightTheme
+                    inputStyle={{color: 'black'}}
                     clearIcon={{ color: 'grey' }}
                     searchIcon={true}
                     onChangeText={(text) => this.searchText({text})}

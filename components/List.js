@@ -9,10 +9,6 @@ const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movi
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
-const red = 0;
-const green = 0;
-const blue = 0;
-
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
 
@@ -42,12 +38,30 @@ export default class List extends Component {
 
     _keyExtractor = (item, index) => item.Name;
 
-    _renderList = ({item}) => {
-        let darkness = Math.random() * (1 - 0.2) + 0.2;
-
+    _renderMovieList = ({item}) => {
         return (
             <TouchableHighlight>
-                <View style={styles.box} backgroundColor={`rgba(${red}, ${green}, ${blue}, ${darkness})`}>
+                <View style={styles.box} backgroundColor={'rgba(200,61,50,1)'}>
+                    <Text style={styles.text}>{item.Name}</Text>
+                </View>
+            </TouchableHighlight>
+        );
+    }
+
+    _renderBookList = ({item}) => {
+        return (
+            <TouchableHighlight>
+                <View style={styles.box} backgroundColor={'rgba(230,183,64,1)'}>
+                    <Text style={styles.text}>{item.Name}</Text>
+                </View>
+            </TouchableHighlight>
+        );
+    }
+
+    _renderShowList = ({item}) => {
+        return (
+            <TouchableHighlight>
+                <View style={styles.box} backgroundColor={'rgba(153,175,93,1)'}>
                     <Text style={styles.text}>{item.Name}</Text>
                 </View>
             </TouchableHighlight>
@@ -113,7 +127,7 @@ export default class List extends Component {
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.bookList}
-                    renderItem={this._renderList}
+                    renderItem={this._renderBookList}
                 />
                 <Text style={styles.title}>Movies</Text>
                 <FlatList
@@ -121,7 +135,7 @@ export default class List extends Component {
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.movieList}
-                    renderItem={this._renderList}
+                    renderItem={this._renderMovieList}
                 />
                 <Text style={styles.title}>TV Shows</Text>
                 <FlatList
@@ -129,7 +143,7 @@ export default class List extends Component {
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.showList}
-                    renderItem={this._renderList}
+                    renderItem={this._renderShowList}
                 />
             </View>
         )
