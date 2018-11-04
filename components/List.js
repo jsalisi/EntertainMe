@@ -6,8 +6,8 @@ import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY } from 'react-native-dotenv'
 
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=shows`;
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=books`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=show:`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
@@ -162,8 +162,9 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     text: {
-        fontSize: 25,
+        fontSize: 15,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
+        textAlign: 'center'
     }
 });
