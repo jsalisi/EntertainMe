@@ -55,7 +55,6 @@ export default class List extends Component {
         return (
             <TouchableHighlight>
                 <Image style={styles.img} source={{ uri: item.url }} />
-                {/* <Text>{item.Name}</Text> */} //TODO: need index for name
             </TouchableHighlight>
         );
     }
