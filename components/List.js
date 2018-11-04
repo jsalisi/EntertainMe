@@ -107,7 +107,7 @@ export default class List extends Component {
                         width: screenWidth,
                     }}
                 />
-                <Text style={{ marginTop: 15, color: 'white'}}>Books</Text>
+                <Text style={styles.title} marginTop={screenHeight * 0.10}>Books</Text>
                 <FlatList
                     keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
@@ -115,7 +115,7 @@ export default class List extends Component {
                     data={this.state.bookList}
                     renderItem={this._renderList}
                 />
-                <Text style={{ color: 'white' }}>Movies</Text>
+                <Text style={styles.title}>Movies</Text>
                 <FlatList
                     keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
@@ -123,7 +123,7 @@ export default class List extends Component {
                     data={this.state.movieList}
                     renderItem={this._renderList}
                 />
-                <Text style={{ color: 'white' }}>TV Shows</Text>
+                <Text style={styles.title}>TV Shows</Text>
                 <FlatList
                     keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
@@ -140,7 +140,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#323232',
-        alignItems: 'center',
         justifyContent: 'center',
     },
     row: {
@@ -156,6 +155,13 @@ const styles = StyleSheet.create({
         backgroundColor: 'gray',
         justifyContent: 'center',
         alignItems: 'center'
+    },
+    title: {
+        fontWeight: 'bold',
+        color: 'white',
+        textAlign: 'left',
+        padding: screenWidth * 0.01,
+        fontSize: screenHeight * 0.025
     },
     text: {
         fontSize: 15,
