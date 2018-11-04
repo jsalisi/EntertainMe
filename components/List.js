@@ -61,6 +61,7 @@ export default class List extends Component {
 
     fetchContent(searchTerm) {
         let movieSearch = movieReq + searchTerm;
+        console.log(movieSearch);
         fetch(movieSearch)
             .then((response) => response.json())
             .then((response) => {
