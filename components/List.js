@@ -5,9 +5,9 @@ import { ListItem } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY } from 'react-native-dotenv'
 
-const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=`;
+const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=shows`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=books`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
@@ -53,11 +53,12 @@ export default class List extends Component {
 
     _renderList = ({item}) => {
         let bg_color = '#'+Math.floor(Math.random()*16777215).toString(16);
-
+        console.log(item.Name);
+        
         return (
             <TouchableHighlight>
                 <View style={styles.box} backgroundColor={bg_color}>
-                    <Text style={styles.text}>Test</Text>
+                    <Text style={styles.text}>{item.Name}</Text>
                 </View>
             </TouchableHighlight>
         );
@@ -117,21 +118,21 @@ export default class List extends Component {
                 <FlatList
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={dummyData}
+                    data={this.state.bookList}
                     renderItem={this._renderList}
                 />
                 <Text style={{ color: 'white' }}>Movies</Text>
                 <FlatList
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={dummyData}
+                    data={this.state.movieList}
                     renderItem={this._renderList}
                 />
                 <Text style={{ color: 'white' }}>TV Shows</Text>
                 <FlatList
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={dummyData}
+                    data={this.state.showList}
                     renderItem={this._renderList}
                 />
             </View>
