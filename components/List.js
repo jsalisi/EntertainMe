@@ -6,26 +6,11 @@ import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY } from 'react-native-dotenv'
 
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=show:`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
-
-const dummyData = [
-    { url: 'url', key: 'item1' },
-    { url: 'url', key: 'item2' },
-    { url: 'url', key: 'item3' },
-    { url: 'url', key: 'item4' },
-    { url: 'url', key: 'item5' },
-    { url: 'url', key: 'item6' },
-    { url: 'url', key: 'item7' },
-    { url: 'url', key: 'item8' },
-    { url: 'url', key: 'item9' },
-    { url: 'url', key: 'item10' },
-    { url: 'url', key: 'item11' },
-    { url: 'url', key: 'item12' },
-]
 
 export default class List extends Component {
 
@@ -53,8 +38,6 @@ export default class List extends Component {
 
     _renderList = ({item}) => {
         let bg_color = '#'+Math.floor(Math.random()*16777215).toString(16);
-        console.log(item.Name);
-        
         return (
             <TouchableHighlight>
                 <View style={styles.box} backgroundColor={bg_color}>
