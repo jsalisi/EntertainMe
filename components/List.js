@@ -36,6 +36,8 @@ export default class List extends Component {
         }
     }
 
+    _keyExtractor = (item, index) => item.Name;
+
     _renderList = ({item}) => {
         let bg_color = '#'+Math.floor(Math.random()*16777215).toString(16);
         return (
@@ -99,6 +101,7 @@ export default class List extends Component {
                 />
                 <Text style={{ marginTop: 15, color: 'white'}}>Books</Text>
                 <FlatList
+                    keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.bookList}
@@ -106,6 +109,7 @@ export default class List extends Component {
                 />
                 <Text style={{ color: 'white' }}>Movies</Text>
                 <FlatList
+                    keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.movieList}
@@ -113,6 +117,7 @@ export default class List extends Component {
                 />
                 <Text style={{ color: 'white' }}>TV Shows</Text>
                 <FlatList
+                    keyExtractor={this._keyExtractor}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.showList}
