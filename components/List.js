@@ -9,6 +9,10 @@ const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movi
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
+const red = 0;
+const green = 0;
+const blue = 0;
+
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
 
@@ -39,10 +43,11 @@ export default class List extends Component {
     _keyExtractor = (item, index) => item.Name;
 
     _renderList = ({item}) => {
-        let bg_color = '#'+Math.floor(Math.random()*16777215).toString(16);
+        let darkness = Math.random() * (1 - 0.2) + 0.2;
+
         return (
             <TouchableHighlight>
-                <View style={styles.box} backgroundColor={bg_color}>
+                <View style={styles.box} backgroundColor={`rgba(${red}, ${green}, ${blue}, ${darkness})`}>
                     <Text style={styles.text}>{item.Name}</Text>
                 </View>
             </TouchableHighlight>
@@ -83,6 +88,9 @@ export default class List extends Component {
 
     componentDidMount() {
         this.fetchContent(this.props.navigation.getParam('term').text);
+        red = Math.floor(Math.random() * 255);
+        green = Math.floor(Math.random() * 255);
+        blue = Math.floor(Math.random() * 255);
     }
 
     render() {
