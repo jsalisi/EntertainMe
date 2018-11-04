@@ -52,9 +52,11 @@ export default class List extends Component {
     }
 
     _renderList = ({item}) => {
+        let bg_color = '#'+Math.floor(Math.random()*16777215).toString(16);
+
         return (
             <TouchableHighlight>
-                <View style={styles.box}>
+                <View style={styles.box} backgroundColor={bg_color}>
                     <Text style={styles.text}>Test</Text>
                 </View>
             </TouchableHighlight>
