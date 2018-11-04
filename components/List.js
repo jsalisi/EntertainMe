@@ -54,13 +54,16 @@ export default class List extends Component {
     _renderList = ({item}) => {
         return (
             <TouchableHighlight>
-                <Image style={styles.img} source={{ uri: item.url }} />
+                <View style={styles.box}>
+                    <Text style={styles.text}>Test</Text>
+                </View>
             </TouchableHighlight>
         );
     }
 
     fetchContent(searchTerm) {
         let movieSearch = movieReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+        console.log(movieSearch);
         fetch(movieSearch)
             .then((response) => response.json())
             .then((response) => {
@@ -143,11 +146,18 @@ const styles = StyleSheet.create({
         flexWrap: 'nowrap',
         justifyContent: 'center',
     },
-    img: {
+    box: {
         width: screenWidth * 0.35,
         height: screenHeight * 0.25,
         margin: screenWidth * 0.01,
         marginTop: 0,
-        backgroundColor: 'gray'
+        backgroundColor: 'gray',
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    text: {
+        fontSize: 25,
+        fontWeight: 'bold',
+        color: 'white'
     }
 });
