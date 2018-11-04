@@ -55,12 +55,13 @@ export default class List extends Component {
         return (
             <TouchableHighlight>
                 <Image style={styles.img} source={{ uri: item.url }} />
+                {/* <Text>{item.Name}</Text> */} //TODO: need index for name
             </TouchableHighlight>
         );
     }
 
     fetchContent(searchTerm) {
-        let movieSearch = movieReq + searchTerm;
+        let movieSearch = movieReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
         fetch(movieSearch)
             .then((response) => response.json())
             .then((response) => {
@@ -69,7 +70,7 @@ export default class List extends Component {
                 })
             })
 
-        let showSearch = showReq + searchTerm;
+        let showSearch = showReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
         console.log(showSearch);
         fetch(showSearch)
             .then((response) => response.json())
@@ -79,7 +80,7 @@ export default class List extends Component {
                 })
             })
 
-        let bookSearch = bookReq + searchTerm;
+        let bookSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
         console.log(bookSearch);
         fetch(bookSearch)
             .then((response) => response.json())
