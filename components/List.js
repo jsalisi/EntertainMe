@@ -113,18 +113,21 @@ export default class List extends Component {
                 />
                 <Text style={{ marginTop: 15, color: 'white'}}>Books</Text>
                 <FlatList
+                    showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={dummyData}
                     renderItem={this._renderList}
                 />
                 <Text style={{ color: 'white' }}>Movies</Text>
                 <FlatList
+                    showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={dummyData}
                     renderItem={this._renderList}
                 />
                 <Text style={{ color: 'white' }}>TV Shows</Text>
                 <FlatList
+                    showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={dummyData}
                     renderItem={this._renderList}
