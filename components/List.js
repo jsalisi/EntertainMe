@@ -9,7 +9,7 @@ const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movi
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
-// const movieRequest = `https://api.themoviedb.org/3/movie/${movie_id}/similar?api_key=${THE_MOVIE_DB_API_KEY}&language=en-US&page=10`;
+const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
