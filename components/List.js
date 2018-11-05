@@ -34,7 +34,7 @@ export default class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            
+
         }
     }
 
@@ -42,20 +42,22 @@ export default class List extends Component {
     _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderBookList = ({ item }) => {
+        /* rgba(230,183,64,1) */
         return (
-            <TouchableHighlight>
+            <TouchableHighlight onPress={()=>{}}>
                 <View>
-                    <Image style={styles.box} source={{ uri: item.volumeInfo.imageLinks.thumbnail }} backgroundColor={'rgba(230,183,64,1)'} />
+                    <Image style={styles.box} source={{ uri: item.volumeInfo.imageLinks.thumbnail }} backgroundColor={'transparent'} />
                 </View>
             </TouchableHighlight>
         );
     }
-    
+
     _renderMovieList = ({item}) => {
+        /* rgba(200,61,50,1) */
         return (
-            <TouchableHighlight>
-                <View> 
-                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(200,61,50,1)'}/>
+            <TouchableHighlight onPress={()=>{}}>
+                <View>
+                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'}/>
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
@@ -63,10 +65,11 @@ export default class List extends Component {
     }
 
     _renderShowList = ({item}) => {
+        /* rgba(153,175,93,1) */
         return (
-            <TouchableHighlight>
+            <TouchableHighlight onPress={()=>{}}>
                 <View>
-                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(153,175,93,1)'} />
+                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'} />
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
@@ -138,20 +141,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#323232',
-        justifyContent: 'center',
-    },
-    row: {
-        flexDirection: 'row',
-        flexWrap: 'nowrap',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
     },
     box: {
-        width: screenWidth * 0.27,
-        height: (screenWidth * 0.27)*(36 / 24),
+        width: screenWidth * 0.35,
+        height: (screenWidth * 0.27) * (36 / 24),
         margin: screenWidth * 0.01,
         marginTop: 0,
         backgroundColor: 'gray',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center'
     },
     img: {
@@ -165,12 +163,13 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'left',
         padding: screenWidth * 0.01,
-        fontSize: screenHeight * 0.025
+        fontSize: screenHeight * 0.025,
+        padding: 10,
     },
     text: {
         fontSize: 15,
         fontWeight: 'bold',
         color: 'white',
-        textAlign: 'center'
+        textAlign: 'center',
     }
 });
