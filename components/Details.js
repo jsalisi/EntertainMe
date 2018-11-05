@@ -3,10 +3,12 @@ import PropTypes from 'prop-types';
 import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image, Button } from 'react-native';
 import { LinearGradient } from 'expo';
 
+import Search from "./Search";
+
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
 
-export default class Details extends React.Component {
+export default class Details extends Search {
 
     static navigationOptions = ({ navigation }) => {
         return {
@@ -42,7 +44,7 @@ export default class Details extends React.Component {
                         title="More Like This"
                         color="red"
                         onPress={() => {
-
+                            this.fetchContent("spiderman");
                         }}
                     />
                 </View>
