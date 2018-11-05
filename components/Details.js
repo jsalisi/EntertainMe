@@ -10,7 +10,7 @@ export default class Details extends React.Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: navigation.getParam('term'),
+            title: navigation.getParam('title'),
             headerStyle: {
                 backgroundColor: 'black',
             },
