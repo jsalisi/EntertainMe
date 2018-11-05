@@ -40,7 +40,7 @@ export default class List extends Component {
     }
 
     _keyExtractor = (item, index) => item.Name;
-    _keyExtractorDatabase = (item, index) => item.id;
+    _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderMovieList = ({item}) => {
         return (
