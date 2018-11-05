@@ -20,7 +20,7 @@ export default class List extends Component {
 
     static navigationOptions = ({ navigation }) => {
         return {
-            title: navigation.getParam('term').text,
+            title: navigation.getParam('term'),
             headerStyle: {
                 backgroundColor: 'black',
             },
@@ -34,9 +34,7 @@ export default class List extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            movieList: [],
-            showList: [],
-            bookList: [],
+            
         }
     }
 
@@ -75,38 +73,6 @@ export default class List extends Component {
         );
     }
 
-    _getSearchContent = (searchTerm, type) => {
-        return new Promise((resolve, reject) => {
-            
-            let urlType;
-            if (type == 'book') {
-
-                urlType = bookRequest
-                let search = urlType + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-                fetch(search)
-                    .then((response) => response.json())
-                    .then((response) => {
-                        resolve(response.items)
-                    });
-
-            } else {
-                if (type == 'movie') {
-                    urlType = movieRequest
-                } else if (type == 'show') {
-                    urlType = showRequest
-                }
-
-                let search = urlType + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-                fetch(search)
-                    .then((response) => response.json())
-                    .then((response) => {
-                        resolve(response.results)
-                    });
-            }
-            
-        });
-    }
-
     _getRecommendations(title) {
         return new Promise((resolve, reject) => {
             let movieSearch = movieReq + encodeURIComponent(title).replace(/%20/g, '+');
@@ -120,31 +86,12 @@ export default class List extends Component {
         });
     }
 
-    fetchContent(searchTerm) {
-
-        // let bookSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-        // console.log(bookSearch);
-        // fetch(bookSearch)
-        //     .then((response) => response.json())
-        //     .then((response) => {
-        //         this.setState({
-        //             bookList: response.Similar.Results
-        //         })
-        //     })
-
-        this._getSearchContent(searchTerm, 'book').then((res) => this.setState({ bookList: res}));
-        this._getSearchContent(searchTerm, 'movie').then((res) => this.setState({ movieList: res}));
-        this._getSearchContent(searchTerm, 'show').then((res) => this.setState({ showList: res}));
-    }
-
-    componentDidMount() {
-        this.fetchContent(this.props.navigation.getParam('term').text);
-        red = Math.floor(Math.random() * 255);
-        green = Math.floor(Math.random() * 255);
-        blue = Math.floor(Math.random() * 255);
-    }
-
     render() {
+        const { navigation } = this.props;
+        const Books = navigation.getParam('BookList');
+        const Movies = navigation.getParam('MovieList');
+        const Shows = navigation.getParam('ShowList');
+
         return (
             <View style={styles.container}>
                 <LinearGradient
@@ -163,7 +110,7 @@ export default class List extends Component {
                     keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={this.state.bookList}
+                    data={Books}
                     renderItem={this._renderBookList}
                 />
                 <Text style={styles.title}>Movies</Text>
@@ -171,7 +118,7 @@ export default class List extends Component {
                     keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={this.state.movieList}
+                    data={Movies}
                     renderItem={this._renderMovieList}
                 />
                 <Text style={styles.title}>TV Shows</Text>
@@ -179,7 +126,7 @@ export default class List extends Component {
                     keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
-                    data={this.state.showList}
+                    data={Shows}
                     renderItem={this._renderShowList}
                 />
             </View>
