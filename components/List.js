@@ -38,7 +38,6 @@ export default class List extends Component {
     _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderBookList = ({item}) => {
-        /* rgba(230,183,64,1) */
         return (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                 title: item.volumeInfo.title,
@@ -52,7 +51,6 @@ export default class List extends Component {
     }
 
     _renderMovieList = ({item}) => {
-        /* rgba(200,61,50,1) */
         return (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                 title: item.original_title,
