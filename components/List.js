@@ -67,7 +67,7 @@ export default class List extends Component {
         return (
             <TouchableHighlight>
                 <View>
-                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(200,61,50,1)'} />
+                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(153,175,93,1)'} />
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
