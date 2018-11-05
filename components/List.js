@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image } from 'react-native';
+import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image, ScrollView } from 'react-native';
 import { ListItem } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY, GOOGLE_BOOKS_API_KEY } from 'react-native-dotenv'
@@ -82,6 +82,32 @@ export default class List extends Component {
         );
     }
 
+    renderFlatList = (listTitle, data, renderFunction) => {
+        return (
+            <View style={styles.row}>
+                <LinearGradient
+                    colors={['#000000', '#323232']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: screenHeight,
+                        width: screenWidth,
+                    }}
+                />
+                <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
+                <FlatList
+                    keyExtractor={this._keyExtractorDatabase}
+                    showsHorizontalScrollIndicator={false}
+                    horizontal={true}
+                    data={data}
+                    renderItem={renderFunction}
+                />
+            </View>
+        );
+    }
+
     _getRecommendations(title) {
         return new Promise((resolve, reject) => {
             let movieSearch = movieReq + encodeURIComponent(title).replace(/%20/g, '+');
@@ -102,43 +128,11 @@ export default class List extends Component {
         const Shows = navigation.getParam('ShowList');
 
         return (
-            <View style={styles.container}>
-                <LinearGradient
-                    colors={['#000000', '#323232']}
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        height: screenHeight,
-                        width: screenWidth,
-                    }}
-                />
-                <Text style={styles.title} marginTop={screenHeight * 0.10}>Books</Text>
-                <FlatList
-                    keyExtractor={this._keyExtractorDatabase}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    data={Books}
-                    renderItem={this._renderBookList}
-                />
-                <Text style={styles.title}>Movies</Text>
-                <FlatList
-                    keyExtractor={this._keyExtractorDatabase}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    data={Movies}
-                    renderItem={this._renderMovieList}
-                />
-                <Text style={styles.title}>TV Shows</Text>
-                <FlatList
-                    keyExtractor={this._keyExtractorDatabase}
-                    showsHorizontalScrollIndicator={false}
-                    horizontal={true}
-                    data={Shows}
-                    renderItem={this._renderShowList}
-                />
-            </View>
+            <ScrollView scrollEnabled={true} contentContainerStyle={styles.container}>
+                {this.renderFlatList('Books', Books, this._renderBookList)}
+                {this.renderFlatList('Movies', Movies, this._renderMovieList)}
+                {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
+            </ScrollView>
         )
     }
 }
@@ -147,6 +141,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#323232',
+        justifyContent: 'flex-start',
+    },
+    row: {
+        flex: 1,
         justifyContent: 'flex-start',
     },
     box: {
