@@ -85,17 +85,6 @@ export default class List extends Component {
     renderFlatList = (listTitle, data, renderFunction) => {
         return (
             <View style={styles.row}>
-                <LinearGradient
-                    colors={['#000000', '#323232']}
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        height: screenHeight,
-                        width: screenWidth,
-                    }}
-                />
                 <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
@@ -129,6 +118,17 @@ export default class List extends Component {
 
         return (
             <ScrollView scrollEnabled={true} contentContainerStyle={styles.container}>
+                <LinearGradient
+                    colors={['#000000', '#323232']}
+                    style={{
+                        position: 'absolute',
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: screenHeight,
+                        width: screenWidth,
+                    }}
+                />
                 {this.renderFlatList('Books', Books, this._renderBookList)}
                 {this.renderFlatList('Movies', Movies, this._renderMovieList)}
                 {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
