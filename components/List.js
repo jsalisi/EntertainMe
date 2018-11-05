@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import { Dimensions, Text, View, FlatList, StyleSheet, TouchableHighlight, Image, ScrollView } from 'react-native';
-import { ListItem } from 'react-native-elements'
-import { LinearGradient } from 'expo';
-import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY, GOOGLE_BOOKS_API_KEY } from 'react-native-dotenv'
+import React, {Component} from 'react';
+import {Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
+import {LinearGradient} from 'expo';
+import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
@@ -128,7 +126,7 @@ export default class List extends Component {
         const Shows = navigation.getParam('ShowList');
 
         return (
-            <ScrollView scrollEnabled={true} contentContainerStyle={styles.container}>
+            <ScrollView>
                 {this.renderFlatList('Books', Books, this._renderBookList)}
                 {this.renderFlatList('Movies', Movies, this._renderMovieList)}
                 {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
@@ -141,10 +139,10 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#323232',
-        justifyContent: 'flex-start',
+        // justifyContent: 'flex-start',
     },
     row: {
-        flex: 1,
+        height: screenHeight * 0.35,
         justifyContent: 'flex-start',
     },
     box: {
@@ -158,7 +156,7 @@ const styles = StyleSheet.create({
     },
     img: {
         width: screenWidth * 0.27,
-        height: (screenWidth * 0.27) * (36 / 24),
+        height: '100%',
         justifyContent: 'center',
         alignItems: 'center'
     },
@@ -166,7 +164,6 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'left',
-        padding: screenWidth * 0.01,
         fontSize: screenHeight * 0.025,
         padding: 10,
     },
