@@ -145,7 +145,7 @@ const styles = StyleSheet.create({
     },
     box: {
         width: screenWidth * 0.35,
-        height: (screenWidth * 0.27) * (36 / 24),
+        height: '100%',
         margin: screenWidth * 0.01,
         marginTop: 0,
         backgroundColor: 'gray',
