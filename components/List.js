@@ -10,6 +10,7 @@ const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
+const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
@@ -39,14 +40,14 @@ export default class List extends Component {
     }
 
     _keyExtractor = (item, index) => item.Name;
-    _keyExtractorMovie = (item, index) => item.id;
+    _keyExtractorDatabase = (item, index) => item.id;
 
     _renderMovieList = ({item}) => {
         return (
             <TouchableHighlight>
-                <View style={styles.box} backgroundColor={'rgba(200,61,50,1)'} > 
-                    {/* <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(200,61,50,1)'}/> */}
-                    <Text style={styles.text}>{item.Name}</Text>
+                <View> 
+                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(200,61,50,1)'}/>
+                    {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
         );
@@ -65,33 +66,50 @@ export default class List extends Component {
     _renderShowList = ({item}) => {
         return (
             <TouchableHighlight>
-                <View style={styles.box} backgroundColor={'rgba(153,175,93,1)'}>
-                    <Text style={styles.text}>{item.Name}</Text>
+                <View>
+                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'rgba(200,61,50,1)'} />
+                    {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
         );
     }
 
-    fetchContent(searchTerm) {
-        let movieSearch = movieReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-        console.log(movieSearch);
-        fetch(movieSearch)
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({
-                    movieList: response.Similar.Results
-                })
-            })
+    _getSearchContent = (searchTerm, type) => {
+        return new Promise((resolve, reject) => {
+            
+            let urlType;
+            if (type == 'movie') {
+                urlType = movieRequest
+            } else if (type == 'show') {
+                urlType = showRequest
+            }
 
-        let showSearch = showReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-        console.log(showSearch);
-        fetch(showSearch)
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({
-                    showList: response.Similar.Results
-                })
-            })
+            let search = urlType + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+            fetch(search)
+                .then((response) => response.json())
+                .then((response) => {
+                    resolve(response.results)
+                });
+        });
+    }
+
+    _getRecommendations(title) {
+        return new Promise((resolve, reject) => {
+            let movieSearch = movieReq + encodeURIComponent(title).replace(/%20/g, '+');
+            fetch(movieSearch)
+                .then((response) => response.json())
+                .then((response) => {
+                    for (i = 0; i < response.Similar.Results; i++) {
+                        console.log(response.Similar.Results[i].Name);
+                    }
+                });
+        });
+    }
+
+    fetchContent(searchTerm) {
+
+        this._getSearchContent(searchTerm, 'movie').then((res) => this.setState({ movieList: res}));
+        this._getSearchContent(searchTerm, 'show').then((res) => this.setState({ showList: res}));
 
         let bookSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
         console.log(bookSearch);
@@ -135,7 +153,7 @@ export default class List extends Component {
                 />
                 <Text style={styles.title}>Movies</Text>
                 <FlatList
-                    keyExtractor={this._keyExtractor}
+                    keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.movieList}
@@ -143,7 +161,7 @@ export default class List extends Component {
                 />
                 <Text style={styles.title}>TV Shows</Text>
                 <FlatList
-                    keyExtractor={this._keyExtractor}
+                    keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
                     horizontal={true}
                     data={this.state.showList}
