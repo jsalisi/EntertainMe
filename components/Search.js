@@ -65,10 +65,29 @@ export default class Search extends React.Component {
         });
     }
 
-    fetchContent(searchTerm) {
-        this._getSearchContent(searchTerm, 'book').then((res) => this.setState({ bookList: res }));
-        this._getSearchContent(searchTerm, 'movie').then((res) => this.setState({ movieList: res }));
-        this._getSearchContent(searchTerm, 'show').then((res) => this.setState({ showList: res }));
+    fetchContent = (searchTerm) => {
+        Promise.all([
+            this._getSearchContent(searchTerm, 'book'),
+            this._getSearchContent(searchTerm, 'movie'),
+            this._getSearchContent(searchTerm, 'show'),
+        ]).then((res) => {
+            this.setState({
+                bookList: res[0],
+                movieList: res[1],
+                showList: res[2],
+            });
+        }).then(() => {
+            this.navToSearchResults();
+        });
+    }
+
+    navToSearchResults = () => {
+        this.props.navigation.navigate('SearchResults', {
+            term: this.state.searchTerm,
+            BookList: this.state.bookList,
+            MovieList: this.state.movieList,
+            ShowList: this.state.showList,
+        });
     }
 
     render() {
@@ -99,12 +118,6 @@ export default class Search extends React.Component {
                     placeholder='What are you interested in?'
                     onSubmitEditing={() => {
                         this.fetchContent(this.state.searchTerm)
-                        this.props.navigation.navigate('SearchResults', {
-                            term: this.state.searchTerm,
-                            BookList: this.state.bookList,
-                            MovieList: this.state.movieList,
-                            ShowList: this.state.showList,
-                        });
                     }}
                 />
                 <View style={styles.button}>
@@ -113,12 +126,6 @@ export default class Search extends React.Component {
                         color="red"
                         onPress={() => {
                             this.fetchContent(this.state.searchTerm)
-                            this.props.navigation.navigate('SearchResults', {
-                                term: this.state.searchTerm,
-                                BookList: this.state.bookList,
-                                MovieList: this.state.movieList,
-                                ShowList: this.state.showList,
-                            });
                         }}
                     />
                 </View>
