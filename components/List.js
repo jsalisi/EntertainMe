@@ -16,7 +16,7 @@ const screenHeight = (Dimensions.get('window').height);
 
 export default class List extends Component {
 
-    static navigationOptions = ({ navigation }) => {
+    static navigationOptions = ({navigation}) => {
         return {
             title: navigation.getParam('term'),
             headerStyle: {
@@ -31,22 +31,21 @@ export default class List extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-
-        }
+        this.state = {}
     }
 
     _keyExtractor = (item, index) => item.Name;
     _keyExtractorDatabase = (item, index) => index.toString();
 
-    _renderBookList = ({ item }) => {
+    _renderBookList = ({item}) => {
         /* rgba(230,183,64,1) */
         return (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                 title: item.volumeInfo.title,
             })}>
                 <View>
-                    <Image style={styles.box} source={{ uri: item.volumeInfo.imageLinks.thumbnail }} backgroundColor={'transparent'} />
+                    <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
+                           backgroundColor={'transparent'}/>
                 </View>
             </TouchableHighlight>
         );
@@ -59,7 +58,8 @@ export default class List extends Component {
                 title: item.original_title,
             })}>
                 <View>
-                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'}/>
+                    <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                           backgroundColor={'transparent'}/>
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
@@ -73,7 +73,8 @@ export default class List extends Component {
                 title: item.original_name,
             })}>
                 <View>
-                    <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'} />
+                    <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                           backgroundColor={'transparent'}/>
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
                 </View>
             </TouchableHighlight>
@@ -83,17 +84,6 @@ export default class List extends Component {
     renderFlatList = (listTitle, data, renderFunction) => {
         return (
             <View style={styles.row}>
-                <LinearGradient
-                    colors={['#000000', '#323232']}
-                    style={{
-                        position: 'absolute',
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        height: screenHeight,
-                        width: screenWidth,
-                    }}
-                />
                 <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
@@ -120,17 +110,19 @@ export default class List extends Component {
     }
 
     render() {
-        const { navigation } = this.props;
+        const {navigation} = this.props;
         const Books = navigation.getParam('BookList');
         const Movies = navigation.getParam('MovieList');
         const Shows = navigation.getParam('ShowList');
 
         return (
-            <ScrollView>
-                {this.renderFlatList('Books', Books, this._renderBookList)}
-                {this.renderFlatList('Movies', Movies, this._renderMovieList)}
-                {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
-            </ScrollView>
+            <LinearGradient colors={['#000000', '#323232']}>
+                <ScrollView>
+                    {this.renderFlatList('Books', Books, this._renderBookList)}
+                    {this.renderFlatList('Movies', Movies, this._renderMovieList)}
+                    {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
+                </ScrollView>
+            </LinearGradient>
         )
     }
 }
@@ -138,8 +130,7 @@ export default class List extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#323232',
-        // justifyContent: 'flex-start',
+        backgroundColor: '#323232'
     },
     row: {
         height: screenHeight * 0.35,
