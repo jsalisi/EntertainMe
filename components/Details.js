@@ -23,6 +23,19 @@ export default class Details extends Search {
         }
     }
 
+    constructor() {
+        super();
+        this.state = {
+            title: 'Search Results',
+        }
+    }
+
+    componentDidMount() {
+        this.setState({
+            title: this.props.navigation.getParam('title')
+        })
+    }
+
     render() {
         const { navigate } = this.props.navigation;
 
@@ -44,7 +57,7 @@ export default class Details extends Search {
                         title="More Like This"
                         color="red"
                         onPress={() => {
-                            this.fetchContent("spiderman");
+                            this.fetchContent(this.state.title);
                         }}
                     />
                 </View>
