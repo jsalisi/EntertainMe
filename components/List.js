@@ -44,7 +44,7 @@ export default class List extends Component {
     _renderBookList = ({ item }) => {
         /* rgba(230,183,64,1) */
         return (
-            <TouchableHighlight onPress={()=>{}}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details')}>
                 <View>
                     <Image style={styles.box} source={{ uri: item.volumeInfo.imageLinks.thumbnail }} backgroundColor={'transparent'} />
                 </View>
@@ -55,7 +55,7 @@ export default class List extends Component {
     _renderMovieList = ({item}) => {
         /* rgba(200,61,50,1) */
         return (
-            <TouchableHighlight onPress={()=>{}}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details')}>
                 <View>
                     <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'}/>
                     {/* <Text style={styles.text}>{item.Name}</Text> */}
@@ -67,7 +67,7 @@ export default class List extends Component {
     _renderShowList = ({item}) => {
         /* rgba(153,175,93,1) */
         return (
-            <TouchableHighlight onPress={()=>{}}>
+            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details')}>
                 <View>
                     <Image style={styles.box} source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }} backgroundColor={'transparent'} />
                     {/* <Text style={styles.text}>{item.Name}</Text> */}

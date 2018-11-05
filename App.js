@@ -4,6 +4,7 @@ import { createStackNavigator } from 'react-navigation';
 
 import Search from "./components/Search"
 import List from "./components/List"
+import Details from "./components/Details"
 
 const RootStack = createStackNavigator (
     {
@@ -13,6 +14,9 @@ const RootStack = createStackNavigator (
         SearchResults: {
             screen: List
         },
+        Details: {
+            screen: Details
+        }
     },
     {
         initialRouteName: 'Search',
