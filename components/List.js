@@ -38,9 +38,17 @@ export default class List extends Component {
     _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderBookList = ({item}) => {
+        console.log(item);
         return (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                 title: item.volumeInfo.title,
+                averageRating: item.volumeInfo.averageRating,
+                categories: item.volumeInfo.categories,
+                description: item.volumeInfo.description,
+                images: item.volumeInfo.imageLinks,
+                preview: item.volumeInfo.previewLink,
+                subtitle: item.volumeInfo.subtitle,
+                authors: item.volumeInfo.authors
             })}>
                 <View>
                     <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
