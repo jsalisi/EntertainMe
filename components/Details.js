@@ -56,7 +56,8 @@ export default class Details extends Search {
             <LinearGradient colors={['#000000', '#323232']}>
                 <ScrollView>
                     <View style={styles.section1Container}>
-                        <Image source={{uri: this.state.images.thumbnail}} style={{width: 170, height: 250, marginBottom: 14}}/>
+                        <Image source={{uri: this.state.images.thumbnail}}
+                               style={{width: 170, height: 250, marginBottom: 14}}/>
                         <View style={{
                             flex: 1,
                             flexDirection: 'column',
@@ -81,7 +82,8 @@ export default class Details extends Search {
                                 padding: 10
                             }}>
                                 <Text style={styles.detailsTextHeader}> Rating: {'\n'}</Text>
-                                <Text style={styles.detailsText}> {this.state.averageRating > 0 ? this.state.averageRating : 'none'} </Text>
+                                <Text
+                                    style={styles.detailsText}> {this.state.averageRating > 0 ? this.state.averageRating : 'none'} </Text>
                             </View>
                             <View style={{
                                 flex: 1,
@@ -91,7 +93,8 @@ export default class Details extends Search {
                                 padding: 10
                             }}>
                                 <Text style={styles.detailsTextHeader}> Categories: {'\n'}</Text>
-                                <Text style={styles.detailsText}> {this.state.categories && this.state.categories.length > 0 ? this.state.categories : 'none'} </Text>
+                                <Text
+                                    style={styles.detailsText}> {this.state.categories && this.state.categories.length > 0 ? this.state.categories : 'none'} </Text>
                             </View>
                             <View style={styles.detailsRow}>
                                 <Text style={{
