@@ -11,6 +11,7 @@ const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows
 const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&q=`
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
+
 export default class Search extends React.Component {
 
     static navigationOptions = {
@@ -33,12 +34,32 @@ export default class Search extends React.Component {
         this.setState({searchTerm: text});
     }
 
+    _getBooks = (searchTerm) => {
+        return new Promise((resolve, reject) => {
+            let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+
+            this._getSearchContent(searchTerm, 'book')
+                .then((bookArray) => {
+                    fetch(tasteDiveSearch)
+                        .then((response) => response.json())
+                        .then((tasteDiveObject) => {
+                            for (i=0; i<tasteDiveObject.Similar.Results.length; i++) {
+                                this._getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
+                                    .then((response) => {
+                                        bookArray.push(response.items[0])
+                                    })
+                                    .catch((error) => {console.log(error)})
+                            }
+                            resolve(bookArray)
+                        });
+                });
+        });
+    }
+
     _getSearchContent = (searchTerm, type) => {
         return new Promise((resolve, reject) => {
-
             let urlType;
             if (type == 'book') {
-
                 urlType = bookRequest
                 let search = urlType + encodeURIComponent(searchTerm).replace(/%20/g, '+');
                 fetch(search)
@@ -46,14 +67,12 @@ export default class Search extends React.Component {
                     .then((response) => {
                         resolve(response.items)
                     });
-
             } else {
                 if (type == 'movie') {
                     urlType = movieRequest
                 } else if (type == 'show') {
                     urlType = showRequest
                 }
-
                 let search = urlType + encodeURIComponent(searchTerm).replace(/%20/g, '+');
                 fetch(search)
                     .then((response) => response.json())
@@ -61,13 +80,12 @@ export default class Search extends React.Component {
                         resolve(response.results)
                     });
             }
-
         });
     }
 
     fetchContent = (searchTerm) => {
         Promise.all([
-            this._getSearchContent(searchTerm, 'book'),
+            this._getBooks(searchTerm),
             this._getSearchContent(searchTerm, 'movie'),
             this._getSearchContent(searchTerm, 'show'),
         ]).then((res) => {

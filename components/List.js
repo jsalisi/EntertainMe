@@ -38,7 +38,6 @@ export default class List extends Component {
     _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderBookList = ({item}) => {
-        console.log(item);
         return (
             <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                 title: item.volumeInfo.title,
@@ -100,19 +99,6 @@ export default class List extends Component {
                 />
             </View>
         );
-    }
-
-    _getRecommendations(title) {
-        return new Promise((resolve, reject) => {
-            let movieSearch = movieReq + encodeURIComponent(title).replace(/%20/g, '+');
-            fetch(movieSearch)
-                .then((response) => response.json())
-                .then((response) => {
-                    for (i = 0; i < response.Similar.Results; i++) {
-                        console.log(response.Similar.Results[i].Name);
-                    }
-                });
-        });
     }
 
     render() {
