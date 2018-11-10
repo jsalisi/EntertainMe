@@ -34,13 +34,13 @@ export default class Search extends React.Component {
         this.setState({searchTerm: text});
     }
 
-    _getRecommendations = (searchTerm) => {
+    getRecommendations = (searchTerm) => {
         return new Promise((resolve, reject) => {
             let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
 
             this.getSearchContent(searchTerm, 'book')
                 .then((bookArray) => {
-                    let tempArray = JSON.parse(JSON.stringify(bookArray)); // Change bookArray to bookArray[0]
+                    let tempArray = [JSON.parse(JSON.stringify(bookArray[0]))];
                     
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
@@ -87,7 +87,7 @@ export default class Search extends React.Component {
 
     fetchContent = (searchTerm) => {
         Promise.all([
-            this._getRecommendations(searchTerm),
+            this.getRecommendations(searchTerm),
             this.getSearchContent(searchTerm, 'movie'),
             this.getSearchContent(searchTerm, 'show'),
         ]).then((res) => {
