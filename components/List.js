@@ -1,7 +1,8 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
+import Search from './Search';
 
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
@@ -14,7 +15,7 @@ const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
 
-export default class List extends Component {
+export default class List extends Search {
 
     static navigationOptions = ({navigation}) => {
         return {
@@ -31,7 +32,11 @@ export default class List extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {}
+        this.state = {
+            movieList: [],
+            showList: [],
+            bookList: [],
+        }
     }
 
     _keyExtractor = (item, index) => item.Name;
@@ -101,18 +106,17 @@ export default class List extends Component {
         );
     }
 
-    render() {
-        const {navigation} = this.props;
-        const Books = navigation.getParam('BookList');
-        const Movies = navigation.getParam('MovieList');
-        const Shows = navigation.getParam('ShowList');
+    componentDidMount() {
+        this.fetchContent(this.props.navigation.getParam('term'));
+    }
 
+    render() {
         return (
             <LinearGradient colors={['#000000', '#323232']}>
                 <ScrollView>
-                    {this.renderFlatList('Books', Books, this._renderBookList)}
-                    {this.renderFlatList('Movies', Movies, this._renderMovieList)}
-                    {this.renderFlatList('TV Shows', Shows, this._renderShowList)}
+                    {this.renderFlatList('Books', this.state.bookList, this._renderBookList)}
+                    {this.renderFlatList('Movies', this.state.movieList, this._renderMovieList)}
+                    {this.renderFlatList('TV Shows', this.state.showList, this._renderShowList)}
                 </ScrollView>
             </LinearGradient>
         )

@@ -34,29 +34,31 @@ export default class Search extends React.Component {
         this.setState({searchTerm: text});
     }
 
-    _getBooks = (searchTerm) => {
+    _getRecommendations = (searchTerm) => {
         return new Promise((resolve, reject) => {
             let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
 
-            this._getSearchContent(searchTerm, 'book')
+            this.getSearchContent(searchTerm, 'book')
                 .then((bookArray) => {
+                    let tempArray = JSON.parse(JSON.stringify(bookArray)); // Change bookArray to bookArray[0]
+                    
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
                         .then((tasteDiveObject) => {
                             for (i=0; i<tasteDiveObject.Similar.Results.length; i++) {
-                                this._getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
+                                this.getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
                                     .then((response) => {
-                                        bookArray.push(response.items[0])
+                                        tempArray.push(response.items[i])
                                     })
                                     .catch((error) => {console.log(error)})
                             }
-                            resolve(bookArray)
+                            resolve(tempArray)
                         });
                 });
         });
     }
 
-    _getSearchContent = (searchTerm, type) => {
+    getSearchContent = (searchTerm, type) => {
         return new Promise((resolve, reject) => {
             let urlType;
             if (type == 'book') {
@@ -85,26 +87,21 @@ export default class Search extends React.Component {
 
     fetchContent = (searchTerm) => {
         Promise.all([
-            this._getBooks(searchTerm),
-            this._getSearchContent(searchTerm, 'movie'),
-            this._getSearchContent(searchTerm, 'show'),
+            this._getRecommendations(searchTerm),
+            this.getSearchContent(searchTerm, 'movie'),
+            this.getSearchContent(searchTerm, 'show'),
         ]).then((res) => {
             this.setState({
                 bookList: res[0],
                 movieList: res[1],
                 showList: res[2],
             });
-        }).then(() => {
-            this.navToSearchResults();
         });
     }
 
     navToSearchResults = () => {
         this.props.navigation.navigate('SearchResults', {
-            term: this.state.searchTerm,
-            BookList: this.state.bookList,
-            MovieList: this.state.movieList,
-            ShowList: this.state.showList,
+            term: this.state.searchTerm
         });
     }
 
@@ -135,7 +132,7 @@ export default class Search extends React.Component {
                     onChangeText={(text) => this.searchText(text)}
                     placeholder='What are you interested in?'
                     onSubmitEditing={() => {
-                        this.fetchContent(this.state.searchTerm)
+                        this.navToSearchResults()
                     }}
                 />
                 <View style={styles.button}>
@@ -143,7 +140,7 @@ export default class Search extends React.Component {
                         title="Search"
                         color="red"
                         onPress={() => {
-                            this.fetchContent(this.state.searchTerm)
+                            this.navToSearchResults()
                         }}
                     />
                 </View>
