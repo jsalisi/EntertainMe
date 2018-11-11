@@ -4,11 +4,11 @@ import { SearchBar } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY, GOOGLE_BOOKS_API_KEY } from 'react-native-dotenv'
 
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&limit=5&q=book:`;
-const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&limit=5&q=movie:`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&limit=5&q=`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&limit=7&q=book:`;
+const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&limit=7&q=movie:`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&limit=7&q=`;
 
-const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=5&q=`
+const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=3&q=`
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
@@ -57,9 +57,7 @@ export default class Search extends React.Component {
             let tempArray = [
                 JSON.parse(JSON.stringify(temp[0])),
                 JSON.parse(JSON.stringify(temp[1])),
-                JSON.parse(JSON.stringify(temp[2])),
-                JSON.parse(JSON.stringify(temp[3])),
-                JSON.parse(JSON.stringify(temp[4]))
+                JSON.parse(JSON.stringify(temp[2]))
             ];
             const promises = tasteDiveObject.Similar.Results.map((res) => {
                 this.getSearchContent(res.Name, mediaType)
