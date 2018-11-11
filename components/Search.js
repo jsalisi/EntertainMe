@@ -34,29 +34,43 @@ export default class Search extends React.Component {
         this.setState({searchTerm: text});
     }
 
-    getRecommendations = (searchTerm) => {
+    getRecommendations = (searchTerm, mediaType) => {
         return new Promise((resolve, reject) => {
             let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
 
-            this.getSearchContent(searchTerm, 'book')
-                .then((bookArray) => {
-                    let tempArray = JSON.parse(JSON.stringify(bookArray));                   
-                    
+            this.getSearchContent(searchTerm, mediaType)
+                .then((searchResultArray) => {             
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
-                        .then(async (tasteDiveObject) => {
-                            const promises = tasteDiveObject.Similar.Results.map((res) => {
-                                this.getSearchContent(res.Name, 'book')
-                                    .then((response) => {
-                                        tempArray.push(response[0])
-                                    })
-                                    .catch((error) => {console.log(error)})
-                            });
-
-                            await Promise.all(promises);                  
-                            resolve(tempArray)
+                        .then((tasteDiveObject) => {
+                            this._processSearchResult(tasteDiveObject, JSON.parse(JSON.stringify(searchResultArray)), mediaType)
+                                .then((res) => {
+                                    resolve(res);
+                                }).catch((e) => console.log(e));
                         });
                 });
+        });
+    }
+
+    _processSearchResult = (tasteDiveObject, temp, mediaType) => {
+        return new Promise(async (resolve, reject) => {
+            let tempArray = [
+                JSON.parse(JSON.stringify(temp[0])),
+                JSON.parse(JSON.stringify(temp[1])),
+                JSON.parse(JSON.stringify(temp[2])),
+                JSON.parse(JSON.stringify(temp[3])),
+                JSON.parse(JSON.stringify(temp[4]))
+            ];
+            const promises = tasteDiveObject.Similar.Results.map((res) => {
+                this.getSearchContent(res.Name, mediaType)
+                    .then((response) => {
+                        tempArray.push(response[0])
+                    })
+                    .catch((error) => { reject(error) })
+            });
+
+            await Promise.all(promises);
+            resolve(tempArray)
         });
     }
 
@@ -89,9 +103,9 @@ export default class Search extends React.Component {
 
     fetchContent = (searchTerm) => {
         Promise.all([
-            this.getRecommendations(searchTerm),
-            this.getSearchContent(searchTerm, 'movie'),
-            this.getSearchContent(searchTerm, 'show'),
+            this.getRecommendations(searchTerm, 'book'),
+            this.getRecommendations(searchTerm, 'movie'),
+            this.getRecommendations(searchTerm, 'show'),
         ]).then((res) => {
             this.setState({
                 bookList: res[0],

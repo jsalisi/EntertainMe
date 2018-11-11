@@ -1,7 +1,6 @@
 import React from 'react';
 import {Dimensions, FlatList, Image, ScrollView, StyleSheet, Text, TouchableHighlight, View} from 'react-native';
 import {LinearGradient} from 'expo';
-import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 import Search from './Search';
 
 const screenWidth = (Dimensions.get('window').width);
