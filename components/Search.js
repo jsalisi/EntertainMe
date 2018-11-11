@@ -4,11 +4,11 @@ import { SearchBar } from 'react-native-elements'
 import { LinearGradient } from 'expo';
 import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY, GOOGLE_BOOKS_API_KEY } from 'react-native-dotenv'
 
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&q=book:`;
-const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&q=movie:`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&q=`;
+const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&limit=5&q=book:`;
+const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&limit=5&q=movie:`;
+const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&limit=5&q=`;
 
-const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&q=`
+const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=5&q=`
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
@@ -40,18 +40,20 @@ export default class Search extends React.Component {
 
             this.getSearchContent(searchTerm, 'book')
                 .then((bookArray) => {
-                    let tempArray = [JSON.parse(JSON.stringify(bookArray[0]))];                   
+                    let tempArray = JSON.parse(JSON.stringify(bookArray));                   
                     
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
                         .then(async (tasteDiveObject) => {
-                            for (i=0; i<tasteDiveObject.Similar.Results.length; i++) {
-                                await this.getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
-                                    .then(async (response) => {
-                                        await tempArray.push(response[0])
+                            const promises = tasteDiveObject.Similar.Results.map((res) => {
+                                this.getSearchContent(res.Name, 'book')
+                                    .then((response) => {
+                                        tempArray.push(response[0])
                                     })
                                     .catch((error) => {console.log(error)})
-                            }                          
+                            });
+
+                            await Promise.all(promises);                  
                             resolve(tempArray)
                         });
                 });
