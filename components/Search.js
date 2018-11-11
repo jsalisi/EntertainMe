@@ -40,18 +40,18 @@ export default class Search extends React.Component {
 
             this.getSearchContent(searchTerm, 'book')
                 .then((bookArray) => {
-                    let tempArray = [JSON.parse(JSON.stringify(bookArray[0]))];
+                    let tempArray = [JSON.parse(JSON.stringify(bookArray[0]))];                   
                     
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
-                        .then((tasteDiveObject) => {
+                        .then(async (tasteDiveObject) => {
                             for (i=0; i<tasteDiveObject.Similar.Results.length; i++) {
-                                this.getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
-                                    .then((response) => {
-                                        tempArray.push(response.items[i])
+                                await this.getSearchContent(tasteDiveObject.Similar.Results[i].Name, 'book')
+                                    .then(async (response) => {
+                                        await tempArray.push(response[0])
                                     })
                                     .catch((error) => {console.log(error)})
-                            }
+                            }                          
                             resolve(tempArray)
                         });
                 });
