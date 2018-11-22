@@ -24,6 +24,8 @@ export default class FlatlistComponent extends React.Component {
         console.log(this.state.movieGenres);
     }
 
+    _keyExtractor = (item, index) => item.Name;
+    _keyExtractorDatabase = (item, index) => index.toString();
 
     renderFlatList = (listTitle, data, renderFunction) => {
         return (

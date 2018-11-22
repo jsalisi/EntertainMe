@@ -30,9 +30,6 @@ export default class List extends Search {
         }
     }
 
-    _keyExtractor = (item, index) => item.Name;
-    _keyExtractorDatabase = (item, index) => index.toString();
-
     componentDidMount() {
         this.fetchContent(this.props.navigation.getParam('term'));
     }
