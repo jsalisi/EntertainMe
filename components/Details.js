@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 
 import Search from "./Search";
