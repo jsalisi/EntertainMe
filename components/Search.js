@@ -12,7 +12,8 @@ const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BO
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
-const movieGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=22172aecd3de3c8af81833a9be08ce75`;
+const movieGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=${THE_MOVIE_DB_API_KEY}`;
+const tvGenreRequest = `https://api.themoviedb.org/3/genre/tv/list?api_key=${THE_MOVIE_DB_API_KEY}`;
 
 export default class Search extends React.Component {
 
@@ -27,7 +28,8 @@ export default class Search extends React.Component {
             movieList: [],
             showList: [],
             bookList: [],
-            movieGenres: []
+            movieGenres: [],
+            tvGenres: []
         }
         this.searchText = this.searchText.bind(this);
     }
@@ -74,7 +76,9 @@ export default class Search extends React.Component {
                     .then((response) => {
                         tempArray.push(response[0])
                     })
-                    .catch((error) => { reject(error) })
+                    .catch((error) => {
+                        reject(error)
+                    })
             });
 
             await Promise.all(promises);
@@ -93,8 +97,12 @@ export default class Search extends React.Component {
                     .then((response) => {
                         resolve(response.items)
                     });
-            }  else if (type === 'movieGenres'){
+            } else if (type === 'movieGenres') {
                 fetch(movieGenreRequest)
+                    .then((response) => response.json())
+                    .then((response) => resolve(response.genres))
+            } else if (type === 'tvGenres') {
+                fetch(tvGenreRequest)
                     .then((response) => response.json())
                     .then((response) => resolve(response.genres))
             } else {
@@ -118,13 +126,15 @@ export default class Search extends React.Component {
             this.getRecommendations(searchTerm, 'book'),
             this.getRecommendations(searchTerm, 'movie'),
             this.getRecommendations(searchTerm, 'show'),
-            this.getRecommendations(null, 'movieGenres')
+            this.getSearchContent(null, 'movieGenres'),
+            this.getSearchContent(null, 'tvGenres'),
         ]).then((res) => {
             this.setState({
                 bookList: res[0],
                 movieList: res[1],
                 showList: res[2],
-                movieGenres: res[3]
+                movieGenres: res[3],
+                tvGenres: res[4]
             });
         });
     }
@@ -136,7 +146,7 @@ export default class Search extends React.Component {
     }
 
     render() {
-        const { navigate } = this.props.navigation;
+        const {navigate} = this.props.navigation;
 
         return (
             <View style={styles.container}>
@@ -157,7 +167,7 @@ export default class Search extends React.Component {
                     round
                     lightTheme
                     inputStyle={{color: 'black'}}
-                    clearIcon={{ color: 'grey' }}
+                    clearIcon={{color: 'grey'}}
                     searchIcon={true}
                     onChangeText={(text) => this.searchText(text)}
                     placeholder='What are you interested in?'
