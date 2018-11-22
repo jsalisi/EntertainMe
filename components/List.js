@@ -28,48 +28,29 @@ export default class List extends Search {
             movieGenres: [],
             tvGenres: []
         }
-
     }
-
-    _keyExtractor = (item, index) => item.Name;
-    _keyExtractorDatabase = (item, index) => index.toString();
 
     componentDidMount() {
         this.fetchContent(this.props.navigation.getParam('term'));
-    }
-
-    static getDerivedStateFromProps(props, state) {
-        console.log(props);
-        console.log(state);
-      if (props.navigation.state.term != state.searchTerm) {
-        return {
-            searchTerm: props.navigation.state.term,
-            movieList: [],
-            showList: [],
-            bookList: [],
-            movieGenres: [],
-        };
-      }
-
-      return null;
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.navigation.state.params.term != this.props.navigation.getParam("term")) {
-          Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {})
-        }
     }
 
     render() {
         return (
             <LinearGradient colors={['#000000', '#323232']}>
                 <ScrollView>
-                    <FlatlistComponent type={'Books'} listItems={this.state.bookList}
-                                       navigation={this.props.navigation}/>
-                    <FlatlistComponent type={'Movies'} listItems={this.state.movieList}
-                                       navigation={this.props.navigation} movieGenres={this.state.movieGenres}/>
-                    <FlatlistComponent type={'TV Shows'} listItems={this.state.showList}
-                                       navigation={this.props.navigation} tvGenres={this.state.tvGenres}/>
+                    <FlatlistComponent
+                        type={'Books'}
+                        listItems={this.state.bookList}
+                        navigation={this.props.navigation}/>
+                    <FlatlistComponent
+                        type={'Movies'}
+                        listItems={this.state.movieList}
+                        navigation={this.props.navigation}
+                        movieGenres={this.state.movieGenres}/>
+                    <FlatlistComponent
+                        type={'TV Shows'}
+                        listItems={this.state.showList}
+                        navigation={this.props.navigation} tvGenres={this.state.tvGenres}/>
                 </ScrollView>
             </LinearGradient>
         )
