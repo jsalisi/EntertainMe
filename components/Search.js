@@ -1,16 +1,18 @@
 import React from 'react';
-import { Dimensions, Image, Button, Text, View, StyleSheet } from 'react-native';
-import { SearchBar } from 'react-native-elements'
-import { LinearGradient } from 'expo';
-import { TASTE_API_KEY, THE_MOVIE_DB_API_KEY, GOOGLE_BOOKS_API_KEY } from 'react-native-dotenv'
+import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {SearchBar} from 'react-native-elements'
+import {LinearGradient} from 'expo';
+import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
 const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&limit=7&q=book:`;
 const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&limit=7&q=movie:`;
 const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&limit=7&q=`;
 
-const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=3&q=`
+const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=3&q=`;
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
+
+const movieGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=22172aecd3de3c8af81833a9be08ce75`;
 
 export default class Search extends React.Component {
 
@@ -25,7 +27,9 @@ export default class Search extends React.Component {
             movieList: [],
             showList: [],
             bookList: [],
+            movieGenres: []
         }
+
 
         this.searchText = this.searchText.bind(this);
     }
@@ -83,6 +87,10 @@ export default class Search extends React.Component {
                     .then((response) => {
                         resolve(response.items)
                     });
+            }  else if (type === 'movieGenres'){
+                fetch(movieGenreRequest)
+                    .then((response) => response.json())
+                    .then((response) => resolve(response.genres))
             } else {
                 if (type == 'movie') {
                     urlType = movieRequest
@@ -104,11 +112,13 @@ export default class Search extends React.Component {
             this.getRecommendations(searchTerm, 'book'),
             this.getRecommendations(searchTerm, 'movie'),
             this.getRecommendations(searchTerm, 'show'),
+            this.getRecommendations(null, 'movieGenres')
         ]).then((res) => {
             this.setState({
                 bookList: res[0],
                 movieList: res[1],
                 showList: res[2],
+                movieGenres: res[3]
             });
         });
     }

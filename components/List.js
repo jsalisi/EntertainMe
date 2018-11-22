@@ -27,7 +27,9 @@ export default class List extends Search {
             movieList: [],
             showList: [],
             bookList: [],
+            movieGenres: []
         }
+
     }
 
     _keyExtractor = (item, index) => item.Name;
@@ -37,6 +39,10 @@ export default class List extends Search {
         try {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    first: 'Author',
+                    second: 'Published Date',
+                    third: 'Average Rating',
+                    fourth: 'Categories',
                     title: item.volumeInfo.title,
                     averageRating: item.volumeInfo.averageRating,
                     categories: item.volumeInfo.categories,
@@ -44,6 +50,7 @@ export default class List extends Search {
                     images: item.volumeInfo.imageLinks,
                     preview: item.volumeInfo.previewLink,
                     subtitle: item.volumeInfo.subtitle,
+                    publishedDate: item.volumeInfo.publishedDate,
                     authors: item.volumeInfo.authors
                 })}>
                     <View>
@@ -52,24 +59,44 @@ export default class List extends Search {
                     </View>
                 </TouchableHighlight>
             );
-        } catch(err) {
+        } catch (err) {
             return (
-                <TouchableHighlight onPress={() => {}}>
+                <TouchableHighlight onPress={() => {
+                }}>
                     <View>
                         <Image style={styles.box} backgroundColor={'transparent'}/>
                         <Text style={styles.text}>Image Unavailable</Text>
                     </View>
                 </TouchableHighlight>
-            );            
+            );
         }
-        
+
     }
 
     _renderMovieList = ({item}) => {
+        let genres = [];
+        for (var i = 0; i < item.genre_ids.length; i++) {
+            for (var j = 0; j < this.state.movieGenres.length; j++) {
+                if (this.state.movieGenres[j]['id'] === item.genre_ids[i]) {
+                    genres.push(this.state.movieGenres[j]['name']);
+                }
+            }
+        }
         try {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    first: 'Popularity',
+                    second: 'Release Date',
+                    third: 'Average Rating',
+                    fourth: 'Genres',
                     title: item.title,
+                    averageRating: item.vote_average,
+                    categories: genres.join(', '),
+                    description: item.overview,
+                    images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
+                    subtitle: item.original_title,
+                    publishedDate: item.release_date,
+                    authors: item.popularity + '%'
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
@@ -78,7 +105,7 @@ export default class List extends Search {
                     </View>
                 </TouchableHighlight>
             );
-        } catch(err) {
+        } catch (err) {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                     title: item.title,
@@ -106,7 +133,7 @@ export default class List extends Search {
                     </View>
                 </TouchableHighlight>
             );
-        } catch(err) {
+        } catch (err) {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                     title: item.name,
