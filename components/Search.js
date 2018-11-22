@@ -123,9 +123,9 @@ export default class Search extends React.Component {
 
     fetchContent = (searchTerm) => {
         Promise.all([
-            this.getRecommendations(searchTerm, 'book'),
-            this.getRecommendations(searchTerm, 'movie'),
-            this.getRecommendations(searchTerm, 'show'),
+            this.getSearchContent(searchTerm, 'book'),
+            this.getSearchContent(searchTerm, 'movie'),
+            this.getSearchContent(searchTerm, 'show'),
             this.getSearchContent(null, 'movieGenres'),
             this.getSearchContent(null, 'tvGenres'),
         ]).then((res) => {

@@ -130,17 +130,6 @@ export default class Details extends Search {
                         }}> {this.state.subtitle} </Text>
                     </View>
                     <Text style={styles.detailsText}>{this.state.description}</Text>
-                    <View style={styles.button}>
-                        <Button
-                            title="More Like This"
-                            color="red"
-                            onPress={() => {
-                                this.props.navigation.navigate('SearchResults', {
-                                    term: this.state.title
-                                });
-                            }}
-                        />
-                    </View>
                     <FlatlistComponent type={'Similar Books'} listItems={this.state.bookList}
                                        navigation={this.props.navigation}/>
                 </ScrollView>
@@ -162,12 +151,6 @@ const styles = StyleSheet.create({
         fontSize: 50,
         fontWeight: 'bold',
         color: 'white'
-    },
-    button: {
-        height: 100,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: -30
     },
     section1Container: {
         flex: 1,
