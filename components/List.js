@@ -34,52 +34,90 @@ export default class List extends Search {
     _keyExtractorDatabase = (item, index) => index.toString();
 
     _renderBookList = ({item}) => {
-        return (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
-                title: item.volumeInfo.title,
-                averageRating: item.volumeInfo.averageRating,
-                categories: item.volumeInfo.categories,
-                description: item.volumeInfo.description,
-                images: item.volumeInfo.imageLinks,
-                preview: item.volumeInfo.previewLink,
-                subtitle: item.volumeInfo.subtitle,
-                authors: item.volumeInfo.authors
-            })}>
-                <View>
-                    <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
-                           backgroundColor={'transparent'}/>
-                </View>
-            </TouchableHighlight>
-        );
+        try {
+            return (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    title: item.volumeInfo.title,
+                    averageRating: item.volumeInfo.averageRating,
+                    categories: item.volumeInfo.categories,
+                    description: item.volumeInfo.description,
+                    images: item.volumeInfo.imageLinks,
+                    preview: item.volumeInfo.previewLink,
+                    subtitle: item.volumeInfo.subtitle,
+                    authors: item.volumeInfo.authors
+                })}>
+                    <View>
+                        <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
+                               backgroundColor={'transparent'}/>
+                    </View>
+                </TouchableHighlight>
+            );
+        } catch(err) {
+            return (
+                <TouchableHighlight onPress={() => {}}>
+                    <View>
+                        <Image style={styles.box} backgroundColor={'transparent'}/>
+                        <Text style={styles.text}>Image Unavailable</Text>
+                    </View>
+                </TouchableHighlight>
+            );            
+        }
+        
     }
 
     _renderMovieList = ({item}) => {
-        return (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
-                title: item.original_title,
-            })}>
-                <View>
-                    <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                           backgroundColor={'transparent'}/>
-                    {/* <Text style={styles.text}>{item.Name}</Text> */}
-                </View>
-            </TouchableHighlight>
-        );
+        try {
+            return (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    title: item.title,
+                })}>
+                    <View>
+                        <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                               backgroundColor={'transparent'}/>
+                        {/* <Text style={styles.text}>{item.Name}</Text> */}
+                    </View>
+                </TouchableHighlight>
+            );
+        } catch(err) {
+            return (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    title: item.title,
+                })}>
+                    <View>
+                        <Image style={styles.box} backgroundColor={'transparent'}/>
+                        <Text style={styles.text}>Image Unavailable</Text>
+                    </View>
+                </TouchableHighlight>
+            );
+        }
     }
 
     _renderShowList = ({item}) => {
         /* rgba(153,175,93,1) */
-        return (
-            <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
-                title: item.original_name,
-            })}>
-                <View>
-                    <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                           backgroundColor={'transparent'}/>
-                    {/* <Text style={styles.text}>{item.Name}</Text> */}
-                </View>
-            </TouchableHighlight>
-        );
+        try {
+            return (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    title: item.name,
+                })}>
+                    <View>
+                        <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                               backgroundColor={'transparent'}/>
+                        {/* <Text style={styles.text}>{item.Name}</Text> */}
+                    </View>
+                </TouchableHighlight>
+            );
+        } catch(err) {
+            return (
+                <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
+                    title: item.name,
+                })}>
+                    <View>
+                        <Image style={styles.box} backgroundColor={'transparent'}/>
+                        <Text style={styles.text}>Image Unavailable</Text>
+                    </View>
+                </TouchableHighlight>
+            );
+        }
     }
 
     renderFlatList = (listTitle, data, renderFunction) => {
@@ -146,7 +184,7 @@ const styles = StyleSheet.create({
         padding: 10,
     },
     text: {
-        fontSize: 15,
+        fontSize: 18,
         fontWeight: 'bold',
         color: 'white',
         textAlign: 'center',

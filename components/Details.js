@@ -113,7 +113,9 @@ export default class Details extends Search {
                             title="More Like This"
                             color="red"
                             onPress={() => {
-                                this.fetchContent(this.state.title);
+                                this.props.navigation.navigate('SearchResults', {
+                                    term: this.state.title
+                                });
                             }}
                         />
                     </View>
