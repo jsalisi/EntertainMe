@@ -140,14 +140,14 @@ export default class List extends Search {
                     second: 'First Air Date',
                     third: 'Average Rating',
                     fourth: 'Genres',
-                    title: item.origin_country + ', ' + item.original_language,
+                    title: item.name,
                     averageRating: item.vote_average,
                     categories: genres.join(',  '),
                     description: item.overview,
                     images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
-                    subtitle: item.original_title,
+                    subtitle: item.original_name,
                     publishedDate: item.first_air_date,
-                    authors: item.popularity + '%'
+                    authors: item.origin_country + ',  ' + item.original_language
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
