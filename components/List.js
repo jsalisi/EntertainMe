@@ -166,6 +166,15 @@ export default class List extends Search {
         this.fetchContent(this.props.navigation.getParam('term'));
     }
 
+    componentDidUpdate(prevProps, prevState) {
+        if (prevProps.navigation.state.params.term != this.props.navigation.getParam("term")) {
+          Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {
+              console.log(this.state.movieList[0]);
+              this.forceUpdate();
+          })
+        }
+    }
+
     render() {
         return (
             <LinearGradient colors={['#000000', '#323232']}>
