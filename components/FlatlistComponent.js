@@ -57,7 +57,8 @@ export default class FlatlistComponent extends React.Component {
                     subtitle: item.volumeInfo.subtitle,
                     publishedDate: item.volumeInfo.publishedDate,
                     authors: item.volumeInfo.authors,
-                    bookList: this.state.listItems
+                    listItems: this.state.listItems,
+                    type: 'book'
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}

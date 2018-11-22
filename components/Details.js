@@ -37,9 +37,8 @@ export default class Details extends Search {
             images: '',
             subtitle: '',
             authors: '',
-            bookList: [],
-            movieList: [],
-            showList: []
+            listItems: [],
+            type: ''
         }
     }
 
@@ -57,7 +56,8 @@ export default class Details extends Search {
             subtitle: this.props.navigation.getParam('subtitle'),
             publishedDate: this.props.navigation.getParam('publishedDate'),
             authors: this.props.navigation.getParam('authors'),
-            bookList: this.props.navigation.getParam('bookList')
+            listItems: this.props.navigation.getParam('listItems'),
+            type: this.props.navigation.getParam('type')
         })
     }
 
@@ -141,7 +141,7 @@ export default class Details extends Search {
                             }}
                         />
                     </View>
-                    <FlatlistComponent type={'Similar Books'} listItems={this.state.bookList}
+                    <FlatlistComponent type={'Similar Books'} listItems={this.state.listItems}
                                        navigation={this.props.navigation}/>
                 </ScrollView>
             </LinearGradient>
