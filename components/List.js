@@ -21,17 +21,6 @@ export default class List extends Search {
         }
     }
 
-    constructor(props) {
-        super(props);
-        this.state = {
-            movieList: [],
-            showList: [],
-            bookList: [],
-            movieGenres: []
-        }
-
-    }
-
     _keyExtractor = (item, index) => item.Name;
     _keyExtractorDatabase = (item, index) => index.toString();
 
@@ -120,7 +109,6 @@ export default class List extends Search {
     }
 
     _renderShowList = ({item}) => {
-        /* rgba(153,175,93,1) */
         try {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
@@ -166,12 +154,25 @@ export default class List extends Search {
         this.fetchContent(this.props.navigation.getParam('term'));
     }
 
+    static getDerivedStateFromProps(props, state) {
+        console.log(props);
+        console.log(state);
+      if (props.navigation.state.term != state.searchTerm) {
+        return {
+            searchTerm: props.navigation.state.term,
+            movieList: [],
+            showList: [],
+            bookList: [],
+            movieGenres: [],
+        };
+      }
+
+      return null;
+    }
+
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.navigation.state.params.term != this.props.navigation.getParam("term")) {
-          Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {
-              console.log(this.state.movieList[0]);
-              this.forceUpdate();
-          })
+          Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {})
         }
     }
 

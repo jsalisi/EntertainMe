@@ -29,8 +29,6 @@ export default class Search extends React.Component {
             bookList: [],
             movieGenres: []
         }
-
-
         this.searchText = this.searchText.bind(this);
     }
 
@@ -43,7 +41,7 @@ export default class Search extends React.Component {
             let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
 
             this.getSearchContent(searchTerm, mediaType)
-                .then((searchResultArray) => {             
+                .then((searchResultArray) => {
                     fetch(tasteDiveSearch)
                         .then((response) => response.json())
                         .then((tasteDiveObject) => {
@@ -58,11 +56,19 @@ export default class Search extends React.Component {
 
     _processSearchResult = (tasteDiveObject, temp, mediaType) => {
         return new Promise(async (resolve, reject) => {
-            let tempArray = [
-                JSON.parse(JSON.stringify(temp[0])),
-                JSON.parse(JSON.stringify(temp[1])),
-                JSON.parse(JSON.stringify(temp[2]))
-            ];
+            let tempArray = [];
+            for (index=0; index<3; index++) {
+                if (temp[index] != undefined) {
+                    tempArray.push(JSON.parse(JSON.stringify(temp[index])));
+                } else {
+                    tempArray.push({})
+                }
+            }
+            // let tempArray = [
+            //     JSON.parse(JSON.stringify(temp[0])),
+            //     JSON.parse(JSON.stringify(temp[1])),
+            //     JSON.parse(JSON.stringify(temp[2]))
+            // ];
             const promises = tasteDiveObject.Similar.Results.map((res) => {
                 this.getSearchContent(res.Name, mediaType)
                     .then((response) => {
