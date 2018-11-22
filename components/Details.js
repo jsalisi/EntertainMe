@@ -60,8 +60,8 @@ export default class Details extends Search {
         const {navigate} = this.props.navigation;
         // if (this.state.images['thumbnail'])
         return (
-            <LinearGradient colors={['#000000', '#323232']} style={{minHeight: screenHeight}}>
-                <ScrollView>
+            <LinearGradient colors={['#000000', '#323232']} style={StyleSheet.absoluteFill}>
+                <ScrollView >
                     <View style={styles.section1Container}>
                         <Image source={{uri: this.state.images['thumbnail']}}
                                style={{width: 170, height: 250, marginBottom: 14}}/>
