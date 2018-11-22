@@ -27,7 +27,8 @@ export default class List extends Search {
             movieList: [],
             showList: [],
             bookList: [],
-            movieGenres: []
+            movieGenres: [],
+            tvGenres: []
         }
 
     }
@@ -73,14 +74,22 @@ export default class List extends Search {
 
     }
 
+    _getGenre = (type, genre_id) => {
+        let genre = '';
+        let allGenres = type === 'movie' ? this.state.movieGenres : this.state.tvGenres;
+
+        for (var j = 0; j < allGenres.length; j++) {
+            if (allGenres[j]['id'] == genre_id) {
+                genre = allGenres[j]['name'];
+            }
+        }
+        return genre
+    };
+
     _renderMovieList = ({item}) => {
         let genres = [];
         for (var i = 0; i < item.genre_ids.length; i++) {
-            for (var j = 0; j < this.state.movieGenres.length; j++) {
-                if (this.state.movieGenres[j]['id'] === item.genre_ids[i]) {
-                    genres.push(this.state.movieGenres[j]['name']);
-                }
-            }
+            genres.push(this._getGenre('movie', item.genre_ids[i]))
         }
         try {
             return (
@@ -120,11 +129,25 @@ export default class List extends Search {
     }
 
     _renderShowList = ({item}) => {
-        /* rgba(153,175,93,1) */
+        let genres = [];
+        for (var i = 0; i < item.genre_ids.length; i++) {
+            genres.push(this._getGenre('tv', item.genre_ids[i]))
+        }
         try {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
-                    title: item.name,
+                    first: 'Origin Country / Language',
+                    second: 'First Air Date',
+                    third: 'Average Rating',
+                    fourth: 'Genres',
+                    title: item.origin_country + ', ' + item.original_language,
+                    averageRating: item.vote_average,
+                    categories: genres.join(',  '),
+                    description: item.overview,
+                    images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
+                    subtitle: item.original_title,
+                    publishedDate: item.first_air_date,
+                    authors: item.popularity + '%'
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
@@ -168,10 +191,10 @@ export default class List extends Search {
 
     componentDidUpdate(prevProps, prevState) {
         if (prevProps.navigation.state.params.term != this.props.navigation.getParam("term")) {
-          Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {
-              console.log(this.state.movieList[0]);
-              this.forceUpdate();
-          })
+            Promise.all(this.fetchContent(this.props.navigation.getParam("term"))).then(() => {
+                console.log(this.state.movieList[0]);
+                this.forceUpdate();
+            })
         }
     }
 
