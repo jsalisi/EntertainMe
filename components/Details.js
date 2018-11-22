@@ -35,7 +35,8 @@ export default class Details extends Search {
             description: '',
             images: '',
             subtitle: '',
-            authors: ''
+            authors: '',
+            bookList: []
         }
     }
 
