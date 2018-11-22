@@ -56,7 +56,8 @@ export default class FlatlistComponent extends React.Component {
                     preview: item.volumeInfo.previewLink,
                     subtitle: item.volumeInfo.subtitle,
                     publishedDate: item.volumeInfo.publishedDate,
-                    authors: item.volumeInfo.authors
+                    authors: item.volumeInfo.authors,
+                    bookList: this.state.listItems
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
@@ -175,7 +176,7 @@ export default class FlatlistComponent extends React.Component {
     }
 
     render() {
-        if (this.state.type === 'Books') {
+        if (this.state.type === 'Books' || this.state.type === 'Similar Books') {
             return (
                 <View>
                     {this.renderFlatList(this.state.type, this.state.listItems, this.renderBookList)}

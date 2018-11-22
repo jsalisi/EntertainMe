@@ -2,7 +2,7 @@ import React from 'react';
 import {ScrollView} from 'react-native';
 import {LinearGradient} from 'expo';
 import Search from './Search';
-import FlatlistComponent from './FlatListComponent';
+import FlatlistComponent from './FlatlistComponent';
 
 export default class List extends Search {
 

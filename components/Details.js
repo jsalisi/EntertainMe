@@ -3,6 +3,7 @@ import {Button, Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'rea
 import {LinearGradient} from 'expo';
 
 import Search from "./Search";
+import FlatlistComponent from "./FlatlistComponent";
 
 const screenWidth = (Dimensions.get('window').width);
 const screenHeight = (Dimensions.get('window').height);
@@ -36,7 +37,9 @@ export default class Details extends Search {
             images: '',
             subtitle: '',
             authors: '',
-            bookList: []
+            bookList: [],
+            movieList: [],
+            showList: []
         }
     }
 
@@ -53,7 +56,8 @@ export default class Details extends Search {
             images: this.props.navigation.getParam('images'),
             subtitle: this.props.navigation.getParam('subtitle'),
             publishedDate: this.props.navigation.getParam('publishedDate'),
-            authors: this.props.navigation.getParam('authors')
+            authors: this.props.navigation.getParam('authors'),
+            bookList: this.props.navigation.getParam('bookList')
         })
     }
 
@@ -137,6 +141,8 @@ export default class Details extends Search {
                             }}
                         />
                     </View>
+                    <FlatlistComponent type={'Similar Books'} listItems={this.state.bookList}
+                                       navigation={this.props.navigation}/>
                 </ScrollView>
             </LinearGradient>
         );
@@ -160,7 +166,8 @@ const styles = StyleSheet.create({
     button: {
         height: 100,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginBottom: -30
     },
     section1Container: {
         flex: 1,
