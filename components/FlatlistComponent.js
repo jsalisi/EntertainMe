@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {Dimensions, FlatList, Image, Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
@@ -8,8 +8,9 @@ export default class FlatlistComponent extends React.Component {
 
     constructor(props) {
         super(props);
-        this.state = {};
-        console.log(this.state.listItems);
+        this.state = {
+            isModalVisible: true
+        };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -18,11 +19,15 @@ export default class FlatlistComponent extends React.Component {
             listItems: nextProps.listItems,
             navigation: nextProps.navigation,
             movieGenres: nextProps.movieGenres,
-            tvGenres: nextProps.tvGenres
+            tvGenres: nextProps.tvGenres,
+            fromTasteDive: nextProps.fromTasteDive,
+            isModalVisible: true
         })
-
-        console.log(this.state.movieGenres);
     }
+
+    openURl = (link) => {
+        Linking.openURL(link);
+    };
 
     _keyExtractor = (item, index) => item.Name;
     _keyExtractorDatabase = (item, index) => index.toString();
@@ -44,30 +49,43 @@ export default class FlatlistComponent extends React.Component {
 
     renderBookList = ({item}) => {
         try {
-            return (
-                <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
-                    first: 'Author',
-                    second: 'Published Date',
-                    third: 'Average Rating',
-                    fourth: 'Categories',
-                    title: item.volumeInfo.title,
-                    averageRating: item.volumeInfo.averageRating,
-                    categories: item.volumeInfo.categories,
-                    description: item.volumeInfo.description,
-                    images: item.volumeInfo.imageLinks,
-                    preview: item.volumeInfo.previewLink,
-                    subtitle: item.volumeInfo.subtitle,
-                    publishedDate: item.volumeInfo.publishedDate,
-                    authors: item.volumeInfo.authors,
-                    listItems: this.state.listItems,
-                    type: 'book'
-                })}>
+            if (this.state.fromTasteDive) {
+                return (
                     <View>
-                        <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
-                               backgroundColor={'transparent'}/>
+                        <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
+                            <View style={styles.box}>
+                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
-                </TouchableHighlight>
-            );
+                )
+            } else {
+                return (
+                    <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
+                        first: 'Author',
+                        second: 'Published Date',
+                        third: 'Average Rating',
+                        fourth: 'Categories',
+                        title: item.volumeInfo.title,
+                        averageRating: item.volumeInfo.averageRating,
+                        categories: item.volumeInfo.categories,
+                        description: item.volumeInfo.description,
+                        images: item.volumeInfo.imageLinks,
+                        preview: item.volumeInfo.previewLink,
+                        subtitle: item.volumeInfo.subtitle,
+                        publishedDate: item.volumeInfo.publishedDate,
+                        authors: item.volumeInfo.authors,
+                        bookList: this.state.listItems,
+                        type: 'book'
+                    })}>
+                        <View>
+                            <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
+                                   backgroundColor={'transparent'}/>
+                        </View>
+                    </TouchableHighlight>
+                );
+            }
         } catch (err) {
             return (
                 <TouchableHighlight onPress={() => {
@@ -113,7 +131,9 @@ export default class FlatlistComponent extends React.Component {
                     images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
                     subtitle: item.original_title,
                     publishedDate: item.release_date,
-                    authors: item.popularity + '%'
+                    authors: item.popularity + '%',
+                    movieList: this.state.listItems,
+                    type: 'movie'
                 })}>
                     <View>
                         <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
@@ -213,7 +233,8 @@ const styles = StyleSheet.create({
         marginTop: 0,
         backgroundColor: 'gray',
         justifyContent: 'flex-start',
-        alignItems: 'center'
+        alignItems: 'center',
+        borderColor: 'white'
     },
     title: {
         fontWeight: 'bold',

@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 
-import Search from "./Search";
+import Search, {bookReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
 
 const screenWidth = (Dimensions.get('window').width);
@@ -37,12 +37,13 @@ export default class Details extends Search {
             images: '',
             subtitle: '',
             authors: '',
-            listItems: [],
-            type: ''
+            type: '',
+            listItems: []
         }
     }
 
     componentDidMount() {
+        this.getSimilarTitles(this.props.navigation.getParam('title'));
         this.setState({
             first: this.props.navigation.getParam('first'),
             second: this.props.navigation.getParam('second'),
@@ -56,17 +57,36 @@ export default class Details extends Search {
             subtitle: this.props.navigation.getParam('subtitle'),
             publishedDate: this.props.navigation.getParam('publishedDate'),
             authors: this.props.navigation.getParam('authors'),
-            listItems: this.props.navigation.getParam('listItems'),
             type: this.props.navigation.getParam('type')
-        })
+        });
     }
 
+    getSimilarTitles = (searchTerm) => {
+        // let req  = '';
+        // if (this.state.type === 'Books') {
+        //     req = bookReq
+        // } else if (this.state.type === 'Movies') {
+        //     req = movieReq
+        // } else {
+        //     req = showReq
+        // }
+
+        let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+        fetch(tasteDiveSearch)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    listItems: response['Similar']['Results']
+                });
+            });
+
+    };
+
     render() {
-        const {navigate} = this.props.navigation;
         // if (this.state.images['thumbnail'])
         return (
             <LinearGradient colors={['#000000', '#323232']} style={StyleSheet.absoluteFill}>
-                <ScrollView >
+                <ScrollView>
                     <View style={styles.section1Container}>
                         <Image source={{uri: this.state.images['thumbnail']}}
                                style={{width: 170, height: 250, marginBottom: 14}}/>
@@ -122,16 +142,19 @@ export default class Details extends Search {
                     </View>
                     <View style={styles.subtitle}>
                         <Text style={{
-                            color: 'white',
+                            color: 'red',
                             fontFamily: 'Roboto',
                             fontSize: 15,
                             fontWeight: 'normal',
                             fontStyle: 'italic'
                         }}> {this.state.subtitle} </Text>
                     </View>
-                    <Text style={styles.detailsText}>{this.state.description}</Text>
-                    <FlatlistComponent type={'Similar Books'} listItems={this.state.bookList}
-                                       navigation={this.props.navigation}/>
+                    <View style={{paddingHorizontal: 10}}><Text
+                        style={styles.detailsText}>{this.state.description}</Text></View>
+                    <View style={{borderBottomWidth: 1, borderBottomColor: 'red', marginTop: 10, marginBottom: -5}}/>
+                    <FlatlistComponent type={'Similar Books'} listItems={this.state.listItems}
+                                       navigation={this.props.navigation} fromTasteDive={true}/>
+
                 </ScrollView>
             </LinearGradient>
         );
@@ -169,10 +192,10 @@ const styles = StyleSheet.create({
         color: 'white',
         fontFamily: 'Roboto',
         fontSize: 15,
-        fontWeight: 'normal'
+        fontWeight: 'normal',
     },
     detailsTextHeader: {
-        color: 'white',
+        color: 'red',
         fontFamily: 'Roboto',
         fontSize: 15,
         fontWeight: 'bold',

@@ -4,9 +4,9 @@ import {SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
-const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&limit=7&q=book:`;
-const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&limit=7&q=movie:`;
-const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&limit=7&q=`;
+export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=7&q=book:`;
+export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=7&q=movie:`;
+export const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&info=true&limit=7&q=`;
 
 const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=3&q=`;
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
