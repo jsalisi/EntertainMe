@@ -76,8 +76,7 @@ export default class FlatlistComponent extends React.Component {
                         subtitle: item.volumeInfo.subtitle,
                         publishedDate: item.volumeInfo.publishedDate,
                         authors: item.volumeInfo.authors,
-                        bookList: this.state.listItems,
-                        type: 'book'
+                        type: 'Books'
                     })}>
                         <View>
                             <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
@@ -113,35 +112,48 @@ export default class FlatlistComponent extends React.Component {
     };
 
     _renderMovieList = ({item}) => {
-        let genres = [];
-        for (var i = 0; i < item.genre_ids.length; i++) {
-            genres.push(this._getGenre('movie', item.genre_ids[i]))
-        }
         try {
-            return (
-                <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
-                    first: 'Popularity',
-                    second: 'Release Date',
-                    third: 'Average Rating',
-                    fourth: 'Genres',
-                    title: item.title,
-                    averageRating: item.vote_average,
-                    categories: genres.join(', '),
-                    description: item.overview,
-                    images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
-                    subtitle: item.original_title,
-                    publishedDate: item.release_date,
-                    authors: item.popularity + '%',
-                    movieList: this.state.listItems,
-                    type: 'movie'
-                })}>
+            if (this.state.fromTasteDive) {
+                return (
                     <View>
-                        <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                               backgroundColor={'transparent'}/>
-                        {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
+                            <View style={styles.box}>
+                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
-                </TouchableHighlight>
-            );
+                )
+            } else {
+                let genres = [];
+                for (let i = 0; i < item.genre_ids.length; i++) {
+                    genres.push(this._getGenre('movie', item.genre_ids[i]))
+                }
+                return (
+                    <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
+                        first: 'Popularity',
+                        second: 'Release Date',
+                        third: 'Average Rating',
+                        fourth: 'Genres',
+                        title: item.title,
+                        averageRating: item.vote_average,
+                        categories: genres.join(', '),
+                        description: item.overview,
+                        images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
+                        subtitle: item.original_title,
+                        publishedDate: item.release_date,
+                        authors: item.popularity + '%',
+                        type: 'Movies'
+                    })}>
+                        <View>
+                            <Image style={styles.box}
+                                   source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                                   backgroundColor={'transparent'}/>
+                            {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        </View>
+                    </TouchableHighlight>
+                );
+            }
         } catch (err) {
             return (
                 <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
@@ -157,33 +169,48 @@ export default class FlatlistComponent extends React.Component {
     }
 
     _renderShowList = ({item}) => {
-        let genres = [];
-        for (var i = 0; i < item.genre_ids.length; i++) {
-            genres.push(this._getGenre('tv', item.genre_ids[i]))
-        }
         try {
-            return (
-                <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
-                    first: 'Origin Country / Language',
-                    second: 'First Air Date',
-                    third: 'Average Rating',
-                    fourth: 'Genres',
-                    title: item.name,
-                    averageRating: item.vote_average,
-                    categories: genres.join(',  '),
-                    description: item.overview,
-                    images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
-                    subtitle: item.original_name,
-                    publishedDate: item.first_air_date,
-                    authors: item.origin_country + ',  ' + item.original_language
-                })}>
+            if (this.state.fromTasteDive) {
+                return (
                     <View>
-                        <Image style={styles.box} source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                               backgroundColor={'transparent'}/>
-                        {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
+                            <View style={styles.box}>
+                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
+                            </View>
+                        </TouchableHighlight>
                     </View>
-                </TouchableHighlight>
-            );
+                )
+            } else {
+                let genres = [];
+                for (let i = 0; i < item.genre_ids.length; i++) {
+                    genres.push(this._getGenre('tv', item.genre_ids[i]))
+                }
+                return (
+                    <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
+                        first: 'Origin Country / Language',
+                        second: 'First Air Date',
+                        third: 'Average Rating',
+                        fourth: 'Genres',
+                        title: item.name,
+                        averageRating: item.vote_average,
+                        categories: genres.join(',  '),
+                        description: item.overview,
+                        images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
+                        subtitle: item.original_name,
+                        publishedDate: item.first_air_date,
+                        authors: item.origin_country + ',  ' + item.original_language,
+                        type: 'Shows'
+                    })}>
+                        <View>
+                            <Image style={styles.box}
+                                   source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                                   backgroundColor={'transparent'}/>
+                            {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        </View>
+                    </TouchableHighlight>
+                );
+            }
         } catch (err) {
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
@@ -205,7 +232,7 @@ export default class FlatlistComponent extends React.Component {
                     {this.renderFlatList(this.state.type, this.state.listItems, this.renderBookList)}
                 </View>
             )
-        } else if (this.state.type === 'Movies') {
+        } else if (this.state.type === 'Movies' || this.state.type === 'Similar Movies') {
             return (
                 <View>
                     {this.renderFlatList(this.state.type, this.state.listItems, this._renderMovieList)}

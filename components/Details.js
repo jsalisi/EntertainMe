@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 
-import Search, {bookReq} from "./Search";
+import Search, {bookReq, movieReq, showReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
 
 const screenWidth = (Dimensions.get('window').width);
@@ -62,16 +62,17 @@ export default class Details extends Search {
     }
 
     getSimilarTitles = (searchTerm) => {
-        // let req  = '';
-        // if (this.state.type === 'Books') {
-        //     req = bookReq
-        // } else if (this.state.type === 'Movies') {
-        //     req = movieReq
-        // } else {
-        //     req = showReq
-        // }
+        let req  = '';
+        let type = this.props.navigation.getParam('type');
 
-        let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+        if (type === 'Books') {
+            req = bookReq
+        } else if (type === 'Movies') {
+            req = movieReq
+        } else {
+            req = showReq
+        }
+        let tasteDiveSearch = req + encodeURIComponent(searchTerm).replace(/%20/g, '+');
         fetch(tasteDiveSearch)
             .then((response) => response.json())
             .then((response) => {
@@ -151,8 +152,8 @@ export default class Details extends Search {
                     </View>
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
-                    <View style={{borderBottomWidth: 1, borderBottomColor: 'red', marginTop: 10, marginBottom: -5}}/>
-                    <FlatlistComponent type={'Similar Books'} listItems={this.state.listItems}
+                    <View style={{borderBottomWidth: 2, borderBottomColor: 'red', marginTop: 10, marginBottom: -5, marginHorizontal: 10}}/>
+                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}`} listItems={this.state.listItems}
                                        navigation={this.props.navigation} fromTasteDive={true}/>
 
                 </ScrollView>
@@ -206,6 +207,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         justifyContent: 'center',
-        marginBottom: 20
+        marginBottom: 10,
+        marginTop: 20
     }
 });
