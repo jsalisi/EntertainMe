@@ -1,21 +1,18 @@
 import React from 'react';
-import {Dimensions, Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 
 import Search, {bookReq, movieReq, showReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
 
-const screenWidth = (Dimensions.get('window').width);
-const screenHeight = (Dimensions.get('window').height);
-
 export default class Details extends Search {
 
-    static navigationOptions = ({navigation}) => {
+    static navigationOptions = ({navigation}, headerStyle = {
+        backgroundColor: 'black',
+    }) => {
         return {
             title: navigation.getParam('title'),
-            headerStyle: {
-                backgroundColor: 'black',
-            },
+            headerStyle: headerStyle,
             headerTextStyle: {
                 color: 'white',
             },
@@ -62,7 +59,7 @@ export default class Details extends Search {
     }
 
     getSimilarTitles = (searchTerm) => {
-        let req  = '';
+        let req = '';
         let type = this.props.navigation.getParam('type');
 
         if (type === 'Books') {
@@ -152,8 +149,15 @@ export default class Details extends Search {
                     </View>
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
-                    <View style={{borderBottomWidth: 2, borderBottomColor: 'red', marginTop: 10, marginBottom: -5, marginHorizontal: 10}}/>
-                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}`} listItems={this.state.listItems}
+                    <View style={{
+                        borderBottomWidth: 2,
+                        borderBottomColor: 'red',
+                        marginTop: 10,
+                        marginBottom: -5,
+                        marginHorizontal: 10
+                    }}/>
+                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}`}
+                                       listItems={this.state.listItems}
                                        navigation={this.props.navigation} fromTasteDive={true}/>
 
                 </ScrollView>
