@@ -5,7 +5,7 @@ import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 
-export default class FiltersComponent extends React.Component {
+export default class DiscoverComponent extends React.Component {
     constructor(props) {
         super(props);
         this.movieGenres = props.movieGenres;
@@ -68,7 +68,6 @@ export default class FiltersComponent extends React.Component {
 
 
     render() {
-        // const {selectedMovieGenres} = this.state;
         return (
             <View style={StyleSheet.absoluteFill}>
                 <View style={{maxHeight: '30%', width: '100%'}}>
