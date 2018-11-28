@@ -4,6 +4,8 @@ import {SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
+import FiltersComponent from './FiltersComponent';
+
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=7&q=book:`;
 export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=7&q=movie:`;
 export const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&info=true&limit=7&q=`;
@@ -30,8 +32,20 @@ export default class Search extends React.Component {
             bookList: [],
             movieGenres: [],
             tvGenres: []
-        }
+        };
         this.searchText = this.searchText.bind(this);
+    }
+
+    componentWillMount() {
+        Promise.all([
+            this.getSearchContent(null, 'movieGenres'),
+            this.getSearchContent(null, 'tvGenres'),
+        ]).then((res) => {
+            this.setState({
+                movieGenres: res[0],
+                tvGenres: res[1]
+            });
+        });
     }
 
     searchText(text) {
@@ -59,7 +73,7 @@ export default class Search extends React.Component {
     _processSearchResult = (tasteDiveObject, temp, mediaType) => {
         return new Promise(async (resolve, reject) => {
             let tempArray = [];
-            for (index=0; index<3; index++) {
+            for (index = 0; index < 3; index++) {
                 if (temp[index] != undefined) {
                     tempArray.push(JSON.parse(JSON.stringify(temp[index])));
                 } else {
@@ -126,15 +140,11 @@ export default class Search extends React.Component {
             this.getSearchContent(searchTerm, 'book'),
             this.getSearchContent(searchTerm, 'movie'),
             this.getSearchContent(searchTerm, 'show'),
-            this.getSearchContent(null, 'movieGenres'),
-            this.getSearchContent(null, 'tvGenres'),
         ]).then((res) => {
             this.setState({
                 bookList: res[0],
                 movieList: res[1],
-                showList: res[2],
-                movieGenres: res[3],
-                tvGenres: res[4]
+                showList: res[2]
             });
         });
     }
@@ -147,9 +157,8 @@ export default class Search extends React.Component {
 
     render() {
         const {navigate} = this.props.navigation;
-
         return (
-            <View style={styles.container}>
+            <View>
                 <LinearGradient
                     colors={['#000000', '#323232']}
                     style={{
@@ -184,6 +193,8 @@ export default class Search extends React.Component {
                         }}
                     />
                 </View>
+                {this.state.movieGenres.length > 0 ? <FiltersComponent movieGenres={this.state.movieGenres}/> :
+                    <View/>}
             </View>
         );
     }
@@ -191,7 +202,7 @@ export default class Search extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        // flex: 1,
         backgroundColor: '#323232',
         flexDirection: 'column',
         alignItems: 'center',
