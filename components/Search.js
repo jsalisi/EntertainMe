@@ -2,7 +2,8 @@ import React from 'react';
 import {Button, Dimensions, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
-import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
+import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
+// import FiltersComponent from './FiltersComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=7&q=book:`;
 export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=7&q=movie:`;
@@ -192,7 +193,9 @@ export default class Search extends React.Component {
                         }}
                     />
                 </View>
-                {/*{this.state.movieGenres.length > 0 ? <FiltersComponent movieGenres={this.state.movieGenres}/> :*/}
+                {/*{this.state.movieGenres.length > 0*/}
+                    {/*? <FiltersComponent movieGenres={this.state.movieGenres} tvGenres={this.state.tvGenres}/>*/}
+                    {/*:*/}
                     {/*<View/>}*/}
             </View>
         );

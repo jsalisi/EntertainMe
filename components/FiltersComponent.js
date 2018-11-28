@@ -7,57 +7,106 @@ export default class FiltersComponent extends React.Component {
     constructor(props) {
         super(props);
         this.movieGenres = props.movieGenres;
+        this.tvGenres = props.tvGenres;
         this.state = {
-            selectedMovieGenres: []
+            selectedMovieGenres: [],
+            selectedTvGenres: [],
+            movieResults: [],
+            tvResults: []
         };
     }
 
-    onSelectedItemsChange = (selectedMovieGenres) => {
-        this.setState({selectedMovieGenres})
+    onSelectedMovieItemsChange = (selectedMovieGenres) => {
+        this.setState({
+            selectedMovieGenres: selectedMovieGenres
+        })
+    };
+
+    onSelectedTVItemsChange = (selectedTvGenres) => {
+        this.setState({
+            selectedTvGenres: selectedTvGenres
+        })
     };
 
     _fetchResults = () => {
-        const initialQueryString = `https://api.themoviedb.org/3/discover/movie?api_key=${THE_MOVIE_DB_API_KEY}&`;
-        let movieQuery = `${initialQueryString}with_genres=${this.state.selectedMovieGenres.join(',')}`;
+        const initialQueryString = `https://api.themoviedb.org/3/discover/`;
+        let movieQuery = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedMovieGenres.join(',')}`;
+        let tvQuery = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedTvGenres.join(',')}`;
 
         fetch(movieQuery)
             .then((response) => response.json())
             .then((response) => {
-                console.log(response);
+                this.setState({
+                    movieResults: response
+                });
+            });
+
+        fetch(tvQuery)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    tvResults: response
+                });
             });
     };
 
     render() {
-        const {selectedMovieGenres} = this.state;
+        // const {selectedMovieGenres} = this.state;
         return (
             <View style={StyleSheet.absoluteFill}>
-                <ScrollView>
-                    <MultiSelect
-                        hideTags
-                        items={this.movieGenres}
-                        uniqueKey="id"
-                        onSelectedItemsChange={this.onSelectedItemsChange}
-                        selectedItems={selectedMovieGenres}
-                        selectText="Pick some movie genres"
-                        searchInputPlaceholderText="Search Genres..."
-                        altFontFamily="ProximaNova-Light"
-                        tagRemoveIconColor="#CCC"
-                        tagBorderColor="#CCC"
-                        tagTextColor="#CCC"
-                        selectedItemTextColor="#CCC"
-                        selectedItemIconColor="#CCC"
-                        itemTextColor="#000"
-                        displayKey="name"
-                        searchInputStyle={{color: '#CCC'}}
-                        submitButtonColor="#CCC"
-                        submitButtonText="Done"
-                    />
+                <View style={{maxHeight: '30%', width: '100%'}}>
+                    <ScrollView>
+                        <MultiSelect
+                            hideTags
+                            items={this.movieGenres}
+                            uniqueKey="id"
+                            onSelectedItemsChange={this.onSelectedMovieItemsChange}
+                            selectedItems={this.state.selectedMovieGenres}
+                            selectText="Pick some movie genres"
+                            searchInputPlaceholderText="Search Genres..."
+                            altFontFamily="ProximaNova-Light"
+                            tagRemoveIconColor="#CCC"
+                            tagBorderColor="#CCC"
+                            tagTextColor="#CCC"
+                            selectedItemTextColor="#CCC"
+                            selectedItemIconColor="#CCC"
+                            itemTextColor="#000"
+                            displayKey="name"
+                            searchInputStyle={{color: '#CCC'}}
+                            submitButtonColor="#CCC"
+                            submitButtonText="Done"
+                        />
+                    </ScrollView>
+                </View>
+                <View style={{maxHeight: '30%', width: '100%'}}>
+                    <ScrollView>
+                        <MultiSelect
+                            hideTags
+                            items={this.tvGenres}
+                            uniqueKey="id"
+                            onSelectedItemsChange={this.onSelectedTVItemsChange}
+                            selectedItems={this.state.selectedTvGenres}
+                            selectText="Pick some TV genres"
+                            searchInputPlaceholderText="Search Genres..."
+                            altFontFamily="ProximaNova-Light"
+                            tagRemoveIconColor="#CCC"
+                            tagBorderColor="#CCC"
+                            tagTextColor="#CCC"
+                            selectedItemTextColor="#CCC"
+                            selectedItemIconColor="#CCC"
+                            itemTextColor="#000"
+                            displayKey="name"
+                            searchInputStyle={{color: '#CCC'}}
+                            submitButtonColor="#CCC"
+                            submitButtonText="Done"
+                        />
+                    </ScrollView>
                     <Button
                         onPress={this._fetchResults}
                         title='Search'
                         color='#841584'
                     />
-                </ScrollView>
+                </View>
             </View>
         )
     }
