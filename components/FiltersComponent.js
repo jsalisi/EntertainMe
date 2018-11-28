@@ -1,6 +1,7 @@
 import React from 'react';
-import {View} from 'react-native';
+import {Button, View} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
+import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 
 export default class FiltersComponent extends React.Component {
     constructor(props) {
@@ -15,6 +16,16 @@ export default class FiltersComponent extends React.Component {
         this.setState({selectedMovieGenres})
     };
 
+    _fetchResults = () => {
+        const initialQueryString = `https://api.themoviedb.org/3/discover/movie?api_key=${THE_MOVIE_DB_API_KEY}&`;
+        let queryString = initialQueryString + 'with_genres=' + this.state.selectedMovieGenres.join(',');
+        fetch(queryString)
+            .then((response) => response.json())
+            .then((response) => {
+                console.log(response);
+            });
+    };
+
     render() {
         const {selectedMovieGenres } = this.state;
         return (
@@ -25,8 +36,7 @@ export default class FiltersComponent extends React.Component {
                     onSelectedItemsChange={this.onSelectedItemsChange}
                     selectedItems={selectedMovieGenres}
                     selectText="Pick some movie genres"
-                    searchInputPlaceholderText="Search Items..."
-                    onChangeInput={(text) => console.log(text)}
+                    searchInputPlaceholderText="Search Genres..."
                     altFontFamily="ProximaNova-Light"
                     tagRemoveIconColor="#CCC"
                     tagBorderColor="#CCC"
@@ -38,6 +48,11 @@ export default class FiltersComponent extends React.Component {
                     searchInputStyle={{color: '#CCC'}}
                     submitButtonColor="#CCC"
                     submitButtonText="Done"
+                />
+                <Button
+                    onPress={this._fetchResults}
+                    title='Search'
+                    color='#841584'
                 />
             </View>
         )
