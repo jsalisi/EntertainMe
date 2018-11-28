@@ -1,10 +1,8 @@
 import React from 'react';
-import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Button, Dimensions, StatusBar, StyleSheet, Text, View} from 'react-native';
 import {SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
-
-import FiltersComponent from './FiltersComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=7&q=book:`;
 export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=7&q=movie:`;
@@ -158,7 +156,8 @@ export default class Search extends React.Component {
     render() {
         const {navigate} = this.props.navigation;
         return (
-            <View>
+            <View style={styles.container}>
+                <StatusBar hidden />
                 <LinearGradient
                     colors={['#000000', '#323232']}
                     style={{
@@ -193,8 +192,8 @@ export default class Search extends React.Component {
                         }}
                     />
                 </View>
-                {this.state.movieGenres.length > 0 ? <FiltersComponent movieGenres={this.state.movieGenres}/> :
-                    <View/>}
+                {/*{this.state.movieGenres.length > 0 ? <FiltersComponent movieGenres={this.state.movieGenres}/> :*/}
+                    {/*<View/>}*/}
             </View>
         );
     }
@@ -202,7 +201,7 @@ export default class Search extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        // flex: 1,
+        flex: 2,
         backgroundColor: '#323232',
         flexDirection: 'column',
         alignItems: 'center',
