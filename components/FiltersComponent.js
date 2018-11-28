@@ -3,6 +3,8 @@ import {Button, ScrollView, StyleSheet, View} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 
+const initialQueryString = `https://api.themoviedb.org/3/discover/`;
+
 export default class FiltersComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -28,12 +30,26 @@ export default class FiltersComponent extends React.Component {
         })
     };
 
-    _fetchResults = () => {
-        const initialQueryString = `https://api.themoviedb.org/3/discover/`;
+    _fetchFiltersResults = () => {
         let movieQuery = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedMovieGenres.join(',')}`;
         let tvQuery = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedTvGenres.join(',')}`;
+        this._fetchAllResults(movieQuery);
+        this._fetchAllResults(tvQuery);
+    };
 
-        fetch(movieQuery)
+    _fetchMostPopularMovies = () => {
+        let query = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
+        this._fetchAllResults(query);
+    };
+
+    _fetchMostPopularTVShows = () => {
+        let query = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
+        this._fetchAllResults(query);
+    };
+
+
+    _fetchAllResults = (query) => {
+        fetch(query)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -41,7 +57,7 @@ export default class FiltersComponent extends React.Component {
                 });
             });
 
-        fetch(tvQuery)
+        fetch(query)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
@@ -49,6 +65,7 @@ export default class FiltersComponent extends React.Component {
                 });
             });
     };
+
 
     render() {
         // const {selectedMovieGenres} = this.state;
@@ -102,8 +119,25 @@ export default class FiltersComponent extends React.Component {
                         />
                     </ScrollView>
                     <Button
-                        onPress={this._fetchResults}
+                        onPress={this._fetchFiltersResults}
                         title='Search'
+                        color='#841584'
+                    />
+                    <View style={{
+                        borderBottomWidth: 2,
+                        borderBottomColor: 'red',
+                        marginTop: 10,
+                        marginBottom: -5,
+                        marginHorizontal: 10
+                    }}/>
+                    <Button
+                        onPress={this._fetchMostPopularMovies}
+                        title='See Most Popular Movies'
+                        color='#841584'
+                    />
+                    <Button
+                        onPress={this._fetchMostPopularTVShows}
+                        title='See Most Popular TV Shows'
                         color='#841584'
                     />
                 </View>
