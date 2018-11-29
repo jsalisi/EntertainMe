@@ -9,7 +9,8 @@ export default class FlatlistComponent extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            isModalVisible: true
+            type: props.type,
+            movieGenres: props.movieGenres
         };
     }
 
@@ -39,7 +40,7 @@ export default class FlatlistComponent extends React.Component {
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
                     showsHorizontalScrollIndicator={false}
-                    horizontal={true}
+                    horizontal={!this.state.type.includes('Genres')}
                     data={data}
                     renderItem={renderFunction}
                 />
@@ -225,7 +226,24 @@ export default class FlatlistComponent extends React.Component {
         }
     }
 
+    _renderMovieGenreList = ({item}) => {
+        console.log(item);
+        return (
+            <View style={{
+                height: '20%',
+                width: '100%',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'red'
+            }}>
+                <Text style={{color: 'black'}}>{item.name}</Text>
+            </View>
+        )
+    };
+
     render() {
+        console.log(this.state.movieGenres);
         if (this.state.type === 'Books' || this.state.type === 'Similar Books') {
             return (
                 <View>
@@ -238,10 +256,16 @@ export default class FlatlistComponent extends React.Component {
                     {this.renderFlatList(this.state.type, this.state.listItems, this._renderMovieList)}
                 </View>
             )
-        } else {
+        } else if (this.state.type === 'TV Shows' || this.state.type === 'Similar Shows') {
             return (
                 <View>
                     {this.renderFlatList(this.state.type, this.state.listItems, this._renderShowList)}
+                </View>
+            )
+        } else if (this.state.type === 'Movie Genres') {
+            return (
+                <View>
+                    {this.renderFlatList('Movie Genres', this.state.movieGenres, this._renderMovieGenreList)}
                 </View>
             )
         }

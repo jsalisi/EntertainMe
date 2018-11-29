@@ -1,9 +1,10 @@
 import React from 'react';
-import {Dimensions, StyleSheet, Text, TouchableWithoutFeedback, Image, ScrollView, FlatList, View} from 'react-native';
-import {ButtonGroup, SearchBar, Header} from 'react-native-elements'
+import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {ButtonGroup, Header, SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
+import FlatlistComponent from "./FlatlistComponent";
 // import DiscoverComponent from './DiscoverComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
@@ -37,7 +38,7 @@ export default class Search extends React.Component {
             tvGenres: [],
             searchOpen: false,
             selectedIndex: 0
-        }
+        };
         this.searchText = this.searchText.bind(this);
         this.updateIndex = this.updateIndex.bind(this);
     }
@@ -213,6 +214,30 @@ export default class Search extends React.Component {
         );
     }
 
+    resolveFlatlist = (idx) => {
+        if (idx === 0) {
+            return (
+                <FlatList
+                    scrollEnabled={true}
+                    contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+                    data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
+                    renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />
+            )
+        } else if (idx === 1) {
+            return (
+              <FlatlistComponent type={'Movie Genres'} movieGenres={this.state.movieGenres}/>
+            )
+        } else {
+            return (
+                <FlatList
+                    scrollEnabled={true}
+                    contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+                    data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
+                    renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />
+            )
+        }
+    }
+
     render() {
         const {navigate} = this.props.navigation;
         const buttons = ["Popular", "Genres", "Discover"];
@@ -232,7 +257,7 @@ export default class Search extends React.Component {
             <View style={styles.container}>
                 {/* <StatusBar hidden /> */}
                 
-                <Animatable.View style={StyleSheet.absoluteFill} style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
                     <ButtonGroup
                         onPress={this.updateIndex}
                         textStyle={{color: 'white'}}
@@ -240,13 +265,8 @@ export default class Search extends React.Component {
                         buttons={buttons}
                         containerStyle={styles.menu}
                     />
-                    <FlatList
-                        scrollEnabled={true}
-                        contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
-                        data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
-                        renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />  
+                    {this.resolveFlatlist(selectedIndex)}
                 </Animatable.View>
-
                 <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
                     <SearchBar
                         containerStyle={styles.search}
