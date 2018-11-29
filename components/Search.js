@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, StyleSheet, Text, TouchableWithoutFeedback, Image, ScrollView, FlatList, View} from 'react-native';
-import {SearchBar, Header} from 'react-native-elements'
+import {ButtonGroup, SearchBar, Header} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
@@ -26,8 +26,8 @@ export default class Search extends React.Component {
         header: null,
     }
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             searchTerm: 'Search Results',
             movieList: [],
@@ -35,9 +35,15 @@ export default class Search extends React.Component {
             bookList: [],
             movieGenres: [],
             tvGenres: [],
-            searchOpen: false
+            searchOpen: false,
+            selectedIndex: 0
         }
         this.searchText = this.searchText.bind(this);
+        this.updateIndex = this.updateIndex.bind(this);
+    }
+
+    static defaultProps = {
+        selectedIndex: 0
     }
 
     componentWillMount() {
@@ -53,11 +59,15 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.menu.transition({ top: screenHeight }, { top: screenHeight * 0.15 }, 1250)
+        this.menu.transition({ marginTop: screenHeight }, { marginTop: screenHeight * 0.15 }, 1250)
     }
 
     searchText(text) {
         this.setState({searchTerm: text});
+    }
+
+    updateIndex(selectedIndex) {
+        this.setState({ selectedIndex })
     }
 
     getRecommendations = (searchTerm, mediaType) => {
@@ -186,13 +196,13 @@ export default class Search extends React.Component {
             <TouchableWithoutFeedback onPress={() => {
                 if (this.state.searchOpen === true) {
                     this.view.transitionTo({ top: screenHeight * 0.05 })
-                    this.menu.transitionTo({ top: screenHeight * 0.15 })
+                    this.menu.transitionTo({ marginTop: screenHeight * 0.15 })
                     this.setState({
                         searchOpen: false
                     });
                 } else {
                     this.view.transitionTo({ top: screenHeight * 0.15 })
-                    this.menu.transitionTo({ top: screenHeight * 0.25 })
+                    this.menu.transitionTo({ marginTop: screenHeight * 0.25 })
                     this.setState({
                         searchOpen: true
                     });
@@ -205,6 +215,8 @@ export default class Search extends React.Component {
 
     render() {
         const {navigate} = this.props.navigation;
+        const buttons = ["Popular", "Genres", "Discover"];
+        const { selectedIndex } = this.state;
 
         return (
             <LinearGradient colors={['#000000', '#323232']}
@@ -220,27 +232,19 @@ export default class Search extends React.Component {
             <View style={styles.container}>
                 {/* <StatusBar hidden /> */}
                 
-                <Animatable.View style={StyleSheet.absoluteFill} style={{position: 'relative'}} ref={this.handleListRef}>
-                <ScrollView>
-                    <Text style={styles.cat_text}> Popular </Text>
+                <Animatable.View style={StyleSheet.absoluteFill} style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                    <ButtonGroup
+                        onPress={this.updateIndex}
+                        textStyle={{color: 'white'}}
+                        selectedIndex={selectedIndex}
+                        buttons={buttons}
+                        containerStyle={styles.menu}
+                    />
                     <FlatList
-                        horizontal={true}
-                        contentContainerStyle={styles.row}
-                        data={[{key: 'PLACEHOLDER 1'}, {key: 'PLACEHOLDER 2'}, {key: 'PLACEHOLDER 3'}]}
-                        renderItem={({item}) => <View style={styles.box}><Text>{item.key}</Text></View>}/>  
-                    <Text style={styles.cat_text}> New </Text>
-                    <FlatList
-                        horizontal={true}
-                        contentContainerStyle={styles.row}
-                        data={[{key: 'PLACEHOLDER 1'}, {key: 'PLACEHOLDER 2'}, {key: 'PLACEHOLDER 3'}]}
-                        renderItem={({item}) => <View style={styles.box}><Text>{item.key}</Text></View>}/>  
-                    <Text style={styles.cat_text}> Discover </Text>
-                    <FlatList
-                        horizontal={true}
-                        contentContainerStyle={styles.row}
-                        data={[{key: 'PLACEHOLDER 1'}, {key: 'PLACEHOLDER 2'}, {key: 'PLACEHOLDER 3'}]}
-                        renderItem={({item}) => <View style={styles.box}><Text>{item.key}</Text></View>}/>     
-                </ScrollView>
+                        scrollEnabled={true}
+                        contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
+                        data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
+                        renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />  
                 </Animatable.View>
 
                 <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
@@ -312,6 +316,13 @@ const styles = StyleSheet.create({
         borderTopColor: 'transparent',
         marginBottom: 10
     },
+    menu: {
+        width: screenWidth * 0.90,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'black',
+        marginBottom: screenHeight * 0.025
+    },
     button: {
         width: 45,
         alignItems:  'center',
@@ -324,13 +335,9 @@ const styles = StyleSheet.create({
         color: 'white',
         textAlign: 'left',
     },
-    row: {
-        height: screenHeight * 0.30,
-        justifyContent: 'flex-start',
-    },
     box: {
-        width: screenWidth * 0.35,
-        height: '100%',
+        width: screenWidth * 0.90,
+        height: screenHeight * 0.25,
         margin: screenWidth * 0.01,
         marginTop: 0,
         backgroundColor: 'gray',
