@@ -41,6 +41,18 @@ export default class Search extends React.Component {
     }
     
 
+    componentWillMount() {
+        Promise.all([
+            this.getSearchContent(null, 'movieGenres'),
+            this.getSearchContent(null, 'tvGenres'),
+        ]).then((res) => {
+            this.setState({
+                movieGenres: res[0],
+                tvGenres: res[1]
+            });
+        });
+    }
+
     searchText(text) {
         this.setState({searchTerm: text});
     }
@@ -70,7 +82,7 @@ export default class Search extends React.Component {
     _processSearchResult = (tasteDiveObject, temp, mediaType) => {
         return new Promise(async (resolve, reject) => {
             let tempArray = [];
-            for (index=0; index<3; index++) {
+            for (index = 0; index < 3; index++) {
                 if (temp[index] != undefined) {
                     tempArray.push(JSON.parse(JSON.stringify(temp[index])));
                 } else {
@@ -137,15 +149,11 @@ export default class Search extends React.Component {
             this.getSearchContent(searchTerm, 'book'),
             this.getSearchContent(searchTerm, 'movie'),
             this.getSearchContent(searchTerm, 'show'),
-            this.getSearchContent(null, 'movieGenres'),
-            this.getSearchContent(null, 'tvGenres'),
         ]).then((res) => {
             this.setState({
                 bookList: res[0],
                 movieList: res[1],
-                showList: res[2],
-                movieGenres: res[3],
-                tvGenres: res[4]
+                showList: res[2]
             });
         });
     }
@@ -169,6 +177,7 @@ export default class Search extends React.Component {
 
         return (
             <View style={styles.container}>
+                <StatusBar hidden />
                 <LinearGradient
                     colors={['#000000', '#323232']}
                     style={{
@@ -232,7 +241,7 @@ export default class Search extends React.Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         backgroundColor: '#323232',
         flexDirection: 'column',
         alignItems: 'center',
