@@ -218,7 +218,7 @@ export default class Search extends React.Component {
                     <ButtonGroup
                         textStyle={{color: 'white'}}
                         selectedIndex={selectedIndex}
-                        buttons={['Browse']}
+                        buttons={['Discover']}
                         containerStyle={styles.button}
                         onPress={() => {
                                 this.navToBrowseResults()
