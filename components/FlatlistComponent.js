@@ -5,6 +5,7 @@ import {THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
 
+
 export default class FlatlistComponent extends React.Component {
 
     constructor(props) {
@@ -14,17 +15,6 @@ export default class FlatlistComponent extends React.Component {
             movieGenres: props.movieGenres,
             mostPopularMovies: []
         };
-
-        // _fetchMostPopularMovies = () => {
-        let query = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
-        fetch(query)
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({
-                    mostPopularMovies: response
-                });
-            });
-        // };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -37,6 +27,17 @@ export default class FlatlistComponent extends React.Component {
             fromTasteDive: nextProps.fromTasteDive,
             isModalVisible: true
         })
+    }
+
+    componentDidMount(){
+        let query = 'https://api.themoviedb.org/3/discover/movie?api_key=22172aecd3de3c8af81833a9be08ce75&sort_by=popularity.desc';
+        fetch(query)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    mostPopularMovies: response.results
+                });
+            });
     }
 
     openURl = (link) => {
@@ -143,6 +144,7 @@ export default class FlatlistComponent extends React.Component {
                 for (let i = 0; i < item.genre_ids.length; i++) {
                     genres.push(this._getGenre('movie', item.genre_ids[i]))
                 }
+                console.log(item);
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Popularity',
@@ -254,23 +256,7 @@ export default class FlatlistComponent extends React.Component {
         )
     };
 
-    _renderMostPopularMoviesList = ({item}) => {
-        return (
-            <View style={{
-                height: '20%',
-                width: '100%',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'red'
-            }}>
-                <Text style={{color: 'black'}}>{item['original_title']}</Text>
-            </View>
-        )
-    };
-
     render() {
-        console.log(this.state.movieGenres);
         if (this.state.type === 'Books' || this.state.type === 'Similar Books') {
             return (
                 <View>
@@ -298,7 +284,7 @@ export default class FlatlistComponent extends React.Component {
         } else if (this.state.type === 'Most Popular Movies') {
             return (
                 <View>
-                    {this.renderFlatList('Most Popular Movies', this.state.mostPopularMovies, this._renderMostPopularMoviesList)}
+                    {this.renderFlatList('Most Popular Movies', this.state.mostPopularMovies, this._renderMovieList)}
                 </View>
             )
         }
