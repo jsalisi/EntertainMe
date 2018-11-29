@@ -1,5 +1,5 @@
 import React from 'react';
-import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
+import {Dimensions, StyleSheet, Text, View} from 'react-native';
 import {SearchBar, ButtonGroup} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
@@ -35,9 +35,7 @@ export default class Search extends React.Component {
             bookList: [],
             movieGenres: [],
             tvGenres: [],
-            selectedIndex: 2
         }
-        this.updateIndex = this.updateIndex.bind(this)
         this.searchText = this.searchText.bind(this);
     }
     
@@ -57,10 +55,6 @@ export default class Search extends React.Component {
     searchText(text) {
         this.setState({searchTerm: text});
     }
-
-    updateIndex (selectedIndex) {
-        this.setState({selectedIndex})
-      }
 
     getRecommendations = (searchTerm, mediaType) => {
         return new Promise((resolve, reject) => {
@@ -165,7 +159,7 @@ export default class Search extends React.Component {
         });
     }
 
-    navToBrowseResults = () => {
+    navToDiscover = () => {
         this.props.navigation.navigate('Browse');
     }
 
@@ -173,8 +167,6 @@ export default class Search extends React.Component {
 
     render() {
         const {navigate} = this.props.navigation;
-        const buttons = ['Search by title', 'Search by keyword']
-        const { selectedIndex } = this.state
 
         return (
             <View style={styles.container}>
@@ -191,7 +183,12 @@ export default class Search extends React.Component {
                     }}
                 />
                 <Animatable.View style={styles.items} ref={this.handleViewRef}>
-                    <Animatable.Text animation="pulse" iterationCount={"infinite"} direction="alternate" style={styles.text}>Entertain Me!</Animatable.Text>
+                    <Animatable.Text animation="pulse" iterationCount={"infinite"} direction="alternate" style={styles.text}>
+                        Entertain Me
+                        <Text style={styles.text_emphasis}>
+                            !
+                        </Text>
+                    </Animatable.Text>
                     <SearchBar
                         containerStyle={styles.search}
                         round
@@ -199,18 +196,15 @@ export default class Search extends React.Component {
                         inputStyle={{color: 'black'}}
                         clearIcon={{color: 'grey'}}
                         searchIcon={true}
+                        icon={{ type: 'font-awesome', name: 'search', color: 'red' }}
                         onChangeText={(text) => this.searchText(text)}
                         placeholder='What are you interested in?'
                         onFocus={() => this.view.transitionTo({ top: screenHeight * 0.10 })}
-                        onEndEditing={() => this.view.transitionTo({ top: screenHeight * 0.35 })}
-                        onSubmitEditing={() => {
-                            this.navToSearchResults()
-                        }}
+                        onEndEditing={() => this.view.transitionTo({ top: screenHeight * 0.32 })}
                     />
                     <ButtonGroup
                         textStyle={{color: 'white'}}
-                        selectedIndex={selectedIndex}
-                        buttons={buttons}
+                        buttons={['Search by title', 'Search by keyword']}
                         containerStyle={styles.menu}
                         onPress={() => {
                                 this.navToSearchResults()
@@ -218,11 +212,10 @@ export default class Search extends React.Component {
                     />
                     <ButtonGroup
                         textStyle={{color: 'white'}}
-                        selectedIndex={selectedIndex}
                         buttons={['Discover']}
                         containerStyle={styles.button}
                         onPress={() => {
-                                this.navToBrowseResults()
+                                this.navToDiscover()
                             }}
                     />
                 </Animatable.View>
@@ -247,8 +240,13 @@ const styles = StyleSheet.create({
     items: {
         flex: 1,
         position: 'absolute',
-        top: screenHeight * 0.35,
+        top: screenHeight * 0.32,
         width: screenWidth
+    },
+    text_emphasis: {
+        fontSize: 50,
+        fontWeight: 'bold',
+        color: 'red',
     },
     text: {
         fontSize: 50,
