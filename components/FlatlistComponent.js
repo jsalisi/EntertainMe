@@ -13,7 +13,8 @@ export default class FlatlistComponent extends React.Component {
         this.state = {
             type: props.type,
             movieGenres: props.movieGenres,
-            mostPopularMovies: []
+            mostPopularMovies: [],
+            mostPopularShows: []
         };
     }
 
@@ -29,13 +30,22 @@ export default class FlatlistComponent extends React.Component {
         })
     }
 
-    componentDidMount(){
-        let query = 'https://api.themoviedb.org/3/discover/movie?api_key=22172aecd3de3c8af81833a9be08ce75&sort_by=popularity.desc';
-        fetch(query)
+    componentDidMount() {
+        let movieQuery = 'https://api.themoviedb.org/3/discover/movie?api_key=22172aecd3de3c8af81833a9be08ce75&sort_by=popularity.desc';
+        fetch(movieQuery)
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
                     mostPopularMovies: response.results
+                });
+            });
+
+        let tvQuery = 'https://api.themoviedb.org/3/discover/tv?api_key=22172aecd3de3c8af81833a9be08ce75&sort_by=popularity.desc';
+        fetch(tvQuery)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    mostPopularShows: response.results
                 });
             });
     }
@@ -69,7 +79,8 @@ export default class FlatlistComponent extends React.Component {
                     <View>
                         <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
                             <View style={styles.box}>
-                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text
+                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
                                 <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
                             </View>
                         </TouchableHighlight>
@@ -133,7 +144,8 @@ export default class FlatlistComponent extends React.Component {
                     <View>
                         <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
                             <View style={styles.box}>
-                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text
+                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
                                 <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
                             </View>
                         </TouchableHighlight>
@@ -191,7 +203,8 @@ export default class FlatlistComponent extends React.Component {
                     <View>
                         <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
                             <View style={styles.box}>
-                                <Text style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
+                                <Text
+                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
                                 <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
                             </View>
                         </TouchableHighlight>
@@ -285,6 +298,12 @@ export default class FlatlistComponent extends React.Component {
             return (
                 <View>
                     {this.renderFlatList('Most Popular Movies', this.state.mostPopularMovies, this._renderMovieList)}
+                </View>
+            )
+        } else if (this.state.type === 'Most Popular Shows') {
+            return (
+                <View>
+                    {this.renderFlatList('Most Popular Shows', this.state.mostPopularShows, this._renderShowList)}
                 </View>
             )
         }

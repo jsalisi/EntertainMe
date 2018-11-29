@@ -60,7 +60,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.menu.transition({ marginTop: screenHeight }, { marginTop: screenHeight * 0.15 }, 1250)
+        this.menu.transition({marginTop: screenHeight}, {marginTop: screenHeight * 0.15}, 1250)
     }
 
     searchText(text) {
@@ -68,7 +68,7 @@ export default class Search extends React.Component {
     }
 
     updateIndex(selectedIndex) {
-        this.setState({ selectedIndex })
+        this.setState({selectedIndex})
     }
 
     getRecommendations = (searchTerm, mediaType) => {
@@ -182,28 +182,28 @@ export default class Search extends React.Component {
     handleListRef = ref => this.menu = ref;
 
     renderLeftComponent = () => {
-        return(
+        return (
             <Animatable.Text animation="pulse" iterationCount={"infinite"} direction="alternate" style={styles.text}>
                 Entertain Me
                 <Text style={styles.text_emphasis}>
                     !
-                    </Text>
-            </Animatable.Text>  
+                </Text>
+            </Animatable.Text>
         );
     }
 
     renderRightComponent = () => {
-        return(
+        return (
             <TouchableWithoutFeedback onPress={() => {
                 if (this.state.searchOpen === true) {
-                    this.view.transitionTo({ top: screenHeight * 0.05 })
-                    this.menu.transitionTo({ marginTop: screenHeight * 0.15 })
+                    this.view.transitionTo({top: screenHeight * 0.05})
+                    this.menu.transitionTo({marginTop: screenHeight * 0.15})
                     this.setState({
                         searchOpen: false
                     });
                 } else {
-                    this.view.transitionTo({ top: screenHeight * 0.15 })
-                    this.menu.transitionTo({ marginTop: screenHeight * 0.25 })
+                    this.view.transitionTo({top: screenHeight * 0.15})
+                    this.menu.transitionTo({marginTop: screenHeight * 0.25})
                     this.setState({
                         searchOpen: true
                     });
@@ -217,19 +217,22 @@ export default class Search extends React.Component {
     resolveFlatlist = (idx) => {
         if (idx === 0) {
             return (
-                <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres}/>
+                <View>
+                    <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres}/>
+                    <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres}/>
+                </View>
             )
         } else if (idx === 1) {
             return (
-              <FlatlistComponent type={'Movie Genres'} movieGenres={this.state.movieGenres}/>
+                <FlatlistComponent type={'Movie Genres'} movieGenres={this.state.movieGenres}/>
             )
         } else {
             return (
                 <FlatList
                     scrollEnabled={true}
                     contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
-                    data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
-                    renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />
+                    data={[{key: 'PLACEHOLDER 1'}, {key: 'PLACEHOLDER 2'}, {key: 'PLACEHOLDER 3'}, {key: 'PLACEHOLDER 4'}]}
+                    renderItem={({item}) => <View style={styles.box}><Text>{item.key}</Text></View>}/>
             )
         }
     }
@@ -237,54 +240,54 @@ export default class Search extends React.Component {
     render() {
         const {navigate} = this.props.navigation;
         const buttons = ["Popular", "Genres", "Discover"];
-        const { selectedIndex } = this.state;
+        const {selectedIndex} = this.state;
 
         return (
             <LinearGradient colors={['#000000', '#323232']}
-                style={{
-                    position: 'absolute',
-                    left: 0,
-                    right: 0,
-                    top: 0,
-                    height: (Dimensions.get('window').height),
-                    width: (Dimensions.get('window').width),
-                    }}
+                            style={{
+                                position: 'absolute',
+                                left: 0,
+                                right: 0,
+                                top: 0,
+                                height: (Dimensions.get('window').height),
+                                width: (Dimensions.get('window').width),
+                            }}
             >
-            <View style={styles.container}>
-                {/* <StatusBar hidden /> */}
-                
-                <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
-                    <ButtonGroup
-                        onPress={this.updateIndex}
-                        textStyle={{color: 'white'}}
-                        selectedIndex={selectedIndex}
-                        buttons={buttons}
-                        containerStyle={styles.menu}
-                    />
-                    {this.resolveFlatlist(selectedIndex)}
-                </Animatable.View>
-                <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
-                    <SearchBar
-                        containerStyle={styles.search}
-                        round
-                        lightTheme
-                        inputStyle={{color: 'black'}}
-                        clearIcon={{color: 'grey'}}
-                        searchIcon={true}
-                        icon={{ type: 'font-awesome', name: 'search', color: 'red' }}
-                        onChangeText={(text) => this.searchText(text)}
-                        placeholder='What are you interested in?'
-                        onSubmitEditing={() => {
+                <View style={styles.container}>
+                    {/* <StatusBar hidden /> */}
+
+                    <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                        <ButtonGroup
+                            onPress={this.updateIndex}
+                            textStyle={{color: 'white'}}
+                            selectedIndex={selectedIndex}
+                            buttons={buttons}
+                            containerStyle={styles.menu}
+                        />
+                        {this.resolveFlatlist(selectedIndex)}
+                    </Animatable.View>
+                    <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
+                        <SearchBar
+                            containerStyle={styles.search}
+                            round
+                            lightTheme
+                            inputStyle={{color: 'black'}}
+                            clearIcon={{color: 'grey'}}
+                            searchIcon={true}
+                            icon={{type: 'font-awesome', name: 'search', color: 'red'}}
+                            onChangeText={(text) => this.searchText(text)}
+                            placeholder='What are you interested in?'
+                            onSubmitEditing={() => {
                                 this.navToSearchResults()
                             }}
+                        />
+                    </Animatable.View>
+                    <Header
+                        outerContainerStyles={styles.header_item}
+                        leftComponent={this.renderLeftComponent()}
+                        rightComponent={this.renderRightComponent()}
                     />
-                </Animatable.View>
-                <Header
-                    outerContainerStyles={styles.header_item}
-                    leftComponent={this.renderLeftComponent()}
-                    rightComponent={this.renderRightComponent()}
-                />          
-            </View>
+                </View>
             </LinearGradient>
         );
     }
@@ -299,7 +302,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
     },
     header_item: {
-        backgroundColor:  'black',
+        backgroundColor: 'black',
         position: 'absolute',
         top: 0,
         height: screenHeight * 0.15,
@@ -341,7 +344,7 @@ const styles = StyleSheet.create({
     },
     button: {
         width: 45,
-        alignItems:  'center',
+        alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: 'black'
     },
