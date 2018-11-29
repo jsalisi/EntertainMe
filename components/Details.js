@@ -1,6 +1,7 @@
 import React from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
+import Star from 'react-native-star-view';
 
 import Search, {bookReq, movieReq, showReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
@@ -122,8 +123,13 @@ export default class Details extends Search {
                                 padding: 10
                             }}>
                                 <Text style={styles.detailsTextHeader}> {this.state.third}: {'\n'}</Text>
-                                <Text
-                                    style={styles.detailsText}> {this.state.averageRating > 0 ? this.state.averageRating : 'none'} </Text>
+                                <Star
+                                    score={this.state.averageRating > 0 ? this.state.averageRating / 2 : 0}
+                                    style={{
+                                        width: 100,
+                                        height: 20,
+                                        marginTop: 10
+                                    }}/>
                             </View>
                             <View style={{
                                 flex: 1,
@@ -212,6 +218,6 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         justifyContent: 'center',
         marginBottom: 10,
-        marginTop: 20
+        marginTop: 7
     }
 });
