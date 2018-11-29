@@ -178,7 +178,7 @@ export default class Search extends React.Component {
 
         return (
             <View style={styles.container}>
-                <StatusBar hidden />
+                {/* <StatusBar hidden /> */}
                 <LinearGradient
                     colors={['#000000', '#323232']}
                     style={{
