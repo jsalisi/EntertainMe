@@ -219,8 +219,8 @@ export default class Search extends React.Component {
         if (idx === 0) {
             return (
                 <View>
-                    <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres}/>
-                    <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres}/>
+                    <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres} navigation={this.props.navigation}/>
+                    <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres} navigation={this.props.navigation}/>
                 </View>
             )
         } else if (idx === 1) {

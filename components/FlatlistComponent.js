@@ -254,20 +254,6 @@ export default class FlatlistComponent extends React.Component {
         }
     }
 
-    _renderGenreList = ({item}) => {
-        return (
-            <View style={{
-                width: '30%',
-                justifyContent: 'center',
-                alignItems: 'center',
-                backgroundColor: 'transparent',
-                padding: 5
-            }}>
-                <Text style={{color: 'white'}}>{item.name}</Text>
-            </View>
-        )
-    };
-
     render() {
         if (this.state.type === 'Books' || this.state.type === 'Similar Books') {
             return (
