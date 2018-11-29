@@ -1,10 +1,11 @@
 import React from 'react';
-import {Dimensions, FlatList, Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {ButtonGroup, Header, SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 import FlatlistComponent from "./FlatlistComponent";
+import DiscoverComponent from "./DiscoverComponent";
 // import DiscoverComponent from './DiscoverComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
@@ -224,22 +225,19 @@ export default class Search extends React.Component {
             )
         } else if (idx === 1) {
             return (
-                <FlatlistComponent type={'Movie Genres'} movieGenres={this.state.movieGenres}/>
-            )
-        } else {
-            return (
-                <FlatList
-                    scrollEnabled={true}
-                    contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
-                    data={[{key: 'PLACEHOLDER 1'}, {key: 'PLACEHOLDER 2'}, {key: 'PLACEHOLDER 3'}, {key: 'PLACEHOLDER 4'}]}
-                    renderItem={({item}) => <View style={styles.box}><Text>{item.key}</Text></View>}/>
+                <View style={{height: screenHeight, width: screenWidth}}>
+                    {this.state.movieGenres.length > 0 ?
+                        <DiscoverComponent movieGenres={this.state.movieGenres} tvGenres={this.state.tvGenres}/>
+                        :
+                        <View/>}
+                </View>
             )
         }
     }
 
     render() {
         const {navigate} = this.props.navigation;
-        const buttons = ["Popular", "Genres", "Discover"];
+        const buttons = ["Popular", "Discover"];
         const {selectedIndex} = this.state;
 
         return (
@@ -253,7 +251,7 @@ export default class Search extends React.Component {
                                 width: (Dimensions.get('window').width),
                             }}
             >
-                <View style={styles.container}>
+                <View>
                     {/* <StatusBar hidden /> */}
 
                     <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>

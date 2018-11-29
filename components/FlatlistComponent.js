@@ -13,6 +13,7 @@ export default class FlatlistComponent extends React.Component {
         this.state = {
             type: props.type,
             movieGenres: props.movieGenres,
+            tvGenres: props.tvGenres,
             mostPopularMovies: [],
             mostPopularShows: []
         };
@@ -59,7 +60,7 @@ export default class FlatlistComponent extends React.Component {
 
     renderFlatList = (listTitle, data, renderFunction) => {
         return (
-            <View style={styles.row}>
+            <View style={this.state.type.includes('Genre') ? styles.row2: styles.row}>
                 <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
@@ -156,7 +157,6 @@ export default class FlatlistComponent extends React.Component {
                 for (let i = 0; i < item.genre_ids.length; i++) {
                     genres.push(this._getGenre('movie', item.genre_ids[i]))
                 }
-                console.log(item);
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Popularity',
@@ -254,17 +254,16 @@ export default class FlatlistComponent extends React.Component {
         }
     }
 
-    _renderMovieGenreList = ({item}) => {
+    _renderGenreList = ({item}) => {
         return (
             <View style={{
-                height: '20%',
-                width: '100%',
-                flexDirection: 'column',
+                width: '30%',
                 justifyContent: 'center',
                 alignItems: 'center',
-                backgroundColor: 'red'
+                backgroundColor: 'transparent',
+                padding: 5
             }}>
-                <Text style={{color: 'black'}}>{item.name}</Text>
+                <Text style={{color: 'white'}}>{item.name}</Text>
             </View>
         )
     };
@@ -288,12 +287,6 @@ export default class FlatlistComponent extends React.Component {
                     {this.renderFlatList(this.state.type, this.state.listItems, this._renderShowList)}
                 </View>
             )
-        } else if (this.state.type === 'Movie Genres') {
-            return (
-                <View>
-                    {this.renderFlatList('Movie Genres', this.state.movieGenres, this._renderMovieGenreList)}
-                </View>
-            )
         } else if (this.state.type === 'Most Popular Movies') {
             return (
                 <View>
@@ -314,6 +307,10 @@ const styles = StyleSheet.create({
     row: {
         height: screenHeight * 0.35,
         justifyContent: 'flex-start',
+    },
+    row2: {
+        height: screenHeight,
+        justifyContent: 'center'
     },
     box: {
         width: screenWidth * 0.35,

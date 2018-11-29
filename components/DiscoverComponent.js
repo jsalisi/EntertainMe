@@ -111,13 +111,6 @@ export default class DiscoverComponent extends React.Component {
                         title='Search'
                         color='#841584'
                     />
-                    <View style={{
-                        borderBottomWidth: 2,
-                        borderBottomColor: 'red',
-                        marginTop: 10,
-                        marginBottom: -5,
-                        marginHorizontal: 10
-                    }}/>
                 </View>
             </View>
         )
