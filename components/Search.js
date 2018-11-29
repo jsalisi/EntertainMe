@@ -217,11 +217,7 @@ export default class Search extends React.Component {
     resolveFlatlist = (idx) => {
         if (idx === 0) {
             return (
-                <FlatList
-                    scrollEnabled={true}
-                    contentContainerStyle={{justifyContent: 'center', alignItems: 'center'}}
-                    data={[{ key: 'PLACEHOLDER 1' }, { key: 'PLACEHOLDER 2' }, { key: 'PLACEHOLDER 3' }, { key: 'PLACEHOLDER 4' }]}
-                    renderItem={({ item }) => <View style={styles.box}><Text>{item.key}</Text></View>} />
+                <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres}/>
             )
         } else if (idx === 1) {
             return (

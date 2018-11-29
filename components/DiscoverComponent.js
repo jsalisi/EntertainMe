@@ -37,17 +37,6 @@ export default class DiscoverComponent extends React.Component {
         this._fetchAllResults(tvQuery);
     };
 
-    _fetchMostPopularMovies = () => {
-        let query = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
-        this._fetchAllResults(query);
-    };
-
-    _fetchMostPopularTVShows = () => {
-        let query = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
-        this._fetchAllResults(query);
-    };
-
-
     _fetchAllResults = (query) => {
         fetch(query)
             .then((response) => response.json())
@@ -129,16 +118,6 @@ export default class DiscoverComponent extends React.Component {
                         marginBottom: -5,
                         marginHorizontal: 10
                     }}/>
-                    <Button
-                        onPress={this._fetchMostPopularMovies}
-                        title='See Most Popular Movies'
-                        color='#841584'
-                    />
-                    <Button
-                        onPress={this._fetchMostPopularTVShows}
-                        title='See Most Popular TV Shows'
-                        color='#841584'
-                    />
                 </View>
             </View>
         )

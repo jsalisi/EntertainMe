@@ -1,5 +1,6 @@
 import React from 'react';
 import {Dimensions, FlatList, Image, Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
+import {THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
 
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
@@ -10,8 +11,20 @@ export default class FlatlistComponent extends React.Component {
         super(props);
         this.state = {
             type: props.type,
-            movieGenres: props.movieGenres
+            movieGenres: props.movieGenres,
+            mostPopularMovies: []
         };
+
+        // _fetchMostPopularMovies = () => {
+        let query = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}sort_by=popularity.desc`;
+        fetch(query)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    mostPopularMovies: response
+                });
+            });
+        // };
     }
 
     componentWillReceiveProps(nextProps) {
@@ -227,7 +240,6 @@ export default class FlatlistComponent extends React.Component {
     }
 
     _renderMovieGenreList = ({item}) => {
-        console.log(item);
         return (
             <View style={{
                 height: '20%',
@@ -238,6 +250,21 @@ export default class FlatlistComponent extends React.Component {
                 backgroundColor: 'red'
             }}>
                 <Text style={{color: 'black'}}>{item.name}</Text>
+            </View>
+        )
+    };
+
+    _renderMostPopularMoviesList = ({item}) => {
+        return (
+            <View style={{
+                height: '20%',
+                width: '100%',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                alignItems: 'center',
+                backgroundColor: 'red'
+            }}>
+                <Text style={{color: 'black'}}>{item['original_title']}</Text>
             </View>
         )
     };
@@ -266,6 +293,12 @@ export default class FlatlistComponent extends React.Component {
             return (
                 <View>
                     {this.renderFlatList('Movie Genres', this.state.movieGenres, this._renderMovieGenreList)}
+                </View>
+            )
+        } else if (this.state.type === 'Most Popular Movies') {
+            return (
+                <View>
+                    {this.renderFlatList('Most Popular Movies', this.state.mostPopularMovies, this._renderMostPopularMoviesList)}
                 </View>
             )
         }
