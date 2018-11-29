@@ -53,7 +53,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.menu.transitionTo({ top: screenHeight * 0.15 })
+        this.menu.transition({ top: screenHeight }, { top: screenHeight * 0.15 }, 1250)
     }
 
     searchText(text) {
