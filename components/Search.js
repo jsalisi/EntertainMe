@@ -1,7 +1,8 @@
 import React from 'react';
 import {Button, Dimensions, StyleSheet, Text, View} from 'react-native';
-import {SearchBar} from 'react-native-elements'
+import {SearchBar, ButtonGroup} from 'react-native-elements'
 import {LinearGradient} from 'expo';
+import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=7&q=book:`;
@@ -14,6 +15,9 @@ const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_
 
 const movieGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=${THE_MOVIE_DB_API_KEY}`;
 const tvGenreRequest = `https://api.themoviedb.org/3/genre/tv/list?api_key=${THE_MOVIE_DB_API_KEY}`;
+
+const screenHeight = (Dimensions.get('window').height);
+const screenWidth = (Dimensions.get('window').width);
 
 export default class Search extends React.Component {
 
@@ -29,14 +33,21 @@ export default class Search extends React.Component {
             showList: [],
             bookList: [],
             movieGenres: [],
-            tvGenres: []
+            tvGenres: [],
+            selectedIndex: 2
         }
+        this.updateIndex = this.updateIndex.bind(this)
         this.searchText = this.searchText.bind(this);
     }
+    
 
     searchText(text) {
         this.setState({searchTerm: text});
     }
+
+    updateIndex (selectedIndex) {
+        this.setState({selectedIndex})
+      }
 
     getRecommendations = (searchTerm, mediaType) => {
         return new Promise((resolve, reject) => {
@@ -145,8 +156,16 @@ export default class Search extends React.Component {
         });
     }
 
+    navToBrowseResults = () => {
+        this.props.navigation.navigate('Browse');
+    }
+
+    handleViewRef = ref => this.view = ref;
+
     render() {
         const {navigate} = this.props.navigation;
+        const buttons = ['Search by title', 'Search by keyword']
+        const { selectedIndex } = this.state
 
         return (
             <View style={styles.container}>
@@ -161,29 +180,51 @@ export default class Search extends React.Component {
                         width: (Dimensions.get('window').width),
                     }}
                 />
-                <Text style={styles.text}>Entertain Me!</Text>
-                <SearchBar
-                    containerStyle={styles.search}
-                    round
-                    lightTheme
-                    inputStyle={{color: 'black'}}
-                    clearIcon={{color: 'grey'}}
-                    searchIcon={true}
-                    onChangeText={(text) => this.searchText(text)}
-                    placeholder='What are you interested in?'
-                    onSubmitEditing={() => {
-                        this.navToSearchResults()
-                    }}
-                />
-                <View style={styles.button}>
-                    <Button
-                        title="Search"
-                        color="red"
-                        onPress={() => {
+                <Animatable.View style={styles.items} ref={this.handleViewRef}>
+                    <Animatable.Text animation="pulse" iterationCount={"infinite"} direction="alternate" style={styles.text}>Entertain Me!</Animatable.Text>
+                    <SearchBar
+                        containerStyle={styles.search}
+                        round
+                        lightTheme
+                        inputStyle={{color: 'black'}}
+                        clearIcon={{color: 'grey'}}
+                        searchIcon={true}
+                        onChangeText={(text) => this.searchText(text)}
+                        placeholder='What are you interested in?'
+                        onFocus={() => this.view.transitionTo({ top: screenHeight * 0.10 })}
+                        onEndEditing={() => this.view.transitionTo({ top: screenHeight * 0.35 })}
+                        onSubmitEditing={() => {
                             this.navToSearchResults()
                         }}
                     />
-                </View>
+                    <ButtonGroup
+                        textStyle={{color: 'white'}}
+                        selectedIndex={selectedIndex}
+                        buttons={buttons}
+                        containerStyle={styles.menu}
+                        onPress={() => {
+                                this.navToSearchResults()
+                            }}
+                    />
+                    <ButtonGroup
+                        textStyle={{color: 'white'}}
+                        selectedIndex={selectedIndex}
+                        buttons={['Browse']}
+                        containerStyle={styles.button}
+                        onPress={() => {
+                                this.navToBrowseResults()
+                            }}
+                    />
+                    {/* <View style={styles.button}>
+                        <Button
+                            title="Search"
+                            color="red"
+                            onPress={() => {
+                                this.navToSearchResults()
+                            }}
+                        />
+                    </View> */}
+                </Animatable.View>
             </View>
         );
     }
@@ -197,22 +238,40 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
+    items: {
+        flex: 1,
+        position: 'absolute',
+        top: screenHeight * 0.35,
+        width: screenWidth
+    },
     text: {
-        height: 100,
         fontSize: 50,
         fontWeight: 'bold',
-        color: 'white'
+        color: 'white',
+        textAlign: 'center',
+        marginBottom: 10
     },
     search: {
         backgroundColor: 'transparent',
-        width: '80%',
+        left: screenWidth * 0.10,
+        width: screenWidth * 0.80,
         borderColor: '#323232',
         borderBottomColor: 'transparent',
-        borderTopColor: 'transparent'
+        borderTopColor: 'transparent',
+        marginBottom: 10
+    },
+    menu: { 
+        left: screenWidth * 0.10,
+        width: screenWidth * 0.76,
+        alignItems:  'center',
+        justifyContent: 'center',
+        backgroundColor: 'black'
     },
     button: {
-        height: 100,
+        left: screenWidth * 0.10,
+        width: screenWidth * 0.76,
+        alignItems:  'center',
         justifyContent: 'center',
-        alignItems: 'center'
+        backgroundColor: 'black'
     }
 });
