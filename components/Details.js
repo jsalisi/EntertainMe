@@ -1,7 +1,6 @@
 import React from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
-import Star from 'react-native-star-view';
 
 import Search, {bookReq, movieReq, showReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
