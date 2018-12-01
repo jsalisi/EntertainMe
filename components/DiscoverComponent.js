@@ -69,7 +69,6 @@ export default class DiscoverComponent extends React.Component {
                             selectedItems={this.state.selectedMovieGenres}
                             selectText="Pick some movie genres"
                             searchInputPlaceholderText="Search Genres..."
-                            altFontFamily="ProximaNova-Light"
                             tagRemoveIconColor="#CCC"
                             tagBorderColor="#CCC"
                             tagTextColor="#CCC"
@@ -80,6 +79,7 @@ export default class DiscoverComponent extends React.Component {
                             searchInputStyle={{color: '#CCC'}}
                             submitButtonColor="#CCC"
                             submitButtonText="Done"
+                            autoFocusInput={false}
                         />
                     </ScrollView>
                 </View>
@@ -93,7 +93,6 @@ export default class DiscoverComponent extends React.Component {
                             selectedItems={this.state.selectedTvGenres}
                             selectText="Pick some TV genres"
                             searchInputPlaceholderText="Search Genres..."
-                            altFontFamily="ProximaNova-Light"
                             tagRemoveIconColor="#CCC"
                             tagBorderColor="#CCC"
                             tagTextColor="#CCC"
@@ -104,6 +103,7 @@ export default class DiscoverComponent extends React.Component {
                             searchInputStyle={{color: '#CCC'}}
                             submitButtonColor="#CCC"
                             submitButtonText="Done"
+                            autoFocusInput={false}
                         />
                     </ScrollView>
                     <Button

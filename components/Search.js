@@ -292,74 +292,75 @@ export default class Search extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 2,
-        backgroundColor: 'transparent',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    header_item: {
-        backgroundColor: 'black',
-        position: 'absolute',
-        top: 0,
-        height: screenHeight * 0.15,
-        width: screenWidth,
-        borderBottomColor: 'transparent'
-    },
-    searchBar: {
-        flex: 1,
-        position: 'absolute',
-        top: screenHeight * 0.05,
-        width: screenWidth
-    },
-    text_emphasis: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'red',
-    },
-    text: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'white',
-        textAlign: 'center'
-    },
-    search: {
-        backgroundColor: 'transparent',
-        left: screenWidth * 0.025,
-        width: screenWidth * 0.95,
-        borderColor: '#323232',
-        borderBottomColor: 'transparent',
-        borderTopColor: 'transparent',
-        marginBottom: 10
-    },
-    menu: {
-        width: screenWidth * 0.90,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        marginBottom: screenHeight * 0.025
-    },
-    button: {
-        width: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'black'
-    },
-    cat_text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'white',
-        textAlign: 'left',
-    },
-    box: {
-        width: screenWidth * 0.90,
-        height: screenHeight * 0.25,
-        margin: screenWidth * 0.01,
-        marginTop: 0,
-        backgroundColor: 'gray',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        borderColor: 'white'
-    },
+  container: {
+    flex: 2,
+    backgroundColor: "transparent",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header_item: {
+    backgroundColor: "black",
+    position: "absolute",
+    top: 0,
+    height: screenHeight * 0.15,
+    width: screenWidth,
+    borderBottomColor: "transparent"
+  },
+  searchBar: {
+    flex: 1,
+    position: "absolute",
+    top: screenHeight * 0.05,
+    width: screenWidth
+  },
+  text_emphasis: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "red"
+  },
+  text: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center"
+  },
+  search: {
+    backgroundColor: "transparent",
+    left: screenWidth * 0.025,
+    width: screenWidth * 0.95,
+    borderColor: "#323232",
+    borderBottomColor: "transparent",
+    borderTopColor: "transparent",
+    marginBottom: 10
+  },
+  menu: {
+    left: screenWidth * 0.0125,
+    width: screenWidth * 0.95,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+    marginBottom: screenHeight * 0.025
+  },
+  button: {
+    width: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black"
+  },
+  cat_text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "left"
+  },
+  box: {
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.25,
+    margin: screenWidth * 0.01,
+    marginTop: 0,
+    backgroundColor: "gray",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderColor: "white"
+  }
 });
