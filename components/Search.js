@@ -1,12 +1,11 @@
 import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View, ScrollView, Keyboard} from 'react-native';
 import {ButtonGroup, Header, SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 import FlatlistComponent from "./FlatlistComponent";
 import DiscoverComponent from "./DiscoverComponent";
-// import DiscoverComponent from './DiscoverComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
 export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=10&q=movie:`;
@@ -181,6 +180,7 @@ export default class Search extends React.Component {
 
     handleViewRef = ref => this.view = ref;
     handleListRef = ref => this.menu = ref;
+    handleSearchRef = ref => this.searchBar = ref;
 
     renderLeftComponent = () => {
         return (
@@ -199,12 +199,14 @@ export default class Search extends React.Component {
                 if (this.state.searchOpen === true) {
                     this.view.transitionTo({top: screenHeight * 0.05})
                     this.menu.transitionTo({marginTop: screenHeight * 0.15})
+                    Keyboard.dismiss()
                     this.setState({
                         searchOpen: false
                     });
                 } else {
                     this.view.transitionTo({top: screenHeight * 0.15})
                     this.menu.transitionTo({marginTop: screenHeight * 0.25})
+                    this.searchBar.focus()                    
                     this.setState({
                         searchOpen: true
                     });
@@ -218,10 +220,10 @@ export default class Search extends React.Component {
     resolveFlatlist = (idx) => {
         if (idx === 0) {
             return (
-                <View>
+                <ScrollView>
                     <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres} navigation={this.props.navigation}/>
                     <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres} navigation={this.props.navigation}/>
-                </View>
+                </ScrollView>
             )
         } else if (idx === 1) {
             return (
@@ -254,7 +256,7 @@ export default class Search extends React.Component {
                 <View>
                     {/* <StatusBar hidden /> */}
 
-                    <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                    <Animatable.View style={StyleSheet.absoluteFill} style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
                         <ButtonGroup
                             onPress={this.updateIndex}
                             textStyle={{color: 'white'}}
@@ -266,6 +268,7 @@ export default class Search extends React.Component {
                     </Animatable.View>
                     <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
                         <SearchBar
+                            ref={this.handleSearchRef}
                             containerStyle={styles.search}
                             round
                             lightTheme
@@ -334,7 +337,7 @@ const styles = StyleSheet.create({
     marginBottom: 10
   },
   menu: {
-    left: screenWidth * 0.0125,
+    marginLeft: screenWidth * 0.025,
     width: screenWidth * 0.95,
     alignItems: "center",
     justifyContent: "center",
