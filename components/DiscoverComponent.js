@@ -9,66 +9,6 @@ const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
 
-const items = [
-    {  
-      name: "Fruits",
-      id: 0,
-      children: [{
-          name: "Apple",
-          id: 10,
-        },{
-          name: "Strawberry",
-          id: 17,
-        },{
-          name: "Pineapple",
-          id: 13,
-        },{
-          name: "Banana",
-          id: 14,
-        },{
-          name: "Watermelon",
-          id: 15,
-        },{
-          name: "Kiwi fruit",
-          id: 16,
-        }]
-    },
-    {
-      name: "Gems",
-      id: 1,
-      children: [{
-          name: "Quartz",
-          id: 20,
-        },{
-          name: "Zircon",
-          id: 21,
-        },{
-          name: "Sapphire",
-          id: 22,
-        },{
-          name: "Topaz",
-          id: 23,
-        }]
-    },
-    {
-      name: "Plants",
-      id: 2,
-      children: [{
-          name: "Mother In Law\'s Tongue",
-          id: 30,
-        },{
-          name: "Yucca",
-          id: 31,
-        },{
-          name: "Monsteria",
-          id: 32,
-        },{
-          name: "Palm",
-          id: 33,
-        }]
-    },
-  ]
-
 export default class DiscoverComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -133,6 +73,7 @@ export default class DiscoverComponent extends React.Component {
                         expandDropDowns={true}
                         showDropDowns={false}
                         readOnlyHeadings={true}
+                        showRemoveAll={true}
                         onSelectedItemsChange={this.onSelectedMovieItemsChange}
                         selectedItems={this.state.selectedMovieGenres}
                         colors={{primary: 'lightgray'}}
@@ -149,6 +90,7 @@ export default class DiscoverComponent extends React.Component {
                         selectText="Pick some TV genres"
                         expandDropDowns={true}
                         showDropDowns={false}
+                        showRemoveAll={true}
                         readOnlyHeadings={true}
                         onSelectedItemsChange={this.onSelectedTVItemsChange}
                         selectedItems={this.state.selectedTvGenres}
