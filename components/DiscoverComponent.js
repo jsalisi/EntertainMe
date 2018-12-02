@@ -1,9 +1,12 @@
 import React from 'react';
-import {Button, ScrollView, StyleSheet, View} from 'react-native';
+import {Button, ScrollView, StyleSheet, View, Dimensions} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
+
+const screenHeight = (Dimensions.get('window').height);
+const screenWidth = (Dimensions.get('window').width);
 
 export default class DiscoverComponent extends React.Component {
     constructor(props) {
@@ -59,7 +62,7 @@ export default class DiscoverComponent extends React.Component {
     render() {
         return (
             <View style={StyleSheet.absoluteFill}>
-                <View style={{maxHeight: '30%', width: '100%'}}>
+                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
                     <ScrollView>
                         <MultiSelect
                             hideTags
@@ -83,7 +86,7 @@ export default class DiscoverComponent extends React.Component {
                         />
                     </ScrollView>
                 </View>
-                <View style={{maxHeight: '30%', width: '100%'}}>
+                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
                     <ScrollView>
                         <MultiSelect
                             hideTags
