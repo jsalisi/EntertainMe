@@ -1,6 +1,7 @@
 import React from 'react';
-import {Button, ScrollView, StyleSheet, View, Dimensions} from 'react-native';
+import {Button, StyleSheet, View, Dimensions} from 'react-native';
 import MultiSelect from 'react-native-multiple-select';
+import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
@@ -62,8 +63,22 @@ export default class DiscoverComponent extends React.Component {
     render() {
         return (
             <View style={StyleSheet.absoluteFill}>
-                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
-                    <ScrollView>
+                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%', marginBottom: '2.5%', backgroundColor: 'darkgray'}}>
+                    <View>
+                    <SectionedMultiSelect
+                        items={this.movieGenres} 
+                        uniqueKey='id'
+                        selectText="Pick some movie genres"
+                        showDropDowns={true}
+                        readOnlyHeadings={true}
+                        onSelectedItemsChange={this.onSelectedMovieItemsChange}
+                        selectedItems={this.state.selectedMovieGenres}
+                        colors={{primary: 'lightgray'}}
+                        styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                        onConfirm={() => console.log(this.state.selectedMovieGenres)}
+                        />
+                    </View>
+                    {/* <ScrollView>
                         <MultiSelect
                             hideTags
                             items={this.movieGenres}
@@ -84,10 +99,23 @@ export default class DiscoverComponent extends React.Component {
                             submitButtonText="Done"
                             autoFocusInput={false}
                         />
-                    </ScrollView>
+                    </ScrollView> */}
                 </View>
-                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
-                    <ScrollView>
+                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%', marginBottom: '2.5%', backgroundColor: 'darkgray'}}>
+                    <SectionedMultiSelect
+                        items={this.tvGenres} 
+                        uniqueKey='id'
+                        subKey='children'
+                        selectText="Pick some TV genres"
+                        showDropDowns={true}
+                        readOnlyHeadings={true}
+                        onSelectedItemsChange={this.onSelectedTVItemsChange}
+                        selectedItems={this.state.selectedTvGenres}
+                        colors={{primary: 'lightgray'}}
+                        styles={{confirmText: {color: 'black'},  selectToggleText: {fontWeight: 'bold'}}}
+                        onConfirm={() => console.log(this.state.selectedTvGenres)}
+                        />
+                    {/* <ScrollView>
                         <MultiSelect
                             hideTags
                             items={this.tvGenres}
@@ -108,11 +136,13 @@ export default class DiscoverComponent extends React.Component {
                             submitButtonText="Done"
                             autoFocusInput={false}
                         />
-                    </ScrollView>
-                    <Button
-                        onPress={this._fetchFiltersResults}
-                        title='Search'
-                        color='#841584'
+                    </ScrollView> */}
+                </View>
+                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
+                <Button
+                    onPress={this._fetchFiltersResults}
+                    title='Search'
+                    color='#841584'
                     />
                 </View>
             </View>
