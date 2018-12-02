@@ -6,7 +6,6 @@ import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 import FlatlistComponent from "./FlatlistComponent";
 import DiscoverComponent from "./DiscoverComponent";
-// import DiscoverComponent from './DiscoverComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
 export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=10&q=movie:`;
