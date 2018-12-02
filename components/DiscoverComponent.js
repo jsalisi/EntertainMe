@@ -9,6 +9,66 @@ const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
 
+const items = [
+    {  
+      name: "Fruits",
+      id: 0,
+      children: [{
+          name: "Apple",
+          id: 10,
+        },{
+          name: "Strawberry",
+          id: 17,
+        },{
+          name: "Pineapple",
+          id: 13,
+        },{
+          name: "Banana",
+          id: 14,
+        },{
+          name: "Watermelon",
+          id: 15,
+        },{
+          name: "Kiwi fruit",
+          id: 16,
+        }]
+    },
+    {
+      name: "Gems",
+      id: 1,
+      children: [{
+          name: "Quartz",
+          id: 20,
+        },{
+          name: "Zircon",
+          id: 21,
+        },{
+          name: "Sapphire",
+          id: 22,
+        },{
+          name: "Topaz",
+          id: 23,
+        }]
+    },
+    {
+      name: "Plants",
+      id: 2,
+      children: [{
+          name: "Mother In Law\'s Tongue",
+          id: 30,
+        },{
+          name: "Yucca",
+          id: 31,
+        },{
+          name: "Monsteria",
+          id: 32,
+        },{
+          name: "Palm",
+          id: 33,
+        }]
+    },
+  ]
+
 export default class DiscoverComponent extends React.Component {
     constructor(props) {
         super(props);
@@ -63,82 +123,41 @@ export default class DiscoverComponent extends React.Component {
     render() {
         return (
             <View style={StyleSheet.absoluteFill}>
-                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%', marginBottom: '2.5%', backgroundColor: 'darkgray'}}>
+                <View style={styles.viewSelectStyle}>
                     <View>
                     <SectionedMultiSelect
-                        items={this.movieGenres} 
+                        items={[{id: 0, name: 'Movie Genres', children: this.movieGenres}]} 
                         uniqueKey='id'
+                        subKey='children'
                         selectText="Pick some movie genres"
-                        showDropDowns={true}
+                        expandDropDowns={true}
+                        showDropDowns={false}
                         readOnlyHeadings={true}
                         onSelectedItemsChange={this.onSelectedMovieItemsChange}
                         selectedItems={this.state.selectedMovieGenres}
                         colors={{primary: 'lightgray'}}
-                        styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                        styles={{ confirmText: { color: 'black' }, selectToggleText: { fontWeight: 'bold' } }}
                         onConfirm={() => console.log(this.state.selectedMovieGenres)}
                         />
                     </View>
-                    {/* <ScrollView>
-                        <MultiSelect
-                            hideTags
-                            items={this.movieGenres}
-                            uniqueKey="id"
-                            onSelectedItemsChange={this.onSelectedMovieItemsChange}
-                            selectedItems={this.state.selectedMovieGenres}
-                            selectText="Pick some movie genres"
-                            searchInputPlaceholderText="Search Genres..."
-                            tagRemoveIconColor="#CCC"
-                            tagBorderColor="#CCC"
-                            tagTextColor="#CCC"
-                            selectedItemTextColor="#CCC"
-                            selectedItemIconColor="#CCC"
-                            itemTextColor="#000"
-                            displayKey="name"
-                            searchInputStyle={{color: '#CCC'}}
-                            submitButtonColor="#CCC"
-                            submitButtonText="Done"
-                            autoFocusInput={false}
-                        />
-                    </ScrollView> */}
                 </View>
-                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%', marginBottom: '2.5%', backgroundColor: 'darkgray'}}>
+                <View style={styles.viewSelectStyle}>
                     <SectionedMultiSelect
-                        items={this.tvGenres} 
+                        items={[{id: 0, name: 'TV Genres', children: this.tvGenres}]} 
                         uniqueKey='id'
                         subKey='children'
                         selectText="Pick some TV genres"
-                        showDropDowns={true}
+                        expandDropDowns={true}
+                        showDropDowns={false}
                         readOnlyHeadings={true}
                         onSelectedItemsChange={this.onSelectedTVItemsChange}
                         selectedItems={this.state.selectedTvGenres}
                         colors={{primary: 'lightgray'}}
-                        styles={{confirmText: {color: 'black'},  selectToggleText: {fontWeight: 'bold'}}}
+                        styles={{ confirmText: { color: 'black' }, selectToggleText: { fontWeight: 'bold' } }}
                         onConfirm={() => console.log(this.state.selectedTvGenres)}
                         />
-                    {/* <ScrollView>
-                        <MultiSelect
-                            hideTags
-                            items={this.tvGenres}
-                            uniqueKey="id"
-                            onSelectedItemsChange={this.onSelectedTVItemsChange}
-                            selectedItems={this.state.selectedTvGenres}
-                            selectText="Pick some TV genres"
-                            searchInputPlaceholderText="Search Genres..."
-                            tagRemoveIconColor="#CCC"
-                            tagBorderColor="#CCC"
-                            tagTextColor="#CCC"
-                            selectedItemTextColor="#CCC"
-                            selectedItemIconColor="#CCC"
-                            itemTextColor="#000"
-                            displayKey="name"
-                            searchInputStyle={{color: '#CCC'}}
-                            submitButtonColor="#CCC"
-                            submitButtonText="Done"
-                            autoFocusInput={false}
-                        />
-                    </ScrollView> */}
                 </View>
-                <View style={{maxHeight: '40%', width: '95%', marginLeft:'2.5%'}}>
+                <View style={styles.button}>
                 <Button
                     onPress={this._fetchFiltersResults}
                     title='Search'
@@ -149,3 +168,18 @@ export default class DiscoverComponent extends React.Component {
         )
     }
 }
+
+const styles = StyleSheet.create({
+    viewSelectStyle: {
+        maxHeight: '40%', 
+        width: '95%', 
+        marginLeft:'2.5%', 
+        marginBottom: '2.5%', 
+        backgroundColor: 'white'
+    },
+    button:{
+        maxHeight: '40%', 
+        width: '95%', 
+        marginLeft:'2.5%'
+    }
+})
