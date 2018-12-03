@@ -12,8 +12,8 @@ export default class FlatlistComponent extends React.Component {
         super(props);
         this.state = {
             type: props.type,
-            movieGenres: props.movieGenres,
-            tvGenres: props.tvGenres,
+            // movieGenres: props.movieGenres,
+            // tvGenres: props.tvGenres,
             mostPopularMovies: [],
             mostPopularShows: [],
             mostPopularBooks: []
@@ -152,20 +152,17 @@ export default class FlatlistComponent extends React.Component {
             if (this.state.fromTasteDive) {
                 return (
                     <View>
-                        <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
-                            <View style={styles.box}>
-                                <Text
-                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
-                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
-                            </View>
-                        </TouchableHighlight>
+                        <Image style={styles.box}
+                               source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                               backgroundColor={'transparent'}/>
+                        {/* <Text style={styles.text}>{item.Name}</Text> */}
                     </View>
                 )
             } else {
-                // let genres = [];
-                // for (let i = 0; i < item.genre_ids.length; i++) {
-                //     genres.push(this._getGenre('movie', item.genre_ids[i]))
-                // }
+                let genres = [];
+                for (let i = 0; i < item.genre_ids.length; i++) {
+                    genres.push(this._getGenre('movie', item.genre_ids[i]))
+                }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Popularity',
@@ -174,7 +171,7 @@ export default class FlatlistComponent extends React.Component {
                         fourth: 'Genres',
                         title: item.title,
                         averageRating: item.vote_average,
-                        categories: item.genre_ids,
+                        categories: genres.join(', '),
                         description: item.overview,
                         images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
                         subtitle: item.original_title,
@@ -212,22 +209,19 @@ export default class FlatlistComponent extends React.Component {
             if (this.state.fromTasteDive) {
                 return (
                     <View>
-                        <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
-                            <View style={styles.box}>
-                                <Text
-                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
-                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
-                            </View>
-                        </TouchableHighlight>
+                        <Image style={styles.box}
+                               source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
+                               backgroundColor={'transparent'}/>
+                        {/* <Text style={styles.text}>{item.Name}</Text> */}
                     </View>
                 )
             } else {
-                // let genres = [];
-                // if (item.genre_ids) {
-                //     for (let i = 0; i < item.genre_ids.length; i++) {
-                //         genres.push(this._getGenre('tv', item.genre_ids[i]))
-                //     }
-                // }
+                let genres = [];
+                if (item.genre_ids) {
+                    for (let i = 0; i < item.genre_ids.length; i++) {
+                        genres.push(this._getGenre('tv', item.genre_ids[i]))
+                    }
+                }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Origin Country / Language',
@@ -236,7 +230,7 @@ export default class FlatlistComponent extends React.Component {
                         fourth: 'Genres',
                         title: item.name,
                         averageRating: item.vote_average,
-                        categories: item.genre_ids,
+                        categories: genres.join(', '),
                         description: item.overview,
                         images: {thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path},
                         subtitle: item.original_name,
