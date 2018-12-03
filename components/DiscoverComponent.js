@@ -1,6 +1,5 @@
 import React from 'react';
-import {Button, StyleSheet, View, Dimensions} from 'react-native';
-import MultiSelect from 'react-native-multiple-select';
+import {Button, Dimensions, StyleSheet, View} from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 

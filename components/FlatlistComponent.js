@@ -38,7 +38,7 @@ export default class FlatlistComponent extends React.Component {
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
-                    mostPopularMovies: response.results[0].books
+                    mostPopularMovies: response.results
                 });
             });
 
