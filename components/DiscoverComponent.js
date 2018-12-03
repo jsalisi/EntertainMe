@@ -1,7 +1,8 @@
 import React from 'react';
-import {Button, Dimensions, StyleSheet, View} from 'react-native';
+import {Button, Dimensions, ScrollView, StyleSheet, View} from 'react-native';
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
+import FlatlistComponent from "./FlatlistComponent";
 
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 
@@ -26,7 +27,6 @@ export default class DiscoverComponent extends React.Component {
 
         ];
         this.tvRatings = [
-            {id: 'Exempt', name: 'Exempt'},
             {id: 'TV-Y', name: 'TV-Y'},
             {id: 'C', name: 'C'},
             {id: 'TV-Y7', name: 'TV-Y7'},
@@ -80,11 +80,9 @@ export default class DiscoverComponent extends React.Component {
             this._fetchResults(movieQuery),
             this._fetchResults(tvQuery)
         ]).then((res) => {
-            console.log(res);
-            this.navigation.navigate('SearchResults', {
-                discover: true,
-                movielist: res[0],
-                showlist: res[1]
+            this.setState({
+                movieResults: res[0],
+                tvResults: res[1]
             })
         })
     };
@@ -101,76 +99,81 @@ export default class DiscoverComponent extends React.Component {
 
     render() {
         return (
-            <View style={StyleSheet.absoluteFill}>
-                <View style={styles.viewSelectStyle}>
-                    <View>
+            <ScrollView style={StyleSheet.absoluteFill}>
+                <View style={styles.viewSelectContainer}>
+                    <View style={styles.viewSelectStyle}>
+                        <View>
+                            <SectionedMultiSelect
+                                items={[{id: 0, name: 'Movie Genres', children: this.movieGenres}]}
+                                uniqueKey='id'
+                                subKey='children'
+                                selectText="Movie genres"
+                                expandDropDowns={true}
+                                showDropDowns={false}
+                                readOnlyHeadings={true}
+                                showRemoveAll={true}
+                                onSelectedItemsChange={this.onSelectedMovieItemsChange}
+                                selectedItems={this.state.selectedMovieGenres}
+                                colors={{primary: 'lightgray'}}
+                                styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                                onConfirm={() => console.log(this.state.selectedMovieGenres)}
+                            />
+                        </View>
+                    </View>
+                    <View style={styles.viewSelectStyle}>
                         <SectionedMultiSelect
-                            items={[{id: 0, name: 'Movie Genres', children: this.movieGenres}]}
+                            items={[{id: 0, name: 'TV Genres', children: this.tvGenres}]}
                             uniqueKey='id'
                             subKey='children'
-                            selectText="Pick some movie genres"
+                            selectText="TV genres"
                             expandDropDowns={true}
                             showDropDowns={false}
-                            readOnlyHeadings={true}
                             showRemoveAll={true}
-                            onSelectedItemsChange={this.onSelectedMovieItemsChange}
-                            selectedItems={this.state.selectedMovieGenres}
+                            readOnlyHeadings={true}
+                            onSelectedItemsChange={this.onSelectedTVItemsChange}
+                            selectedItems={this.state.selectedTvGenres}
                             colors={{primary: 'lightgray'}}
                             styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                            onConfirm={() => console.log(this.state.selectedMovieGenres)}
+                            onConfirm={() => console.log(this.state.selectedTvGenres)}
                         />
                     </View>
                 </View>
-                <View style={styles.viewSelectStyle}>
-                    <SectionedMultiSelect
-                        items={[{id: 0, name: 'TV Genres', children: this.tvGenres}]}
-                        uniqueKey='id'
-                        subKey='children'
-                        selectText="Pick some TV genres"
-                        expandDropDowns={true}
-                        showDropDowns={false}
-                        showRemoveAll={true}
-                        readOnlyHeadings={true}
-                        onSelectedItemsChange={this.onSelectedTVItemsChange}
-                        selectedItems={this.state.selectedTvGenres}
-                        colors={{primary: 'lightgray'}}
-                        styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                        onConfirm={() => console.log(this.state.selectedTvGenres)}
-                    />
-                </View>
-                <View style={styles.viewSelectStyle}>
-                    <SectionedMultiSelect
-                        items={[{id: 0, name: 'Rating', children: this.movieRatings}]}
-                        uniqueKey='id'
-                        subKey='children'
-                        selectText="Pick some movie ratings"
-                        expandDropDowns={true}
-                        showDropDowns={false}
-                        showRemoveAll={true}
-                        readOnlyHeadings={true}
-                        onSelectedItemsChange={this.onSelectedMovieRatingItemsChange}
-                        selectedItems={this.state.selectedMovieRatings}
-                        colors={{primary: 'lightgray'}}
-                        styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                        onConfirm={() => console.log(this.state.selectedMovieRatings)}
-                    />
-                </View>
-                <View style={styles.viewSelectStyle}>
-                    <SectionedMultiSelect
-                        items={[{id: 0, name: 'Rating', children: this.tvRatings}]}
-                        uniqueKey='id'
-                        subKey='children'
-                        selectText="Pick some TV ratings"
-                        expandDropDowns={true}
-                        showDropDowns={false}
-                        showRemoveAll={true}
-                        readOnlyHeadings={true}
-                        onSelectedItemsChange={this.onSelectedTVRatingItemsChange}
-                        selectedItems={this.state.selectedTVRatings}
-                        colors={{primary: 'lightgray'}}
-                        styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                        onConfirm={() => console.log(this.state.selectedTVRatings)}
-                    />
+                <View style={styles.viewSelectContainer}>
+
+                    <View style={styles.viewSelectStyle}>
+                        <SectionedMultiSelect
+                            items={[{id: 0, name: 'Rating', children: this.movieRatings}]}
+                            uniqueKey='id'
+                            subKey='children'
+                            selectText="Movie ratings"
+                            expandDropDowns={true}
+                            showDropDowns={false}
+                            showRemoveAll={true}
+                            readOnlyHeadings={true}
+                            onSelectedItemsChange={this.onSelectedMovieRatingItemsChange}
+                            selectedItems={this.state.selectedMovieRatings}
+                            colors={{primary: 'lightgray'}}
+                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                            onConfirm={() => console.log(this.state.selectedMovieRatings)}
+                        />
+                    </View>
+                    <View style={styles.viewSelectStyle}>
+                        <SectionedMultiSelect
+                            items={[{id: 0, name: 'Rating', children: this.tvRatings}]}
+                            uniqueKey='id'
+                            subKey='children'
+                            selectText="TV ratings"
+                            expandDropDowns={true}
+                            showDropDowns={false}
+                            showRemoveAll={true}
+                            readOnlyHeadings={true}
+                            onSelectedItemsChange={this.onSelectedTVRatingItemsChange}
+                            selectedItems={this.state.selectedTVRatings}
+                            colors={{primary: 'lightgray'}}
+                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                            onConfirm={() => console.log(this.state.selectedTVRatings)}
+                        />
+                    </View>
                 </View>
                 <View style={styles.button}>
                     <Button
@@ -179,18 +182,37 @@ export default class DiscoverComponent extends React.Component {
                         color='red'
                     />
                 </View>
-            </View>
+                {this.state.movieResults.length > 0 ?
+                    <FlatlistComponent
+                        type={'Movies'}
+                        listItems={this.state.movieResults}
+                        navigation={this.props.navigation}
+                        movieGenres={this.movieGenres}/>
+                    : <View/>}
+
+                {this.state.movieResults.length > 0 ?
+                    <FlatlistComponent
+                        type={'TV Shows'}
+                        listItems={this.state.tvResults}
+                        navigation={this.props.navigation}
+                        movieGenres={this.tvGenres}/>
+                    : <View/>}
+            </ScrollView>
         )
     }
 }
 
 const styles = StyleSheet.create({
     viewSelectStyle: {
-        maxHeight: '90%',
-        width: '95%',
-        marginLeft: '2.5%',
+        // maxHeight: '90%',
+        width: '45%',
+        marginHorizontal: '1.75%',
         marginBottom: '2.5%',
         backgroundColor: 'white'
+    },
+    viewSelectContainer: {
+        flexDirection: 'row',
+        justifyContent: 'center'
     },
     button: {
         maxHeight: '40%',
