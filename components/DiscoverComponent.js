@@ -166,25 +166,6 @@ export default class DiscoverComponent extends React.Component {
                         />
                     </View>
                 </View>
-                <View style={styles.viewSelectContainer}>
-                    <View>
-                        <SectionedMultiSelect
-                            items={[{id: 0, name: 'Rating', children: this.tvRatings}]}
-                            uniqueKey='id'
-                            subKey='children'
-                            selectText="TV ratings"
-                            expandDropDowns={true}
-                            showDropDowns={false}
-                            showRemoveAll={true}
-                            readOnlyHeadings={true}
-                            onSelectedItemsChange={this.onSelectedTVRatingItemsChange}
-                            selectedItems={this.state.selectedTVRatings}
-                            colors={{primary: 'lightgray'}}
-                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                            onConfirm={() => console.log(this.state.selectedTVRatings)}
-                        />
-                    </View>
-                </View>
                 <View style={styles.button}>
                     <Button
                         onPress={this._fetchFiltersResults}
