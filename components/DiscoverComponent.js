@@ -233,6 +233,6 @@ const styles = StyleSheet.create({
         marginLeft: '2.5%'
     },
     discoverResults: {
-        height: screenHeight*0.88,
+        minHeight: screenHeight,
     }
 });
