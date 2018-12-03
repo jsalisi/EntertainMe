@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import Search from './Search';
 import FlatlistComponent from './FlatlistComponent';
@@ -38,19 +38,21 @@ export default class List extends Search {
         return (
             <LinearGradient colors={['#000000', '#323232']}>
                 <ScrollView>
-                    <FlatlistComponent
-                        type={'Books'}
-                        listItems={this.state.bookList}
-                        navigation={this.props.navigation}/>
-                    <FlatlistComponent
-                        type={'Movies'}
-                        listItems={this.state.movieList}
-                        navigation={this.props.navigation}
-                        movieGenres={this.state.movieGenres}/>
-                    <FlatlistComponent
-                        type={'TV Shows'}
-                        listItems={this.state.showList}
-                        navigation={this.props.navigation} tvGenres={this.state.tvGenres}/>
+                    <View style={{marginBottom: 10}}>
+                        <FlatlistComponent
+                            type={'Books'}
+                            listItems={this.state.bookList}
+                            navigation={this.props.navigation}/>
+                        <FlatlistComponent
+                            type={'Movies'}
+                            listItems={this.state.movieList}
+                            navigation={this.props.navigation}
+                            movieGenres={this.state.movieGenres}/>
+                        <FlatlistComponent
+                            type={'TV Shows'}
+                            listItems={this.state.showList}
+                            navigation={this.props.navigation} tvGenres={this.state.tvGenres}/>
+                    </View>
                 </ScrollView>
             </LinearGradient>
         )
