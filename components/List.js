@@ -46,12 +46,11 @@ export default class List extends Search {
                         <FlatlistComponent
                             type={'Movies'}
                             listItems={this.state.movieList}
-                            navigation={this.props.navigation}
-                            movieGenres={this.state.movieGenres}/>
+                            navigation={this.props.navigation}/>
                         <FlatlistComponent
                             type={'TV Shows'}
                             listItems={this.state.showList}
-                            navigation={this.props.navigation} tvGenres={this.state.tvGenres}/>
+                            navigation={this.props.navigation}/>
                     </View>
                 </ScrollView>
             </LinearGradient>

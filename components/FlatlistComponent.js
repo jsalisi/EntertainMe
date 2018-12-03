@@ -162,7 +162,7 @@ export default class FlatlistComponent extends React.Component {
                     </View>
                 )
             } else {
-                let genres = [28, 12, 16, 35, 80, 99, 18, 10402, 9648, 10749, 878, 10770, 53, 10752, 37];
+                let genres = [];
                 for (let i = 0; i < item.genre_ids.length; i++) {
                     genres.push(this._getGenre('movie', item.genre_ids[i]))
                 }

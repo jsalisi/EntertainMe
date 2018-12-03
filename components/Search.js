@@ -16,9 +16,6 @@ const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BO
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 const showRequest = `https://api.themoviedb.org/3/search/tv?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
 
-const movieGenreRequest = `https://api.themoviedb.org/3/genre/movie/list?api_key=${THE_MOVIE_DB_API_KEY}`;
-const tvGenreRequest = `https://api.themoviedb.org/3/genre/tv/list?api_key=${THE_MOVIE_DB_API_KEY}`;
-
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
 
@@ -46,18 +43,6 @@ export default class Search extends React.Component {
 
     static defaultProps = {
         selectedIndex: 0
-    }
-
-    componentWillMount() {
-        Promise.all([
-            this.getSearchContent(null, 'movieGenres'),
-            this.getSearchContent(null, 'tvGenres'),
-        ]).then((res) => {
-            this.setState({
-                movieGenres: res[0],
-                tvGenres: res[1]
-            });
-        });
     }
 
     componentDidMount() {
@@ -131,14 +116,6 @@ export default class Search extends React.Component {
                     .then((response) => {
                         resolve(response.items)
                     });
-            } else if (type === 'movieGenres') {
-                fetch(movieGenreRequest)
-                    .then((response) => response.json())
-                    .then((response) => resolve(response.genres))
-            } else if (type === 'tvGenres') {
-                fetch(tvGenreRequest)
-                    .then((response) => response.json())
-                    .then((response) => resolve(response.genres))
             } else {
                 if (type == 'movie') {
                     urlType = movieRequest
@@ -222,21 +199,18 @@ export default class Search extends React.Component {
         if (idx === 0) {
             return (
                 <ScrollView>
-                    <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres}
+                    <FlatlistComponent type={'Most Popular Movies'}
                                        navigation={this.props.navigation}/>
-                    <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres}
+                    <FlatlistComponent type={'Most Popular Shows'}
                                        navigation={this.props.navigation}/>
                 </ScrollView>
             )
         } else if (idx === 1) {
-            if (this.state.movieGenres.length > 0) {
                 return (
                     <View style={{height: screenHeight, width: screenWidth}}>
-                        <DiscoverComponent movieGenres={this.state.movieGenres} tvGenres={this.state.tvGenres}
-                                           navigation={this.props.navigation}/>
+                        <DiscoverComponent navigation={this.props.navigation}/>
                     </View>
                 )
-            }
         }
     }
 

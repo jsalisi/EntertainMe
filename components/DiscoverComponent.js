@@ -4,6 +4,8 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 import FlatlistComponent from "./FlatlistComponent";
 
+import {tvGenres, movieGenres} from './Genres.js';
+
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 
 const screenHeight = (Dimensions.get('window').height);
@@ -12,8 +14,8 @@ const screenWidth = (Dimensions.get('window').width);
 export default class DiscoverComponent extends React.Component {
     constructor(props) {
         super(props);
-        this.movieGenres = props.movieGenres;
-        this.tvGenres = props.tvGenres;
+        this.movieGenres = movieGenres;
+        this.tvGenres = tvGenres;
         this.navigation = props.navigation;
         this.movieRatings = [
             {id: 'G', name: 'G'},
