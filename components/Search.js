@@ -6,11 +6,8 @@ import * as Animatable from 'react-native-animatable';
 import {GOOGLE_BOOKS_API_KEY, TASTE_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 import FlatlistComponent from "./FlatlistComponent";
 import DiscoverComponent from "./DiscoverComponent";
-// import DiscoverComponent from './DiscoverComponent';
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
-export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movies&info=true&limit=10&q=movie:`;
-export const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=shows&info=true&limit=10&q=`;
 
 const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=10&q=`;
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;
@@ -32,8 +29,6 @@ export default class Search extends React.Component {
             movieList: [],
             showList: [],
             bookList: [],
-            movieGenres: [],
-            tvGenres: [],
             searchOpen: false,
             selectedIndex: 0
         };
@@ -55,54 +50,6 @@ export default class Search extends React.Component {
 
     updateIndex(selectedIndex) {
         this.setState({selectedIndex})
-    }
-
-    getRecommendations = (searchTerm, mediaType) => {
-        return new Promise((resolve, reject) => {
-            let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-
-            this.getSearchContent(searchTerm, mediaType)
-                .then((searchResultArray) => {
-                    fetch(tasteDiveSearch)
-                        .then((response) => response.json())
-                        .then((tasteDiveObject) => {
-                            this._processSearchResult(tasteDiveObject, JSON.parse(JSON.stringify(searchResultArray)), mediaType)
-                                .then((res) => {
-                                    resolve(res);
-                                }).catch((e) => console.log(e));
-                        });
-                });
-        });
-    }
-
-    _processSearchResult = (tasteDiveObject, temp, mediaType) => {
-        return new Promise(async (resolve, reject) => {
-            let tempArray = [];
-            for (index = 0; index < 3; index++) {
-                if (temp[index] != undefined) {
-                    tempArray.push(JSON.parse(JSON.stringify(temp[index])));
-                } else {
-                    tempArray.push({})
-                }
-            }
-            // let tempArray = [
-            //     JSON.parse(JSON.stringify(temp[0])),
-            //     JSON.parse(JSON.stringify(temp[1])),
-            //     JSON.parse(JSON.stringify(temp[2]))
-            // ];
-            const promises = tasteDiveObject.Similar.Results.map((res) => {
-                this.getSearchContent(res.Name, mediaType)
-                    .then((response) => {
-                        tempArray.push(response[0])
-                    })
-                    .catch((error) => {
-                        reject(error)
-                    })
-            });
-
-            await Promise.all(promises);
-            resolve(tempArray)
-        });
     }
 
     getSearchContent = (searchTerm, type) => {
