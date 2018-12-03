@@ -61,7 +61,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        this.menu.transition({marginTop: screenHeight}, {marginTop: screenHeight * 0.15}, 1250)
+        // this.menu.transition({marginTop: screenHeight}, {marginTop: screenHeight * 0.15}, 1250)
     }
 
     searchText(text) {
@@ -254,7 +254,7 @@ export default class Search extends React.Component {
                 <View>
                     {/* <StatusBar hidden /> */}
 
-                    <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                    <Animatable.View style={{marginTop: screenHeight * 0.15}} animation={'bounceInUp'} ref={this.handleListRef}>
                         <ButtonGroup
                             onPress={this.updateIndex}
                             textStyle={{color: 'white'}}

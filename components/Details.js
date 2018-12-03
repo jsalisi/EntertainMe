@@ -82,7 +82,6 @@ export default class Details extends Search {
     };
 
     render() {
-        // if (this.state.images['thumbnail'])
         return (
             <LinearGradient colors={['#000000', '#323232']} style={StyleSheet.absoluteFill}>
                 <ScrollView>

@@ -1,6 +1,6 @@
 import React from 'react';
 import {Dimensions, FlatList, Image, Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
-import {THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
+import {NEW_YORK_TIMES_API_KEY, THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
 
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
@@ -15,7 +15,8 @@ export default class FlatlistComponent extends React.Component {
             movieGenres: props.movieGenres,
             tvGenres: props.tvGenres,
             mostPopularMovies: [],
-            mostPopularShows: []
+            mostPopularShows: [],
+            mostPopularBooks: []
         };
     }
 
@@ -37,7 +38,7 @@ export default class FlatlistComponent extends React.Component {
             .then((response) => response.json())
             .then((response) => {
                 this.setState({
-                    mostPopularMovies: response.results
+                    mostPopularMovies: response.results[0].books
                 });
             });
 
@@ -48,7 +49,16 @@ export default class FlatlistComponent extends React.Component {
                 this.setState({
                     mostPopularShows: response.results
                 });
-            });
+            })
+
+        let bookQuery = `https://api.nytimes.com/svc/books/v3/lists/overview.json?api-key=${NEW_YORK_TIMES_API_KEY}`;
+        fetch(bookQuery)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    mostPopularBooks: response.results.lists
+                });
+            })
     }
 
     openURl = (link) => {
@@ -60,7 +70,7 @@ export default class FlatlistComponent extends React.Component {
 
     renderFlatList = (listTitle, data, renderFunction) => {
         return (
-            <View style={this.state.type.includes('Genre') ? styles.row2: styles.row}>
+            <View style={this.state.type.includes('Genre') ? styles.row2 : styles.row}>
                 <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
@@ -283,6 +293,12 @@ export default class FlatlistComponent extends React.Component {
             return (
                 <View>
                     {this.renderFlatList('Most Popular Shows', this.state.mostPopularShows, this._renderShowList)}
+                </View>
+            )
+        } else if (this.state.type === 'Most Popular Books') {
+            return (
+                <View>
+                    {this.renderFlatList('Most Popular Books', this.state.mostPopularBooks, this.renderBookList)}
                 </View>
             )
         }
