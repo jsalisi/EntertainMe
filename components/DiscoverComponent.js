@@ -19,18 +19,13 @@ export default class DiscoverComponent extends React.Component {
             {id: 'G', name: 'G'},
             {id: 'PG', name: 'PG'},
             {id: 'PG-13', name: 'PG-13'},
-            {id: '14A', name: '14A'},
             {id: 'R', name: 'R'},
-            {id: '18A', name: '18A'},
             {id: 'NC-17', name: 'NC-17'},
-            {id: 'A', name: 'A'},
-
         ];
         this.tvRatings = [
             {id: 'TV-Y', name: 'TV-Y'},
             {id: 'C', name: 'C'},
             {id: 'TV-Y7', name: 'TV-Y7'},
-            {id: 'C8', name: 'C8'},
             {id: 'TV-G', name: 'TV-G'},
             {id: 'TV-PG', name: 'TV-PG'},
             {id: 'TV-14', name: 'TV-14'},
@@ -71,11 +66,9 @@ export default class DiscoverComponent extends React.Component {
     };
 
     _fetchFiltersResults = () => {
-        let movieQuery = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedMovieGenres.join(',')}
-                                &certification=${this.state.selectedMovieRatings.join(',')}`;
-        let tvQuery = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedTvGenres.join(',')}
-                                &certification=${this.state.selectedTVRatings.join(',')}`;
-
+        let movieQuery = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedMovieGenres.join(',')}&certification_country=US&certification=${this.state.selectedMovieRatings.join(',')}`;
+        let tvQuery = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedTvGenres.join(',')}&certification_country=US&&certification=${this.state.selectedTVRatings.join(',')}`;
+        console.log(movieQuery);
         Promise.all([
             this._fetchResults(movieQuery),
             this._fetchResults(tvQuery)
@@ -190,7 +183,7 @@ export default class DiscoverComponent extends React.Component {
                         movieGenres={this.movieGenres}/>
                     : <View/>}
 
-                {this.state.movieResults.length > 0 ?
+                {this.state.tvResults.length > 0 ?
                     <FlatlistComponent
                         type={'TV Shows'}
                         listItems={this.state.tvResults}
