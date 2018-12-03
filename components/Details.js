@@ -74,7 +74,7 @@ export default class Details extends Search {
                     });
                 });
         } else {
-            let query = `https://api.themoviedb.org/3/${type.toLowerCase()}/${id}/recommendations?api_key=${THE_MOVIE_DB_API_KEY}&page=1`;
+            let query = `https://api.themoviedb.org/3/${type === 'Show' ? 'tv' : type.toLowerCase()}/${id}/recommendations?api_key=${THE_MOVIE_DB_API_KEY}&page=1`;
             fetch(query)
                 .then((response) => response.json())
                 .then((response) => {
@@ -166,7 +166,6 @@ export default class Details extends Search {
                         marginBottom: -5,
                         marginHorizontal: 10
                     }}/>
-                    {console.log(this.state.listItems)}
                     <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
                                        listItems={this.state.listItems}
                                        navigation={this.props.navigation} fromTasteDive={true}/>
