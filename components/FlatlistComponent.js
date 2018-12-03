@@ -308,7 +308,7 @@ const styles = StyleSheet.create({
     row: {
         height: screenHeight * 0.35,
         justifyContent: 'flex-start',
-        flex: 1
+
     },
     row2: {
         height: screenHeight,

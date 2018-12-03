@@ -174,7 +174,7 @@ export default class DiscoverComponent extends React.Component {
                         color='red'
                     />
                 </View>
-                <View style={styles.results}>
+                <View style={styles.discoverResults}>
                     {this.state.movieResults.length > 0 &&
                     (this.state.selectedMovieGenres.length > 0 || this.state.selectedMovieRatings.length > 0)
                         ?
@@ -214,7 +214,7 @@ const styles = StyleSheet.create({
         width: '95%',
         marginLeft: '2.5%'
     },
-    results: {
-        height: screenHeight*0.9,
+    discoverResults: {
+        height: screenHeight*0.88,
     }
 })
