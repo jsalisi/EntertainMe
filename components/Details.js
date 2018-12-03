@@ -166,10 +166,12 @@ export default class Details extends Search {
                         marginBottom: -5,
                         marginHorizontal: 10
                     }}/>
-                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
-                                       listItems={this.state.listItems}
-                                       navigation={this.props.navigation} fromTasteDive={true}/>
-
+                    <View style={styles.recommendations}>
+                        {console.log(this.state.listItems)}
+                        <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
+                                        listItems={this.state.listItems}
+                                        navigation={this.props.navigation} fromTasteDive={true}/>
+                    </View>
                 </ScrollView>
             </LinearGradient>
         );
@@ -223,5 +225,8 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         marginBottom: 10,
         marginTop: 7
+    },
+    recommendations: {
+        marginBottom: 10,
     }
 });
