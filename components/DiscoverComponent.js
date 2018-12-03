@@ -68,7 +68,6 @@ export default class DiscoverComponent extends React.Component {
     _fetchFiltersResults = () => {
         let movieQuery = `${initialQueryString}movie?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedMovieGenres.join(',')}&certification_country=US&certification=${this.state.selectedMovieRatings.join(',')}`;
         let tvQuery = `${initialQueryString}tv?api_key=${THE_MOVIE_DB_API_KEY}&with_genres=${this.state.selectedTvGenres.join(',')}&certification_country=US&&certification=${this.state.selectedTVRatings.join(',')}`;
-        console.log(movieQuery);
         Promise.all([
             this._fetchResults(movieQuery),
             this._fetchResults(tvQuery)
