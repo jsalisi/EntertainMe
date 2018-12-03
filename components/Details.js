@@ -2,8 +2,9 @@ import React from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import Star from "react-native-star-view";
+import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
 
-import Search, {bookReq, movieReq, showReq} from "./Search";
+import Search, {bookReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
 
 export default class Details extends Search {
@@ -28,7 +29,7 @@ export default class Details extends Search {
             second: '',
             third: '',
             fourth: '',
-            title: 'Search Results',
+            title: '',
             averageRating: '',
             categories: '',
             description: '',
@@ -41,7 +42,7 @@ export default class Details extends Search {
     }
 
     componentDidMount() {
-        this.getSimilarTitles(this.props.navigation.getParam('title'));
+        this.getSimilarTitles(this.props.navigation.getParam('id'), this.props.navigation.getParam('title'));
         this.setState({
             first: this.props.navigation.getParam('first'),
             second: this.props.navigation.getParam('second'),
@@ -59,26 +60,30 @@ export default class Details extends Search {
         });
     }
 
-    getSimilarTitles = (searchTerm) => {
+    getSimilarTitles = (id, searchTerm) => {
         let req = '';
         let type = this.props.navigation.getParam('type');
 
         if (type === 'Books') {
-            req = bookReq
-        } else if (type === 'Movies') {
-            req = movieReq
-        } else {
-            req = showReq
-        }
-        let tasteDiveSearch = req + encodeURIComponent(searchTerm).replace(/%20/g, '+');
-        fetch(tasteDiveSearch)
-            .then((response) => response.json())
-            .then((response) => {
-                this.setState({
-                    listItems: response['Similar']['Results']
+            let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
+            fetch(tasteDiveSearch)
+                .then((response) => response.json())
+                .then((response) => {
+                    this.setState({
+                        listItems: response['Similar']['Results']
+                    });
                 });
-            });
-
+        } else {
+            let query = `https://api.themoviedb.org/3/${type.toLowerCase()}/${id}/recommendations?api_key=${THE_MOVIE_DB_API_KEY}&page=1`;
+            fetch(query)
+                .then((response) => response.json())
+                .then((response) => {
+                    console.log(query);
+                    this.setState({
+                        listItems: response['results']
+                    });
+                });
+        }
     };
 
     render() {
@@ -161,9 +166,10 @@ export default class Details extends Search {
                         marginBottom: -5,
                         marginHorizontal: 10
                     }}/>
-                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}`}
+                    {console.log(this.state.listItems)}
+                    <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
                                        listItems={this.state.listItems}
-                                       navigation={this.props.navigation} fromTasteDive={true}/>
+                                       navigation={this.props.navigation} fromTasteDive={false}/>
 
                 </ScrollView>
             </LinearGradient>

@@ -28,7 +28,6 @@ export default class FlatlistComponent extends React.Component {
             movieGenres: nextProps.movieGenres,
             tvGenres: nextProps.tvGenres,
             fromTasteDive: nextProps.fromTasteDive,
-            isModalVisible: true
         })
     }
 
@@ -70,7 +69,7 @@ export default class FlatlistComponent extends React.Component {
 
     renderFlatList = (listTitle, data, renderFunction) => {
         return (
-            <View style={this.state.type.includes('Genre') ? styles.row2 : styles.row}>
+            <View style={styles.row}>
                 <Text style={styles.title} marginTop={screenHeight * 0.10}>{listTitle}</Text>
                 <FlatList
                     keyExtractor={this._keyExtractorDatabase}
@@ -181,7 +180,8 @@ export default class FlatlistComponent extends React.Component {
                         subtitle: item.original_title,
                         publishedDate: item.release_date,
                         authors: item.popularity + '%',
-                        type: 'Movies'
+                        type: 'Movie',
+                        id: item.id
                     })}>
                         <View>
                             <Image style={styles.box}
@@ -193,6 +193,7 @@ export default class FlatlistComponent extends React.Component {
                 );
             }
         } catch (err) {
+            console.log(err);
             return (
                 <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                     title: item.title,
@@ -241,7 +242,8 @@ export default class FlatlistComponent extends React.Component {
                         subtitle: item.original_name,
                         publishedDate: item.first_air_date,
                         authors: item.origin_country + ',  ' + item.original_language,
-                        type: 'Shows'
+                        type: 'Show',
+                        id: item.id
                     })}>
                         <View>
                             <Image style={styles.box}
@@ -312,6 +314,7 @@ const styles = StyleSheet.create({
     row: {
         height: screenHeight * 0.35,
         justifyContent: 'flex-start',
+        flex: 1
     },
     row2: {
         height: screenHeight,
