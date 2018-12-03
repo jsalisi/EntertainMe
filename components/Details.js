@@ -169,7 +169,7 @@ export default class Details extends Search {
                     {console.log(this.state.listItems)}
                     <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
                                        listItems={this.state.listItems}
-                                       navigation={this.props.navigation} fromTasteDive={false}/>
+                                       navigation={this.props.navigation} fromTasteDive={true}/>
 
                 </ScrollView>
             </LinearGradient>
