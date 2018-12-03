@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
+import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View, ScrollView, Keyboard} from 'react-native';
 import {ButtonGroup, Header, SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
@@ -61,7 +61,7 @@ export default class Search extends React.Component {
     }
 
     componentDidMount() {
-        // this.menu.transition({marginTop: screenHeight}, {marginTop: screenHeight * 0.15}, 1250)
+        this.menu.transition({marginTop: screenHeight}, {marginTop: screenHeight * 0.15}, 1250)
     }
 
     searchText(text) {
@@ -181,6 +181,7 @@ export default class Search extends React.Component {
 
     handleViewRef = ref => this.view = ref;
     handleListRef = ref => this.menu = ref;
+    handleSearchRef = ref => this.searchBar = ref;
 
     renderLeftComponent = () => {
         return (
@@ -199,12 +200,14 @@ export default class Search extends React.Component {
                 if (this.state.searchOpen === true) {
                     this.view.transitionTo({top: screenHeight * 0.05})
                     this.menu.transitionTo({marginTop: screenHeight * 0.15})
+                    Keyboard.dismiss()
                     this.setState({
                         searchOpen: false
                     });
                 } else {
                     this.view.transitionTo({top: screenHeight * 0.15})
                     this.menu.transitionTo({marginTop: screenHeight * 0.25})
+                    this.searchBar.focus()
                     this.setState({
                         searchOpen: true
                     });
@@ -218,10 +221,10 @@ export default class Search extends React.Component {
     resolveFlatlist = (idx) => {
         if (idx === 0) {
             return (
-                <View>
+                <ScrollView>
                     <FlatlistComponent type={'Most Popular Movies'} movieGenres={this.state.movieGenres} navigation={this.props.navigation}/>
                     <FlatlistComponent type={'Most Popular Shows'} tvGenres={this.state.tvGenres} navigation={this.props.navigation}/>
-                </View>
+                </ScrollView>
             )
         } else if (idx === 1) {
             return (
@@ -254,7 +257,7 @@ export default class Search extends React.Component {
                 <View>
                     {/* <StatusBar hidden /> */}
 
-                    <Animatable.View style={{marginTop: screenHeight * 0.15}} animation={'bounceInUp'} ref={this.handleListRef}>
+                    <Animatable.View style={StyleSheet.absoluteFill} style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
                         <ButtonGroup
                             onPress={this.updateIndex}
                             textStyle={{color: 'white'}}
@@ -266,6 +269,7 @@ export default class Search extends React.Component {
                     </Animatable.View>
                     <Animatable.View style={styles.searchBar} ref={this.handleViewRef}>
                         <SearchBar
+                            ref={this.handleSearchRef}
                             containerStyle={styles.search}
                             round
                             lightTheme
@@ -292,74 +296,75 @@ export default class Search extends React.Component {
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 2,
-        backgroundColor: 'transparent',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    header_item: {
-        backgroundColor: 'black',
-        position: 'absolute',
-        top: 0,
-        height: screenHeight * 0.15,
-        width: screenWidth,
-        borderBottomColor: 'transparent'
-    },
-    searchBar: {
-        flex: 1,
-        position: 'absolute',
-        top: screenHeight * 0.05,
-        width: screenWidth
-    },
-    text_emphasis: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'red',
-    },
-    text: {
-        fontSize: 30,
-        fontWeight: 'bold',
-        color: 'white',
-        textAlign: 'center'
-    },
-    search: {
-        backgroundColor: 'transparent',
-        left: screenWidth * 0.025,
-        width: screenWidth * 0.95,
-        borderColor: '#323232',
-        borderBottomColor: 'transparent',
-        borderTopColor: 'transparent',
-        marginBottom: 10
-    },
-    menu: {
-        width: screenWidth * 0.90,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'black',
-        marginBottom: screenHeight * 0.025
-    },
-    button: {
-        width: 45,
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: 'black'
-    },
-    cat_text: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: 'white',
-        textAlign: 'left',
-    },
-    box: {
-        width: screenWidth * 0.90,
-        height: screenHeight * 0.25,
-        margin: screenWidth * 0.01,
-        marginTop: 0,
-        backgroundColor: 'gray',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
-        borderColor: 'white'
-    },
+  container: {
+    flex: 2,
+    backgroundColor: "transparent",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center"
+  },
+  header_item: {
+    backgroundColor: "black",
+    position: "absolute",
+    top: 0,
+    height: screenHeight * 0.15,
+    width: screenWidth,
+    borderBottomColor: "transparent"
+  },
+  searchBar: {
+    flex: 1,
+    position: "absolute",
+    top: screenHeight * 0.05,
+    width: screenWidth
+  },
+  text_emphasis: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "red"
+  },
+  text: {
+    fontSize: 30,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center"
+  },
+  search: {
+    backgroundColor: "transparent",
+    left: screenWidth * 0.025,
+    width: screenWidth * 0.95,
+    borderColor: "#323232",
+    borderBottomColor: "transparent",
+    borderTopColor: "transparent",
+    marginBottom: 10
+  },
+  menu: {
+    marginLeft: screenWidth * 0.025,
+    width: screenWidth * 0.95,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black",
+    marginBottom: screenHeight * 0.025
+  },
+  button: {
+    width: 45,
+    alignItems: "center",
+    justifyContent: "center",
+    backgroundColor: "black"
+  },
+  cat_text: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "left"
+  },
+  box: {
+    width: screenWidth * 0.9,
+    height: screenHeight * 0.25,
+    margin: screenWidth * 0.01,
+    marginTop: 0,
+    backgroundColor: "gray",
+    justifyContent: "flex-start",
+    alignItems: "center",
+    borderColor: "white"
+  }
 });
