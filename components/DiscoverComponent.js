@@ -114,26 +114,6 @@ export default class DiscoverComponent extends React.Component {
                     </View>
                     <View style={styles.viewSelectStyle}>
                         <SectionedMultiSelect
-                            items={[{id: 0, name: 'TV Genres', children: this.tvGenres}]}
-                            uniqueKey='id'
-                            subKey='children'
-                            selectText="TV genres"
-                            expandDropDowns={true}
-                            showDropDowns={false}
-                            showRemoveAll={true}
-                            readOnlyHeadings={true}
-                            onSelectedItemsChange={this.onSelectedTVItemsChange}
-                            selectedItems={this.state.selectedTvGenres}
-                            colors={{primary: 'lightgray'}}
-                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
-                            onConfirm={() => console.log(this.state.selectedTvGenres)}
-                        />
-                    </View>
-                </View>
-                <View style={styles.viewSelectContainer}>
-
-                    <View style={styles.viewSelectStyle}>
-                        <SectionedMultiSelect
                             items={[{id: 0, name: 'Rating', children: this.movieRatings}]}
                             uniqueKey='id'
                             subKey='children'
@@ -149,7 +129,45 @@ export default class DiscoverComponent extends React.Component {
                             onConfirm={() => console.log(this.state.selectedMovieRatings)}
                         />
                     </View>
+                </View>
+                <View style={styles.viewSelectContainer}>
                     <View style={styles.viewSelectStyle}>
+                        <SectionedMultiSelect
+                            items={[{id: 0, name: 'TV Genres', children: this.tvGenres}]}
+                            uniqueKey='id'
+                            subKey='children'
+                            selectText="TV genres"
+                            expandDropDowns={true}
+                            showDropDowns={false}
+                            showRemoveAll={true}
+                            readOnlyHeadings={true}
+                            onSelectedItemsChange={this.onSelectedTVItemsChange}
+                            selectedItems={this.state.selectedTvGenres}
+                            colors={{primary: 'lightgray'}}
+                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                            onConfirm={() => console.log(this.state.selectedTvGenres)}
+                        />
+                    </View>
+                    <View style={styles.viewSelectStyle}>
+                        <SectionedMultiSelect
+                            items={[{id: 0, name: 'Rating', children: this.tvRatings}]}
+                            uniqueKey='id'
+                            subKey='children'
+                            selectText="TV ratings"
+                            expandDropDowns={true}
+                            showDropDowns={false}
+                            showRemoveAll={true}
+                            readOnlyHeadings={true}
+                            onSelectedItemsChange={this.onSelectedTVRatingItemsChange}
+                            selectedItems={this.state.selectedTVRatings}
+                            colors={{primary: 'lightgray'}}
+                            styles={{confirmText: {color: 'black'}, selectToggleText: {fontWeight: 'bold'}}}
+                            onConfirm={() => console.log(this.state.selectedTVRatings)}
+                        />
+                    </View>
+                </View>
+                <View style={styles.viewSelectContainer}>
+                    <View>
                         <SectionedMultiSelect
                             items={[{id: 0, name: 'Rating', children: this.tvRatings}]}
                             uniqueKey='id'
@@ -217,4 +235,4 @@ const styles = StyleSheet.create({
     results: {
         height: screenHeight*0.9,
     }
-})
+});
