@@ -252,7 +252,7 @@ export default class Search extends React.Component {
                                 left: 0,
                                 right: 0,
                                 top: 0,
-                                height: (Dimensions.get('window').height),
+                                height: (Dimensions.get('window').height*2),
                                 width: (Dimensions.get('window').width),
                             }}
             >
