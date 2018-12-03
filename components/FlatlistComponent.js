@@ -222,8 +222,10 @@ export default class FlatlistComponent extends React.Component {
                 )
             } else {
                 let genres = [];
-                for (let i = 0; i < item.genre_ids.length; i++) {
-                    genres.push(this._getGenre('tv', item.genre_ids[i]))
+                if (item.genre_ids) {
+                    for (let i = 0; i < item.genre_ids.length; i++) {
+                        genres.push(this._getGenre('tv', item.genre_ids[i]))
+                    }
                 }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
