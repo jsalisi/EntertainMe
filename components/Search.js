@@ -1,5 +1,5 @@
 import React from 'react';
-import {Dimensions, Image, StyleSheet, Text, TouchableWithoutFeedback, View, ScrollView, Keyboard} from 'react-native';
+import {Dimensions, Image, Keyboard, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {ButtonGroup, Header, SearchBar} from 'react-native-elements'
 import {LinearGradient} from 'expo';
 import * as Animatable from 'react-native-animatable';
@@ -230,7 +230,7 @@ export default class Search extends React.Component {
             return (
                 <View style={{height: screenHeight, width: screenWidth}}>
                     {this.state.movieGenres.length > 0 ?
-                        <DiscoverComponent movieGenres={this.state.movieGenres} tvGenres={this.state.tvGenres}/>
+                        <DiscoverComponent movieGenres={this.state.movieGenres} tvGenres={this.state.tvGenres} navigation={this.props.navigation}/>
                         :
                         <View/>}
                 </View>
@@ -257,7 +257,7 @@ export default class Search extends React.Component {
                 <View>
                     {/* <StatusBar hidden /> */}
 
-                    <Animatable.View style={StyleSheet.absoluteFill} style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
+                    <Animatable.View style={{marginTop: screenHeight * 0.15}} ref={this.handleListRef}>
                         <ButtonGroup
                             onPress={this.updateIndex}
                             textStyle={{color: 'white'}}

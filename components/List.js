@@ -31,7 +31,14 @@ export default class List extends Search {
     }
 
     componentDidMount() {
-        this.fetchContent(this.props.navigation.getParam('term'));
+        if (this.props.navigation.getParam('discover')) {
+            this.setState({
+                movieList: this.props.navigation.getParam('movielist'),
+                showList: this.props.navigation.getParam('showList'),
+            })
+        } else {
+            this.fetchContent(this.props.navigation.getParam('term'));
+        }
     }
 
     render() {
