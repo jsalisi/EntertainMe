@@ -2,6 +2,8 @@ import React from 'react';
 import {Dimensions, FlatList, Image, Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {NEW_YORK_TIMES_API_KEY, THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
 
+import {tvGenres, movieGenres} from './Genres.js';
+
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
 
@@ -10,13 +12,16 @@ export default class FlatlistComponent extends React.Component {
 
     constructor(props) {
         super(props);
+        this.movieGenres = movieGenres;
+        this.tvGenres = tvGenres;
         this.state = {
             type: props.type,
-            // movieGenres: props.movieGenres,
-            // tvGenres: props.tvGenres,
             mostPopularMovies: [],
             mostPopularShows: [],
-            mostPopularBooks: []
+            mostPopularBooks: [],
+            listItems: props.listItems,
+            navigation: props.navigation,
+            fromTasteDive: props.fromTasteDive
         };
     }
 
@@ -25,8 +30,6 @@ export default class FlatlistComponent extends React.Component {
             type: nextProps.type,
             listItems: nextProps.listItems,
             navigation: nextProps.navigation,
-            movieGenres: nextProps.movieGenres,
-            tvGenres: nextProps.tvGenres,
             fromTasteDive: nextProps.fromTasteDive,
         })
     }
@@ -137,7 +140,7 @@ export default class FlatlistComponent extends React.Component {
 
     _getGenre = (type, genre_id) => {
         let genre = '';
-        let allGenres = type === 'movie' ? this.state.movieGenres : this.state.tvGenres;
+        let allGenres = type === 'movie' ? this.movieGenres : this.tvGenres;
 
         for (var j = 0; j < allGenres.length; j++) {
             if (allGenres[j]['id'] === genre_id) {
@@ -159,7 +162,7 @@ export default class FlatlistComponent extends React.Component {
                     </View>
                 )
             } else {
-                let genres = [];
+                let genres = [28, 12, 16, 35, 80, 99, 18, 10402, 9648, 10749, 878, 10770, 53, 10752, 37];
                 for (let i = 0; i < item.genre_ids.length; i++) {
                     genres.push(this._getGenre('movie', item.genre_ids[i]))
                 }
