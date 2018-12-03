@@ -175,7 +175,9 @@ export default class DiscoverComponent extends React.Component {
                         color='red'
                     />
                 </View>
-                {this.state.movieResults.length > 0 ?
+                {this.state.movieResults.length > 0 &&
+                (this.state.selectedMovieGenres.length > 0 || this.state.selectedMovieRatings.length > 0)
+                    ?
                     <FlatlistComponent
                         type={'Movies'}
                         listItems={this.state.movieResults}
@@ -197,7 +199,6 @@ export default class DiscoverComponent extends React.Component {
 
 const styles = StyleSheet.create({
     viewSelectStyle: {
-        // maxHeight: '90%',
         width: '45%',
         marginHorizontal: '1.75%',
         marginBottom: '2.5%',

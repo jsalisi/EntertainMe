@@ -251,6 +251,7 @@ export default class FlatlistComponent extends React.Component {
                 );
             }
         } catch (err) {
+            console.log(err);
             return (
                 <TouchableHighlight onPress={() => this.props.navigation.navigate('Details', {
                     title: item.name,
