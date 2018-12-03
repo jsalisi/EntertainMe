@@ -4,7 +4,7 @@ import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv';
 import FlatlistComponent from "./FlatlistComponent";
 
-import {tvGenres, movieGenres} from './Genres.js';
+import {movieGenres, tvGenres} from './Genres.js';
 
 const initialQueryString = `https://api.themoviedb.org/3/discover/`;
 
@@ -186,7 +186,9 @@ export default class DiscoverComponent extends React.Component {
                             movieGenres={this.movieGenres}/>
                         : <View/>}
 
-                    {this.state.tvResults.length > 0 ?
+                    {this.state.tvResults.length > 0 &&
+                    (this.state.selectedTVRatings.length > 0 || this.state.selectedTvGenres.length > 0)
+                        ?
                         <FlatlistComponent
                             type={'TV Shows'}
                             listItems={this.state.tvResults}
