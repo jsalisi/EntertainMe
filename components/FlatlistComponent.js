@@ -267,7 +267,7 @@ export default class FlatlistComponent extends React.Component {
     }
 
     render() {
-        if (this.state.type === 'Books' || this.state.type === 'Similar Books') {
+        if (this.state.type === 'Books' || this.state.type === 'Similar Bookss') {
             return (
                 <View>
                     {this.renderFlatList(this.state.type, this.state.listItems, this.renderBookList)}
