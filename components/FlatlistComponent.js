@@ -2,7 +2,7 @@ import React from 'react';
 import {Dimensions, FlatList, Image, Linking, StyleSheet, Text, TouchableHighlight, View} from "react-native";
 import {NEW_YORK_TIMES_API_KEY, THE_MOVIE_DB_API_KEY} from "react-native-dotenv";
 
-import {tvGenres, movieGenres} from './Genres.js';
+import {movieGenres, tvGenres} from './Genres.js';
 
 const screenHeight = (Dimensions.get('window').height);
 const screenWidth = (Dimensions.get('window').width);
@@ -91,10 +91,25 @@ export default class FlatlistComponent extends React.Component {
                 return (
                     <View>
                         <TouchableHighlight onPress={() => this.openURl(item['wUrl'])}>
-                            <View style={styles.box}>
+                            <View style={{
+                                width: screenWidth * 0.42,
+                                height: '100%',
+                                margin: screenWidth * 0.01,
+                                marginTop: 0,
+                                backgroundColor: 'transparent',
+                                justifyContent: 'space-between',
+                                alignItems: 'center',
+                                borderColor: 'white',
+                                borderWidth: 1
+                            }}>
                                 <Text
-                                    style={{color: 'white', fontWeight: 'bold', marginBottom: 3}}> {item['Name']}</Text>
-                                <Text style={{color: 'white', fontStyle: 'italic'}}>{item['wTeaser']}</Text>
+                                    style={{
+                                        color: 'white',
+                                        fontWeight: 'bold',
+                                        marginBottom: 2.5,
+                                        textDecorationLine: 'underline'
+                                    }}> {item['Name']}</Text>
+                                <Text style={{color: 'white', fontStyle: 'italic', marginLeft: 1}}>{item['wTeaser'].trim()}</Text>
                             </View>
                         </TouchableHighlight>
                     </View>
@@ -115,18 +130,18 @@ export default class FlatlistComponent extends React.Component {
                         subtitle: item.volumeInfo.subtitle,
                         publishedDate: item.volumeInfo.publishedDate,
                         authors: item.volumeInfo.authors,
-                        type: 'Books'
+                        type: 'Book',
+                        id: 123
                     })}>
-                        <View>
-                            <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
-                                   backgroundColor={'transparent'}/>
-                        </View>
+                        <Image style={styles.box} source={{uri: item.volumeInfo.imageLinks.thumbnail}}
+                               backgroundColor={'transparent'}/>
                     </TouchableHighlight>
                 );
             }
         } catch (err) {
             return (
                 <TouchableHighlight onPress={() => {
+                    console.log(err)
                 }}>
                     <View>
                         <Image style={styles.box} backgroundColor={'transparent'}/>
@@ -321,10 +336,9 @@ const styles = StyleSheet.create({
         height: '100%',
         margin: screenWidth * 0.01,
         marginTop: 0,
-        backgroundColor: 'gray',
+        backgroundColor: 'transparent',
         justifyContent: 'flex-start',
         alignItems: 'center',
-        borderColor: 'white'
     },
     title: {
         fontWeight: 'bold',
