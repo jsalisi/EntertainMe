@@ -8,6 +8,8 @@ import FlatlistComponent from "./FlatlistComponent";
 import DiscoverComponent from "./DiscoverComponent";
 
 export const bookReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=books&info=true&limit=10&q=book:`;
+export const movieReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=movie&info=true&limit=10&q=movie:`;
+export const showReq = `https://tastedive.com/api/similar?k=${TASTE_API_KEY}&type=show&info=true&limit=10&q=show:`;
 
 const bookRequest = `https://www.googleapis.com/books/v1/volumes?key=${GOOGLE_BOOKS_API_KEY}&maxResults=10&q=`;
 const movieRequest = `https://api.themoviedb.org/3/search/movie?api_key=${THE_MOVIE_DB_API_KEY}&query=`;

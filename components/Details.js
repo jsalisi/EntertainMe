@@ -2,9 +2,10 @@ import React from 'react';
 import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import Star from "react-native-star-view";
-import {THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
+import {GOOGLE_BOOKS_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
+import {Thumbnail} from 'react-native-thumbnail-video';
 
-import Search, {bookReq} from "./Search";
+import Search, {bookReq, movieReq, showReq} from "./Search";
 import FlatlistComponent from "./FlatlistComponent";
 
 export default class Details extends Search {
@@ -37,11 +38,13 @@ export default class Details extends Search {
             subtitle: '',
             authors: '',
             type: '',
-            listItems: []
+            listItems: [],
+            yUrl: ''
         }
     }
 
     componentDidMount() {
+        this.getYoutubeTrailer(this.props.navigation.getParam('title'), this.props.navigation.getParam('type'));
         this.getSimilarTitles(this.props.navigation.getParam('id'), this.props.navigation.getParam('title'));
         this.setState({
             first: this.props.navigation.getParam('first'),
@@ -58,6 +61,24 @@ export default class Details extends Search {
             authors: this.props.navigation.getParam('authors'),
             type: this.props.navigation.getParam('type')
         });
+    }
+
+    getYoutubeTrailer = (searchTerm, type) => {
+        let query = '';
+        if (type === 'Movie') {
+            query = movieReq + searchTerm
+        } else if (type === 'Show') {
+            query = showReq + searchTerm
+        }
+
+        fetch(query)
+            .then((response) => response.json())
+            .then((response) => {
+                this.setState({
+                    yUrl: response['Similar']['Info'][0]['yUrl']
+                });
+            });
+        console.log(this.state.yUrl);
     }
 
     getSimilarTitles = (id, searchTerm) => {
@@ -160,10 +181,13 @@ export default class Details extends Search {
 
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
+
+                    {this.state.yUrl ? <Thumbnail url={this.state.yUrl}/> : <View/>}
+
                     <View style={{
                         borderBottomWidth: 2,
                         borderBottomColor: 'red',
-                        marginTop: 10,
+                        marginTop: 20,
                         marginBottom: -5,
                         marginHorizontal: 10
                     }}/>
@@ -227,6 +251,6 @@ const styles = StyleSheet.create({
         marginTop: 7
     },
     recommendations: {
-        marginBottom: 10,
+        marginVertical: 10,
     }
 });
