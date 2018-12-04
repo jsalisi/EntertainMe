@@ -182,7 +182,17 @@ export default class Details extends Search {
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
 
-                    {this.state.yUrl ? <Thumbnail url={this.state.yUrl}/> : <View/>}
+                    <View style={{
+                        borderBottomWidth: 2,
+                        borderBottomColor: 'red',
+                        marginTop: 20,
+                        marginBottom: -5,
+                        marginHorizontal: 10
+                    }}/>
+
+                    <View style={{marginTop: 30, marginHorizontal: 10}}>
+                        {this.state.yUrl ? <Thumbnail url={this.state.yUrl}/> : <View/>}
+                    </View>
 
                     <View style={{
                         borderBottomWidth: 2,
@@ -234,6 +244,7 @@ const styles = StyleSheet.create({
         fontFamily: 'Roboto',
         fontSize: 15,
         fontWeight: 'normal',
+        textAlign: 'justify'
     },
     detailsTextHeader: {
         color: 'red',
