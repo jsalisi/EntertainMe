@@ -61,10 +61,9 @@ export default class Details extends Search {
     }
 
     getSimilarTitles = (id, searchTerm) => {
-        let req = '';
         let type = this.props.navigation.getParam('type');
 
-        if (type === 'Books') {
+        if (type === 'Book') {
             let tasteDiveSearch = bookReq + encodeURIComponent(searchTerm).replace(/%20/g, '+');
             fetch(tasteDiveSearch)
                 .then((response) => response.json())
@@ -78,7 +77,6 @@ export default class Details extends Search {
             fetch(query)
                 .then((response) => response.json())
                 .then((response) => {
-                    console.log(query);
                     this.setState({
                         listItems: response['results']
                     });
@@ -148,15 +146,18 @@ export default class Details extends Search {
                             </View>
                         </View>
                     </View>
-                    <View style={styles.subtitle}>
-                        <Text style={{
-                            color: 'red',
-                            fontFamily: 'Roboto',
-                            fontSize: 15,
-                            fontWeight: 'normal',
-                            fontStyle: 'italic'
-                        }}> {this.state.subtitle} </Text>
-                    </View>
+                    {this.state.subtitle ?
+                        <View style={styles.subtitle}>
+                            <Text style={{
+                                color: 'red',
+                                fontFamily: 'Roboto',
+                                fontSize: 15,
+                                fontWeight: 'normal',
+                                fontStyle: 'italic'
+                            }}> {this.state.subtitle} </Text>
+                        </View>
+                        : <View/>}
+
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
                     <View style={{
@@ -167,10 +168,9 @@ export default class Details extends Search {
                         marginHorizontal: 10
                     }}/>
                     <View style={styles.recommendations}>
-                        {console.log(this.state.listItems)}
                         <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
-                                        listItems={this.state.listItems}
-                                        navigation={this.props.navigation} fromTasteDive={true}/>
+                                           listItems={this.state.listItems}
+                                           navigation={this.props.navigation} fromTasteDive={true}/>
                     </View>
                 </ScrollView>
             </LinearGradient>
