@@ -168,14 +168,35 @@ export default class FlatlistComponent extends React.Component {
     _renderMovieList = ({item}) => {
         try {
             if (this.state.fromTasteDive) {
+                let genres = [];
+                for (let i = 0; i < item.genre_ids.length; i++) {
+                    genres.push(this._getGenre('movie', item.genre_ids[i]))
+                }
                 return (
-                    <View>
-                        <Image style={styles.box}
-                               source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                               backgroundColor={'transparent'}/>
-                        {/* <Text style={styles.text}>{item.Name}</Text> */}
-                    </View>
-                )
+                    <TouchableHighlight onPress={() => this.state.navigation.push('Details', {
+                        first: 'Popularity',
+                        second: 'Release Date',
+                        third: 'Average Rating',
+                        fourth: 'Genres',
+                        title: item.title,
+                        averageRating: item.vote_average,
+                        categories: genres.join(', '),
+                        description: item.overview,
+                        images: { thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path },
+                        subtitle: item.original_title,
+                        publishedDate: item.release_date,
+                        authors: item.popularity + '%',
+                        type: 'Movie',
+                        id: item.id
+                    })}>
+                        <View>
+                            <Image style={styles.box}
+                                source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }}
+                                backgroundColor={'transparent'} />
+                            {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        </View>
+                    </TouchableHighlight>
+                );
             } else {
                 let genres = [];
                 for (let i = 0; i < item.genre_ids.length; i++) {
@@ -225,14 +246,37 @@ export default class FlatlistComponent extends React.Component {
     _renderShowList = ({item}) => {
         try {
             if (this.state.fromTasteDive) {
+                let genres = [];
+                if (item.genre_ids) {
+                    for (let i = 0; i < item.genre_ids.length; i++) {
+                        genres.push(this._getGenre('tv', item.genre_ids[i]))
+                    }
+                }
                 return (
-                    <View>
-                        <Image style={styles.box}
-                               source={{uri: "http://image.tmdb.org/t/p/w185" + item.poster_path}}
-                               backgroundColor={'transparent'}/>
-                        {/* <Text style={styles.text}>{item.Name}</Text> */}
-                    </View>
-                )
+                    <TouchableHighlight onPress={() => this.state.navigation.push('Details', {
+                        first: 'Origin Country / Language',
+                        second: 'First Air Date',
+                        third: 'Average Rating',
+                        fourth: 'Genres',
+                        title: item.name,
+                        averageRating: item.vote_average,
+                        categories: genres.join(', '),
+                        description: item.overview,
+                        images: { thumbnail: "http://image.tmdb.org/t/p/w185" + item.poster_path },
+                        subtitle: item.original_name,
+                        publishedDate: item.first_air_date,
+                        authors: item.origin_country + ',  ' + item.original_language,
+                        type: 'Show',
+                        id: item.id
+                    })}>
+                        <View>
+                            <Image style={styles.box}
+                                source={{ uri: "http://image.tmdb.org/t/p/w185" + item.poster_path }}
+                                backgroundColor={'transparent'} />
+                            {/* <Text style={styles.text}>{item.Name}</Text> */}
+                        </View>
+                    </TouchableHighlight>
+                );
             } else {
                 let genres = [];
                 if (item.genre_ids) {
