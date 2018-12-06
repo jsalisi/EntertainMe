@@ -205,19 +205,24 @@ export default class Details extends Search {
                         </View>
                         : <View/>}
 
+                    {this.state.listItems && this.state.listItems.length > 0
+                        ? <View>
+                            <View style={{
+                                borderBottomWidth: 2,
+                                borderBottomColor: 'red',
+                                marginTop: 20,
+                                marginBottom: -5,
+                                marginHorizontal: 10
+                            }}/>
+                            <View style={styles.recommendations}>
+                                <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
+                                                   listItems={this.state.listItems}
+                                                   navigation={this.props.navigation} fromTasteDive={true}/>
+                            </View>
+                        </View>
+                        : <View/>
+                    }
 
-                    <View style={{
-                        borderBottomWidth: 2,
-                        borderBottomColor: 'red',
-                        marginTop: 20,
-                        marginBottom: -5,
-                        marginHorizontal: 10
-                    }}/>
-                    <View style={styles.recommendations}>
-                        <FlatlistComponent type={`Similar ${this.props.navigation.getParam('type')}s`}
-                                           listItems={this.state.listItems}
-                                           navigation={this.props.navigation} fromTasteDive={true}/>
-                    </View>
                 </ScrollView>
             </LinearGradient>
         );
