@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, TouchableWithoutFeedback, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import Search from './Search';
 import FlatlistComponent from './FlatlistComponent';
@@ -15,6 +15,11 @@ export default class List extends Search {
             headerTextStyle: {
                 color: 'white',
             },
+            headerRight: (
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Search')}>
+                    <Image source={require('../assets/baseline_home_white_18dp.png')} style={{width: 35, height: 35}}/>
+                </TouchableWithoutFeedback>
+            ),
             headerTintColor: 'white'
         }
     }
