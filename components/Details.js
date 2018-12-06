@@ -49,7 +49,9 @@ export default class Details extends Search {
     }
 
     componentDidMount() {
-        this.getYoutubeTrailer(this.props.navigation.getParam('title'), this.props.navigation.getParam('type'));
+        if (this.props.navigation.getParam('type') !== 'Book') {
+            this.getYoutubeTrailer(this.props.navigation.getParam('title'), this.props.navigation.getParam('type'));
+        }
         this.getSimilarTitles(this.props.navigation.getParam('id'), this.props.navigation.getParam('title'));
         this.setState({
             first: this.props.navigation.getParam('first'),
@@ -187,17 +189,22 @@ export default class Details extends Search {
                     <View style={{paddingHorizontal: 10}}><Text
                         style={styles.detailsText}>{this.state.description}</Text></View>
 
-                    <View style={{
-                        borderBottomWidth: 2,
-                        borderBottomColor: 'red',
-                        marginTop: 20,
-                        marginBottom: -5,
-                        marginHorizontal: 10
-                    }}/>
+                    {this.state.yUrl ?
+                        <View>
+                            <View style={{
+                                borderBottomWidth: 2,
+                                borderBottomColor: 'red',
+                                marginTop: 20,
+                                marginBottom: -5,
+                                marginHorizontal: 10
+                            }}/>
 
-                    <View style={{marginTop: 30, marginHorizontal: 10}}>
-                        {this.state.yUrl ? <Thumbnail url={this.state.yUrl}/> : <View/>}
-                    </View>
+                            <View style={{marginTop: 30, marginHorizontal: 10}}>
+                                <Thumbnail url={this.state.yUrl}/>
+                            </View>
+                        </View>
+                        : <View/>}
+
 
                     <View style={{
                         borderBottomWidth: 2,
