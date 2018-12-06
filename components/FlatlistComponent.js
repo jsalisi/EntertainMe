@@ -167,11 +167,11 @@ export default class FlatlistComponent extends React.Component {
 
     _renderMovieList = ({item}) => {
         try {
+            let genres = [];
+            for (let i = 0; i < item.genre_ids.length; i++) {
+                genres.push(this._getGenre('movie', item.genre_ids[i]))
+            }
             if (this.state.fromTasteDive) {
-                let genres = [];
-                for (let i = 0; i < item.genre_ids.length; i++) {
-                    genres.push(this._getGenre('movie', item.genre_ids[i]))
-                }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.push('Details', {
                         first: 'Popularity',
@@ -198,10 +198,6 @@ export default class FlatlistComponent extends React.Component {
                     </TouchableHighlight>
                 );
             } else {
-                let genres = [];
-                for (let i = 0; i < item.genre_ids.length; i++) {
-                    genres.push(this._getGenre('movie', item.genre_ids[i]))
-                }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Popularity',
@@ -245,13 +241,13 @@ export default class FlatlistComponent extends React.Component {
 
     _renderShowList = ({item}) => {
         try {
-            if (this.state.fromTasteDive) {
-                let genres = [];
-                if (item.genre_ids) {
-                    for (let i = 0; i < item.genre_ids.length; i++) {
-                        genres.push(this._getGenre('tv', item.genre_ids[i]))
-                    }
+            let genres = [];
+            if (item.genre_ids) {
+                for (let i = 0; i < item.genre_ids.length; i++) {
+                    genres.push(this._getGenre('tv', item.genre_ids[i]))
                 }
+            }
+            if (this.state.fromTasteDive) {
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.push('Details', {
                         first: 'Origin Country / Language',
@@ -278,12 +274,6 @@ export default class FlatlistComponent extends React.Component {
                     </TouchableHighlight>
                 );
             } else {
-                let genres = [];
-                if (item.genre_ids) {
-                    for (let i = 0; i < item.genre_ids.length; i++) {
-                        genres.push(this._getGenre('tv', item.genre_ids[i]))
-                    }
-                }
                 return (
                     <TouchableHighlight onPress={() => this.state.navigation.navigate('Details', {
                         first: 'Origin Country / Language',

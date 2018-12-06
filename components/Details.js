@@ -1,5 +1,5 @@
 import React from 'react';
-import {Image, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {Image, ScrollView, StyleSheet, Text, TouchableWithoutFeedback, View} from 'react-native';
 import {LinearGradient} from 'expo';
 import Star from "react-native-star-view";
 import {GOOGLE_BOOKS_API_KEY, THE_MOVIE_DB_API_KEY} from 'react-native-dotenv'
@@ -19,6 +19,11 @@ export default class Details extends Search {
             headerTextStyle: {
                 color: 'white',
             },
+            headerRight: (
+                <TouchableWithoutFeedback onPress={() => navigation.navigate('Search')}>
+                    <Image source={require('../assets/search.png')}/>
+                </TouchableWithoutFeedback>
+            ),
             headerTintColor: 'white'
         }
     }
