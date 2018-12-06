@@ -21,7 +21,7 @@ export default class Details extends Search {
             },
             headerRight: (
                 <TouchableWithoutFeedback onPress={() => navigation.navigate('Search')}>
-                    <Image source={require('../assets/search.png')}/>
+                    <Image source={require('../assets/baseline_home_white_18dp.png')} style={{width: 35, height: 35}}/>
                 </TouchableWithoutFeedback>
             ),
             headerTintColor: 'white'
