@@ -3,7 +3,7 @@
     "name": "EntertainMe",
     "description": "Find Movie, TV Show, and Book recommendations",
     "slug": "EntertainMe",
-    "privacy": "private",
+    "privacy": "unlisted",
     "sdkVersion": "30.0.0",
     "platforms": [
       "ios",
@@ -25,6 +25,9 @@
     ],
     "ios": {
       "supportsTablet": true
+    },
+    "android": {
+      "package": "com.justinemilierobert.entertainme"
     }
   }
 }
